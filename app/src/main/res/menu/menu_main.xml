@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_search_white"
+        android:title="@string/action_search"
+        app:showAsAction="ifRoom"
+        app:actionViewClass="android.widget.SearchView"
+        app:actionLayout="@layout/search_view_main"/>
+
+    <!--TODO create this menu to choose the order of projects-->
+    <!--<item
+        android:id="@+id/action_order_by_name"
+        android:title="@string/action_order_by_name" />
+    <item
+        android:id="@+id/action_order_by_dealine"
+        android:title="@string/action_order_by_deadline"/>
+    <item
+        android:id="@+id/action_order_by_priority"
+        android:title="@string/action_order_by_priority"/>-->
+</menu>

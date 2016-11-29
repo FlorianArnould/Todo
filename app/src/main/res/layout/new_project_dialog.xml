@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/colorPrimary">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="@android:color/transparent">
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:gravity="right"
+                android:layout_marginStart="@dimen/list_text_margin"
+                android:layout_marginEnd="@dimen/list_text_margin"
+                android:background="@android:color/transparent"
+                app:srcCompat="@drawable/rocket_launch"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/new_project"
+                android:gravity=""
+                android:layout_margin="@dimen/list_text_margin"
+                android:background="@android:color/transparent"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"/>
+
+        </LinearLayout>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editName"
+            android:inputType="textPersonName"
+            android:hint="@string/hint_project_name"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/tertiary_text_light"
+            android:layout_margin="@dimen/list_text_margin"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium"
+            android:background="@android:color/transparent"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/activity_vertical_margin">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/list_text_margin"
+                app:srcCompat="@drawable/ic_access_time_white"/>
+
+            <Button
+                android:id="@+id/startDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/list_text_margin"
+                android:textAllCaps="false"
+                android:textColor="@android:color/tertiary_text_light"
+                android:background="@android:color/transparent"
+                android:layout_gravity="center_vertical"/>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginEnd="@dimen/list_text_margin"
+            android:layout_marginTop="@dimen/list_text_margin">
+
+            <ImageView
+                android:contentDescription="@string/notification_icon_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/list_text_margin"
+                app:srcCompat="@drawable/ic_notifications_white"/>
+
+            <CheckBox
+                android:id="@+id/notificationCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/list_text_margin"
+                style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+                android:checked="true"
+                android:textAppearance="@style/AlertDialog.AppCompat.Light"
+                android:buttonTint="@color/colorAccent"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <EditText
+                    android:id="@+id/notificationTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:layout_gravity="center"
+                    android:text="@string/default_nofication_time"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@android:color/tertiary_text_light"
+                    android:layout_marginLeft="@dimen/list_text_margin"
+                    android:background="@android:color/transparent"
+                    android:maxLength="5"/>
+
+                <Button
+                    android:id="@+id/notificationTimeButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/tertiary_text_light"
+                    android:text="@string/default_time_unit"
+                    android:background="@android:color/transparent"
+                    android:textAllCaps="false"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

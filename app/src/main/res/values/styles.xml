@@ -1,0 +1,65 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeBackground">@color/colorAccent</item>
+        <item name="android:itemTextAppearance">@style/MenuTextAppearance</item>
+    </style>
+
+    <style name="NewProjectTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_clear_white</item>
+    </style>
+
+    <style name="dialogTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="android:background">@color/backgroundDark</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:textColor">@color/backgroundDark</item>
+    </style>
+
+    <style name="DatePickerDialogTheme" parent="android:Theme.DeviceDefault.Dialog">
+        <item name="android:windowBackground">@color/backgroundDark</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textAppearance">@android:style/TextAppearance.Material.Medium</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
+        <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:colorPrimary">@color/colorPrimary</item>
+        <item name="android:colorBackground">@color/backgroundDark</item>
+        <item name="android:textColorPrimaryInverse">@android:color/white</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:statusBarColor">@color/colorPrimary</item>
+        <item name="android:colorButtonNormal">@color/backgroundDark</item>
+        <item name="android:colorForeground">@color/colorAccent</item>
+        <item name="android:datePickerStyle">@style/DatePickerTheme</item>
+    </style>
+
+    <style name="DatePickerTheme" parent="android:Widget.DeviceDefault.DatePicker">
+        <item name="android:headerBackground">@color/colorAccent</item>
+    </style>
+
+    <style name="MenuTextAppearance" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+</resources>
