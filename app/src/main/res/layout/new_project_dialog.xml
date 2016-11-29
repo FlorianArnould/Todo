@@ -19,6 +19,7 @@
             android:background="@android:color/transparent">
 
             <ImageView
+                android:id="@+id/icon"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:gravity="right"
@@ -68,10 +69,40 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/list_text_margin"
-                app:srcCompat="@drawable/ic_access_time_white"/>
+                app:srcCompat="@drawable/ic_play_arrow_white"/>
 
             <Button
                 android:id="@+id/startDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/list_text_margin"
+                android:textAllCaps="false"
+                android:textColor="@android:color/tertiary_text_light"
+                android:background="@android:color/transparent"
+                android:layout_gravity="center_vertical"/>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/list_text_margin"
+                app:srcCompat="@drawable/ic_stop_white"/>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/list_text_margin"/>
+
+            <Button
+                android:id="@+id/deadline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/list_text_margin"

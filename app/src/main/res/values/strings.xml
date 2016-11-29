@@ -16,4 +16,5 @@
     <string name="action_order_by_priority">par Nom</string>
     <string name="default_project_name">nouveau</string>
     <string name="search_hint">Rechercher</string>
+    <string name="action_edit">Modifier</string>
 </resources>

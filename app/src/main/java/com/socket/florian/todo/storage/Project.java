@@ -55,7 +55,7 @@ public final class Project implements Parcelable {
     }
 
     public boolean isInProgress(){
-        return _startDate.equals(Date.currentDate()) > 0;
+        return _startDate.equals(Date.currentDate()) < 0;
     }
 
     @Override
