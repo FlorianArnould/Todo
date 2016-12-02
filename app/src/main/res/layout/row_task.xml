@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+android:background="@drawable/activity_main_row_selector">
+
+
+    <TextView
+        android:id="@+id/rowTaskName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:layout_marginStart="@dimen/row_margin_borders"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="@dimen/list_text_margin"
+        android:layout_marginBottom="@dimen/list_text_margin"
+        android:textAppearance="@android:style/TextAppearance.Material.Large"
+        />
+
+
+</RelativeLayout>

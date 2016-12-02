@@ -4,9 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-/**
- * Created by florian on 22/11/16.
- */
 
 final class MySQLiteOpenHelper extends SQLiteOpenHelper {
 
@@ -19,9 +16,16 @@ final class MySQLiteOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL("CREATE TABLE projects ( id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                                                        "name TEXT NOT NULL," +
-                                                        "start_date DATE NOT NULL);");
+        sqLiteDatabase.execSQL("CREATE TABLE projects (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "name TEXT NOT NULL," +
+                "start_date DATE NOT NULL," +
+                "notification DATE);");
+        sqLiteDatabase.execSQL("CREATE TABLE tasks (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "idProject INTEGER NOT NULL REFERENCES projects (id)," +
+                "name TEXT NOT NULL," +
+                "notification DATE);");
     }
 
     @Override

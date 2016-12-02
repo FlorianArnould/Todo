@@ -1,7 +1,9 @@
 package com.socket.florian.todo;
 
 import android.content.Context;
-import android.util.Log;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +18,14 @@ import com.socket.florian.todo.storage.Project;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class ProjectAdapter extends BaseAdapter implements Filterable {
+final class ProjectAdapter extends BaseAdapter implements Filterable {
 
     private Context _context;
     private List<Project> _projects;
     private List<Project> _filteredProjects;
     private Filter _filter;
 
-    public ProjectAdapter(Context context){
+    ProjectAdapter(Context context){
         super();
         _context = context;
         _projects = new ArrayList<>();
@@ -35,11 +37,12 @@ public final class ProjectAdapter extends BaseAdapter implements Filterable {
         _projects.add(project);
     }
 
-    public void updateAll(List<Project> projects){
+    void updateAll(List<Project> projects){
         _projects.clear();
         for(Project p : projects){
             _projects.add(p);
         }
+        notifyDataSetChanged();
     }
 
     @Override
@@ -59,19 +62,23 @@ public final class ProjectAdapter extends BaseAdapter implements Filterable {
 
     @Override
     public View getView(int position, View view, ViewGroup parent){
-        LayoutInflater inflater = (LayoutInflater) _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.row, null);
+        if(view == null) {
+            LayoutInflater inflater = (LayoutInflater) _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = inflater.inflate(R.layout.row_main, parent, false);
+        }
         TextView text = (TextView) view.findViewById(R.id.rowProjectRemainingTime);
+        text.setText(R.string.unlimited_time);
         TextView name = (TextView) view.findViewById(R.id.rowProjectName);
-        ImageView image = (ImageView) view.findViewById(R.id.rowProgressIcon);
         Project project = _filteredProjects.get(position);
         name.setText(project.getName());
         if (project.isStarting()) {
-            image.setImageResource(R.drawable.rocket_launch);
+            Drawable drawable = _context.getDrawable(R.drawable.rocket_launch);
+            drawable.setTint(_context.getColor(android.R.color.tertiary_text_light));
+            name.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
         } else if (project.isInProgress()) {
-            image.setImageResource(R.drawable.rocket_flying);
+            name.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_flying, 0, 0, 0);
         } else {
-            image.setImageResource(R.drawable.rocket);
+            name.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket, 0, 0, 0);
         }
         return view;
     }

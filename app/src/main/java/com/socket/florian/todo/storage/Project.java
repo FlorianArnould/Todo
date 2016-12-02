@@ -3,36 +3,26 @@ package com.socket.florian.todo.storage;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+import java.util.List;
 
 
-public final class Project implements Parcelable {
+public final class Project{
     private int _id;
     private String _name;
     private Date _startDate;
+    private List<Task> _tasks;
 
-    Project(int id, String name, Date startDate){
+    Project(int id, String name, Date startDate, List<Task> tasks){
         _id = id;
         _name = name;
         _startDate = startDate;
+        _tasks = tasks;
     }
 
-    protected Project(Parcel in) {
-        _id = in.readInt();
-        _name = in.readString();
-        _startDate = in.readParcelable(Date.class.getClassLoader());
+    public static Project create(String name, Date startDate){
+        return new Project(0, name, startDate, null);
     }
-
-    public static final Creator<Project> CREATOR = new Creator<Project>() {
-        @Override
-        public Project createFromParcel(Parcel in) {
-            return new Project(in);
-        }
-
-        @Override
-        public Project[] newArray(int size) {
-            return new Project[size];
-        }
-    };
 
     public String getName(){
         return _name;
@@ -42,7 +32,7 @@ public final class Project implements Parcelable {
         return _startDate;
     }
 
-    int getId(){
+    public int getId(){
         return _id;
     }
 
@@ -58,15 +48,7 @@ public final class Project implements Parcelable {
         return _startDate.equals(Date.currentDate()) < 0;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(_id);
-        parcel.writeString(_name);
-        parcel.writeParcelable(_startDate, 0);
+    public List<Task> getTasks(){
+        return _tasks;
     }
 }

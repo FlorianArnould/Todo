@@ -9,7 +9,7 @@ import java.util.Locale;
 
 
 
-public final class Date implements Parcelable{
+public final class Date{
     private int _year;
     private int _month;
     private int _dayOfMonth;
@@ -19,30 +19,12 @@ public final class Date implements Parcelable{
         _month = month;
         _dayOfMonth = dayOfMonth;
     }
-    Date(String date, char delimiter){
-        String[] strs = date.split(Character.toString(delimiter));
-        _dayOfMonth = Integer.valueOf(strs[0]);
-        _month = Integer.valueOf(strs[1]);
-        _year = Integer.valueOf(strs[2]);
+    Date(String date){
+        String[] strings = date.split(Character.toString('-'));
+        _dayOfMonth = Integer.valueOf(strings[0]);
+        _month = Integer.valueOf(strings[1]);
+        _year = Integer.valueOf(strings[2]);
     }
-
-    private Date(Parcel in) {
-        _year = in.readInt();
-        _month = in.readInt();
-        _dayOfMonth = in.readInt();
-    }
-
-    public static final Creator<Date> CREATOR = new Creator<Date>() {
-        @Override
-        public Date createFromParcel(Parcel in) {
-            return new Date(in);
-        }
-
-        @Override
-        public Date[] newArray(int size) {
-            return new Date[size];
-        }
-    };
 
     public String toVerboseString(){
         Calendar calendar = Calendar.getInstance();
@@ -55,8 +37,8 @@ public final class Date implements Parcelable{
         return new Date(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH)+1, calendar.get(Calendar.DAY_OF_MONTH));
     }
 
-    public String toString(char delimiter){
-        return String.valueOf(_dayOfMonth) + delimiter + String.valueOf(_month) + delimiter + String.valueOf(_year);
+    public String toString(){
+        return String.valueOf(_dayOfMonth) + '-' + String.valueOf(_month) + '-' + String.valueOf(_year);
     }
 
     public int year(){
@@ -79,17 +61,5 @@ public final class Date implements Parcelable{
             }
         }
         return _dayOfMonth - other._dayOfMonth;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(_year);
-        parcel.writeInt(_month);
-        parcel.writeInt(_dayOfMonth);
     }
 }

@@ -24,6 +24,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
 
+import com.socket.florian.todo.project.ProjectActivity;
 import com.socket.florian.todo.storage.DataManager;
 import com.socket.florian.todo.storage.Date;
 import com.socket.florian.todo.storage.Project;
@@ -35,11 +36,11 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity{
 
-    ProjectAdapter _adapter;
-    DataManager _dataManager;
-    SearchView _searchView;
-    AlertDialog _dialog;
-    Date _date;
+    private ProjectAdapter _adapter;
+    private DataManager _dataManager;
+    private SearchView _searchView;
+    private AlertDialog _dialog;
+    private Date _date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +50,13 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Projets");
+        toolbar.setTitle(getString(R.string.title));
         setSupportActionBar(toolbar);
         ListView view = (ListView) findViewById(R.id.list);
         FloatingActionButton button = (FloatingActionButton) findViewById(R.id.fab);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            //MainActivity.this.createNewProject();
                 if(_dialog.getWindow() != null){
                     _dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
                 }
@@ -115,7 +115,8 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(MainActivity.this, ProjectActivity.class);
-                intent.putExtra("PROJECT",(Project)_adapter.getItem(i));
+                Project project = (Project) _adapter.getItem(i);
+                intent.putExtra("PROJECT_ID", project.getId());
                 MainActivity.this.startActivityForResult(intent, 0);
             }
         });
@@ -177,25 +178,28 @@ public class MainActivity extends AppCompatActivity{
     private void createDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.dialogTheme);
         builder.setView(R.layout.new_project_dialog);
-        builder.setPositiveButton("Enregistrer", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getString(R.string.save), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 EditText text = (EditText) _dialog.findViewById(R.id.editName);
                 String name;
                 if(text == null || text.getText().toString().equals("")){
-                    name = "nouveau";
+                    name = getString(R.string.default_project_name);
                 }else{
                     name = text.getText().toString();
                 }
-                _dataManager.createNewProject(name, _date);
+                _dataManager.createNewProject(Project.create(name, _date));
                 closeSearchView();
                 updateProjects();
+                text.setText("");
             }
         });
-        builder.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 closeSearchView();
+                EditText edit = (EditText)_dialog.findViewById(R.id.editName);
+                edit.setText("");
             }
         });
         _dialog = builder.create();
@@ -214,7 +218,7 @@ public class MainActivity extends AppCompatActivity{
                             @Override
                             public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
                                 _date = new Date(year, month+1, dayOfMonth);
-                                Log.d("D", _date.toString('-'));
+                                Log.d("D", _date.toString());
                                 setProjectStartDateOn(_date, v);
                             }
                         },

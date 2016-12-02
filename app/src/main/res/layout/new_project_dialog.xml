@@ -22,10 +22,11 @@
                 android:id="@+id/icon"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:gravity="right"
+                android:gravity="end"
                 android:layout_marginStart="@dimen/list_text_margin"
                 android:layout_marginEnd="@dimen/list_text_margin"
                 android:background="@android:color/transparent"
+                android:contentDescription="@string/rocket_icon_description"
                 app:srcCompat="@drawable/rocket_launch"/>
 
             <TextView
@@ -68,14 +69,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/list_text_margin"
+                android:layout_marginStart="@dimen/list_text_margin"
+                android:contentDescription="@string/project_start_date_icon_description"
                 app:srcCompat="@drawable/ic_play_arrow_white"/>
 
             <Button
                 android:id="@+id/startDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/list_text_margin"
+                android:layout_marginStart="@dimen/list_text_margin"
                 android:textAllCaps="false"
                 android:textColor="@android:color/tertiary_text_light"
                 android:background="@android:color/transparent"
@@ -92,7 +94,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/list_text_margin"
+                android:layout_marginStart="@dimen/list_text_margin"
+                android:contentDescription="@string/project_deadline_icon_description"
                 app:srcCompat="@drawable/ic_stop_white"/>
 
             <CheckBox
@@ -105,7 +108,7 @@
                 android:id="@+id/deadline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/list_text_margin"
+                android:layout_marginStart="@dimen/list_text_margin"
                 android:textAllCaps="false"
                 android:textColor="@android:color/tertiary_text_light"
                 android:background="@android:color/transparent"
@@ -144,16 +147,17 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center">
+
                 <EditText
                     android:id="@+id/notificationTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="number"
                     android:layout_gravity="center"
-                    android:text="@string/default_nofication_time"
+                    android:text="@string/default_notification_time"
                     android:textColor="@android:color/white"
                     android:textColorHint="@android:color/tertiary_text_light"
-                    android:layout_marginLeft="@dimen/list_text_margin"
+                    android:layout_marginStart="@dimen/list_text_margin"
                     android:background="@android:color/transparent"
                     android:maxLength="5"/>
 

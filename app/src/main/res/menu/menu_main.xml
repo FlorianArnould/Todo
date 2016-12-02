@@ -14,7 +14,7 @@
         android:id="@+id/action_order_by_name"
         android:title="@string/action_order_by_name" />
     <item
-        android:id="@+id/action_order_by_dealine"
+        android:id="@+id/action_order_by_deadline"
         android:title="@string/action_order_by_deadline"/>
     <item
         android:id="@+id/action_order_by_priority"

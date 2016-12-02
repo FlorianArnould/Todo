@@ -5,14 +5,15 @@
     android:id="@+id/content_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundDark"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.socket.florian.todo.ProjectActivity"
+    tools:context="com.socket.florian.todo.project.ProjectActivity"
     tools:showIn="@layout/activity_project">
 
-    <TextView
-        android:id="@+id/text"
+    <ListView
+        android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:divider="@drawable/divider"
+        android:choiceMode="multipleChoiceModal" />
 
 </RelativeLayout>
