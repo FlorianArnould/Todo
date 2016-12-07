@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity{
         _dialog = builder.create();
     }
 
-    //TODO : Modify the rocket icon when we change the starting date
+
     private void setDatePickerButton(final Button v){
         _date = Date.currentDate();
         setProjectStartDateOn(_date, v);

@@ -1,0 +1,170 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundDark"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.socket.florian.todo.MainActivity"
+    tools:showIn="@layout/activity_new_task"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/colorPrimary">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editName"
+                android:inputType="textPersonName"
+                android:hint="@string/hint_task_name"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/tertiary_text_light"
+                android:layout_margin="@dimen/list_text_margin"
+                android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                android:background="@android:color/transparent"/>
+
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/start_dates"
+            android:textColor="@android:color/darker_gray"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:textAppearance="@android:style/TextAppearance.Material.Headline"
+            android:layout_gravity="center_horizontal"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/earliest_date"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:textAllCaps="false"
+                android:text="samedi 10 novembre 2016"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"/>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/latest_date"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:textAllCaps="false"
+                android:text="samedi 10 novembre 2016"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:background="@android:color/darker_gray"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/deadline_dates"
+            android:textColor="@android:color/darker_gray"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:textAppearance="@android:style/TextAppearance.Material.Headline"
+            android:layout_gravity="center_horizontal"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/earliest_date"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:textAllCaps="false"
+                android:text="samedi 10 novembre 2016"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"/>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/latest_date"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:textAllCaps="false"
+                android:text="samedi 10 novembre 2016"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

@@ -71,15 +71,17 @@ final class ProjectAdapter extends BaseAdapter implements Filterable {
         TextView name = (TextView) view.findViewById(R.id.rowProjectName);
         Project project = _filteredProjects.get(position);
         name.setText(project.getName());
+        Drawable drawable;
         if (project.isStarting()) {
-            Drawable drawable = _context.getDrawable(R.drawable.rocket_launch);
-            drawable.setTint(_context.getColor(android.R.color.tertiary_text_light));
-            name.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+            drawable = _context.getDrawable(R.drawable.rocket_launch);
+
         } else if (project.isInProgress()) {
-            name.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket_flying, 0, 0, 0);
+            drawable = _context.getDrawable(R.drawable.rocket_flying);
         } else {
-            name.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rocket, 0, 0, 0);
+            drawable = _context.getDrawable(R.drawable.rocket);
         }
+        drawable.setTint(_context.getColor(android.R.color.tertiary_text_light));
+        name.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
         return view;
     }
 

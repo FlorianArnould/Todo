@@ -1,5 +1,6 @@
 package com.socket.florian.todo.project;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -91,8 +92,10 @@ public class ProjectActivity extends AppCompatActivity {
         floating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                _dataManager.createNewTask(_project, Task.create("nouveau"));
-                updateProject();
+                //_dataManager.createNewTask(_project, Task.create("nouveau"));
+                //updateProject();
+                Intent intent = new Intent(ProjectActivity.this, NewTaskActivity.class);
+                startActivityForResult(intent, 0);
             }
         });
     }
@@ -101,6 +104,13 @@ public class ProjectActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_project, menu);
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(resultCode == 0){
+            updateProject();
+        }
     }
 
     private void updateProject(){
