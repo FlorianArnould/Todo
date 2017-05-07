@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_about">A propos</string>
+    <string name="action_settings">Paramètres</string>
+    <string name="favorites">Favoris</string>
+    <string name="project_title">Projets</string>
+    <string name="project_name">Nom du projet</string>
+    <string name="new_project">Nouveau projet</string>
+</resources>
