@@ -81,6 +81,8 @@ public class MainActivity extends SearchActivity
 		DrawerLayout drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
 		if (drawer.isDrawerOpen(GravityCompat.START)) {
 			drawer.closeDrawer(GravityCompat.START);
+		} else if (isSearchViewOpen()) {
+			closeSearch();
 		} else {
 			MainActivityFragment fragment = (MainActivityFragment)getSupportFragmentManager().findFragmentById(R.id.fragmentContent);
 			fragment.onActivityBackPressed();
@@ -117,7 +119,7 @@ public class MainActivity extends SearchActivity
 		int id = item.getItemId();
 		switch (id) {
 			case R.id.action_search:
-				circleReveal(R.id.search_toolbar, 1, false, true);
+				openSearch();
 				break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -128,7 +130,7 @@ public class MainActivity extends SearchActivity
 	public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 		// Handle navigation view item clicks here.
 		int id = item.getItemId();
-		switch (id){
+		switch (id) {
 			case R.id.settings:
 				Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
 				startActivity(intent);

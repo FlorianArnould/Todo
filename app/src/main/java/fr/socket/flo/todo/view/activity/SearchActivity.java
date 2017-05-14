@@ -25,13 +25,13 @@ abstract class SearchActivity extends AppCompatActivity {
 	private Menu _searchMenu;
 	private MenuItem _itemSearch;
 	private SearchView _searchView;
-	private boolean isOpen;
+	private boolean _isOpen;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setSearchToolbar();
-		isOpen = false;
+		_isOpen = false;
 	}
 
 	private void setSearchToolbar() {
@@ -42,14 +42,14 @@ abstract class SearchActivity extends AppCompatActivity {
 			searchToolbar.setNavigationOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					circleReveal(R.id.search_toolbar, 1, true, false);
+					circleReveal(R.id.search_toolbar, 2, false);
 				}
 			});
 			_itemSearch = _searchMenu.findItem(R.id.action_filter_search);
 			MenuItemCompat.setOnActionExpandListener(_itemSearch, new MenuItemCompat.OnActionExpandListener() {
 				@Override
 				public boolean onMenuItemActionCollapse(MenuItem item) {
-					circleReveal(R.id.search_toolbar, 1, true, false);
+					circleReveal(R.id.search_toolbar, 2, false);
 					return true;
 				}
 
@@ -78,17 +78,13 @@ abstract class SearchActivity extends AppCompatActivity {
 		txtSearch.setTextColor(getResources().getColor(R.color.colorPrimary, getTheme()));
 	}
 
-	// TODO: 14/05/17 May use others method like the closeSearch() to handle this
-	protected void circleReveal(int viewID, int posFromRight, boolean containsOverflow, final boolean isShow) {
-		isOpen = isShow;
+	private void circleReveal(int viewID, int posFromRight, final boolean isShow) {
+		_isOpen = isShow;
 		final View myView = findViewById(viewID);
 		int width = myView.getWidth();
 		// TODO: 14/05/17 find a way to avoid the use of these dimens resources
 		if (posFromRight > 0) {
 			width -= (posFromRight * getResources().getDimensionPixelSize(R.dimen.abc_action_button_min_width_material)) - (getResources().getDimensionPixelSize(R.dimen.abc_action_button_min_width_material) / 2);
-		}
-		if (containsOverflow) {
-			width -= getResources().getDimensionPixelSize(R.dimen.abc_action_button_min_width_overflow_material);
 		}
 		int cx = width;
 		int cy = myView.getHeight() / 2;
@@ -119,9 +115,19 @@ abstract class SearchActivity extends AppCompatActivity {
 		return _searchView;
 	}
 
-	public void closeSearch() {
-		if (isOpen) {
-			circleReveal(R.id.search_toolbar, 1, true, false);
+	public void openSearch() {
+		if (!_isOpen) {
+			circleReveal(R.id.search_toolbar, 2, true);
 		}
+	}
+
+	public void closeSearch() {
+		if (_isOpen) {
+			circleReveal(R.id.search_toolbar, 2, false);
+		}
+	}
+
+	public boolean isSearchViewOpen(){
+		return _isOpen;
 	}
 }
