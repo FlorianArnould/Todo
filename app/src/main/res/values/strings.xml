@@ -25,4 +25,7 @@
     <string name="completed">Completed</string>
     <string name="action_search">Search</string>
     <string name="action_sort">Sort</string>
+    <string name="sort_by_name">Name</string>
+    <string name="sort_by_priority">Priority</string>
+    <string name="sort_by_deadline">Deadline</string>
 </resources>

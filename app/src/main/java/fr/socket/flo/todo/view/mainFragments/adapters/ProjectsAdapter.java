@@ -1,4 +1,4 @@
-package fr.socket.flo.todo.view.fragments.adapters;
+package fr.socket.flo.todo.view.mainFragments.adapters;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -24,8 +24,8 @@ import fr.socket.flo.todo.model.Project;
 import fr.socket.flo.todo.model.Task;
 import fr.socket.flo.todo.view.drawable.ColorGenerator;
 import fr.socket.flo.todo.view.drawable.ProgressTextDrawable;
-import fr.socket.flo.todo.view.fragments.filters.NameableFilter;
-import fr.socket.flo.todo.view.fragments.filters.OnNameableResultsPublishedListener;
+import fr.socket.flo.todo.view.mainFragments.filters.NameableFilter;
+import fr.socket.flo.todo.view.mainFragments.filters.OnNameableResultsPublishedListener;
 
 /**
  * @author Florian Arnould

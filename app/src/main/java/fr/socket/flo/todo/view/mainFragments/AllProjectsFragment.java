@@ -1,4 +1,4 @@
-package fr.socket.flo.todo.view.fragments;
+package fr.socket.flo.todo.view.mainFragments;
 
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -12,10 +12,10 @@ import android.widget.ListView;
 
 import fr.socket.flo.todo.R;
 import fr.socket.flo.todo.model.Project;
-import fr.socket.flo.todo.view.MainActivity;
+import fr.socket.flo.todo.view.activity.MainActivity;
 import fr.socket.flo.todo.view.dialog.DialogManager;
 import fr.socket.flo.todo.view.dialog.OnDialogFinishedListener;
-import fr.socket.flo.todo.view.fragments.adapters.ProjectsAdapter;
+import fr.socket.flo.todo.view.mainFragments.adapters.ProjectsAdapter;
 
 /**
  * @author Florian Arnould

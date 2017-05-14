@@ -1,4 +1,4 @@
-package fr.socket.flo.todo.view.fragments.adapters;
+package fr.socket.flo.todo.view.mainFragments.adapters;
 
 import android.content.Context;
 import android.util.Log;

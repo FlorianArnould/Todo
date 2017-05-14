@@ -1,4 +1,4 @@
-package fr.socket.flo.todo.view.fragments.filters;
+package fr.socket.flo.todo.view.mainFragments.filters;
 
 import java.util.List;
 

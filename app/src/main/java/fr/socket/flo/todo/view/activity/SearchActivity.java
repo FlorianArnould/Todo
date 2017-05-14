@@ -1,4 +1,4 @@
-package fr.socket.flo.todo.view;
+package fr.socket.flo.todo.view.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

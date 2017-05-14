@@ -1,4 +1,4 @@
-package fr.socket.flo.todo.view.fragments;
+package fr.socket.flo.todo.view.mainFragments;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -15,7 +15,7 @@ import fr.socket.flo.todo.database.OnObjectLoadedListener;
 import fr.socket.flo.todo.model.Project;
 import fr.socket.flo.todo.view.dialog.DialogManager;
 import fr.socket.flo.todo.view.dialog.OnDialogFinishedListener;
-import fr.socket.flo.todo.view.fragments.adapters.TasksAdapter;
+import fr.socket.flo.todo.view.mainFragments.adapters.TasksAdapter;
 
 /**
  * @author Florian Arnould

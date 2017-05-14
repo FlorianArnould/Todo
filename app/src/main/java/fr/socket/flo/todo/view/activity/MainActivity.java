@@ -1,5 +1,6 @@
-package fr.socket.flo.todo.view;
+package fr.socket.flo.todo.view.activity;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
@@ -22,8 +23,9 @@ import fr.socket.flo.todo.database.OnMultipleObjectsLoadedListener;
 import fr.socket.flo.todo.model.Project;
 import fr.socket.flo.todo.view.drawable.ColorGenerator;
 import fr.socket.flo.todo.view.drawable.ProgressTextDrawable;
-import fr.socket.flo.todo.view.fragments.AllProjectsFragment;
-import fr.socket.flo.todo.view.fragments.MainActivityFragment;
+import fr.socket.flo.todo.view.mainFragments.AllProjectsFragment;
+import fr.socket.flo.todo.view.mainFragments.MainActivityFragment;
+import fr.socket.flo.todo.view.settings.SettingsActivity;
 
 // TODO: 14/05/17 find a way to color in white the menuitems
 
@@ -126,7 +128,12 @@ public class MainActivity extends SearchActivity
 	public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 		// Handle navigation view item clicks here.
 		int id = item.getItemId();
-
+		switch (id){
+			case R.id.settings:
+				Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+				startActivity(intent);
+				break;
+		}
 		DrawerLayout drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
 		drawer.closeDrawer(GravityCompat.START);
 		return true;

@@ -1,11 +1,11 @@
-package fr.socket.flo.todo.view.fragments;
+package fr.socket.flo.todo.view.mainFragments;
 
 import android.content.Context;
 import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-import fr.socket.flo.todo.view.MainActivity;
+import fr.socket.flo.todo.view.activity.MainActivity;
 
 /**
  * @author Florian Arnould
