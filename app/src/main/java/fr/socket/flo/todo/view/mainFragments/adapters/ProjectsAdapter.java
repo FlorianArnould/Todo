@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -98,6 +100,18 @@ public class ProjectsAdapter extends BaseAdapter implements Filterable {
 		} else {
 			currentTaskView.setText(_context.getString(R.string.no_current_task));
 		}
+
+		CheckBox favoriteBox = (CheckBox)view.findViewById(R.id.is_favorite);
+		favoriteBox.setChecked(project.isFavorite());
+		favoriteBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if(isChecked != project.isFavorite()){
+					project.setFavorite(isChecked);
+					project.save();
+				}
+			}
+		});
 		return view;
 	}
 

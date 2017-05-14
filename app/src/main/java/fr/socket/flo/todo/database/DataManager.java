@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.SparseArray;
 
 import fr.socket.flo.todo.model.Project;
 import fr.socket.flo.todo.model.Task;
@@ -15,10 +16,11 @@ import fr.socket.flo.todo.model.Task;
 public class DataManager {
 	// TODO: 14/05/17 Refactor queries
 	private static DataManager _dataManager;
+	private final SparseArray<OnDataChangedListener> _listeners;
 	private SQLiteOpenHelper _dbOpenHelper;
 
 	private DataManager() {
-
+		_listeners = new SparseArray<>();
 	}
 
 	public static DataManager getInstance() {
@@ -31,9 +33,10 @@ public class DataManager {
 	public void initialize(Context context) {
 		_dbOpenHelper = new ProjectsSQLiteOpenHelper(context);
 	}
+
 	// TODO: 13/05/17 get the current task with another criteria
 	public void getFavorites(OnMultipleObjectsLoadedListener<Project> listener) {
-		String query = "SELECT p.id, p.name, p.color, CASE WHEN t.id IS NULL THEN '-1' ELSE t.id END " +
+		String query = "SELECT p.id, p.name, p.color, CASE WHEN t.id IS NULL THEN '-1' ELSE t.id END, p.is_favorite " +
 				"FROM projects AS p " +
 				"LEFT JOIN ( " +
 				"SELECT id, project_id FROM tasks WHERE state = '" + Task.State.IN_PROGRESS.name() + "' GROUP BY project_id " +
@@ -42,19 +45,19 @@ public class DataManager {
 		ObjectLoaderParameter<Project> parameter = new ObjectLoaderParameter<Project>(query) {
 			@Override
 			Project createInstance(Cursor c) {
-				return new Project(c.getInt(0), c.getString(1), c.getInt(2), c.getInt(3));
+				return new Project(c.getInt(0), c.getString(1), c.getInt(2), c.getInt(3), c.getInt(4) == 1);
 			}
 		};
 		new MultipleObjectsLoader<>(_dbOpenHelper.getWritableDatabase(), parameter, listener).execute();
 	}
 
 	public void getAllProjects(OnMultipleObjectsLoadedListener<Project> listener) {
-		String query = "SELECT p.id, p.name, p.color, CASE WHEN t.id IS NULL THEN '-1' ELSE t.id END FROM projects AS p " +
+		String query = "SELECT p.id, p.name, p.color, CASE WHEN t.id IS NULL THEN '-1' ELSE t.id END, p.is_favorite FROM projects AS p " +
 				"LEFT JOIN ( SELECT id, project_id FROM tasks WHERE state = '" + Task.State.IN_PROGRESS.name() + "' GROUP BY project_id ) AS t ON p.id=t.project_id";
 		ObjectLoaderParameter<Project> parameter = new ObjectLoaderParameter<Project>(query) {
 			@Override
 			Project createInstance(Cursor c) {
-				return new Project(c.getInt(0), c.getString(1), c.getInt(2), c.getInt(3));
+				return new Project(c.getInt(0), c.getString(1), c.getInt(2), c.getInt(3), c.getInt(4) == 1);
 			}
 		};
 		new MultipleObjectsLoader<>(_dbOpenHelper.getWritableDatabase(), parameter, listener).execute();
@@ -72,13 +75,13 @@ public class DataManager {
 	}
 
 	public void getProjectById(int projectId, OnObjectLoadedListener<Project> listener) {
-		String query = "SELECT p.id, p.name, p.color, CASE WHEN t.id IS NULL THEN '-1' ELSE t.id END FROM projects AS p " +
+		String query = "SELECT p.id, p.name, p.color, CASE WHEN t.id IS NULL THEN '-1' ELSE t.id END, p.is_favorite FROM projects AS p " +
 				"LEFT JOIN ( SELECT id, project_id FROM tasks WHERE state = '" + Task.State.IN_PROGRESS.name() + "' GROUP BY project_id ) AS t ON p.id=t.project_id " +
 				"WHERE p.id='" + projectId + "'";
 		ObjectLoaderParameter<Project> parameter = new ObjectLoaderParameter<Project>(query) {
 			@Override
 			Project createInstance(Cursor c) {
-				return new Project(c.getInt(0), c.getString(1), c.getInt(2), c.getInt(3));
+				return new Project(c.getInt(0), c.getString(1), c.getInt(2), c.getInt(3), c.getInt(4) == 1);
 			}
 		};
 		new ObjectLoader<>(_dbOpenHelper.getWritableDatabase(), parameter, listener).execute();
@@ -99,8 +102,9 @@ public class DataManager {
 		ContentValues values = new ContentValues();
 		values.put("name", project.getName());
 		values.put("color", project.getColor());
-		values.put("is_favorite", false);
-		new Saver(_dbOpenHelper.getWritableDatabase(), "projects", values).execute();
+		values.put("is_favorite", project.isFavorite());
+		Saver saver = new Saver(_dbOpenHelper.getWritableDatabase(), "projects", values, getOnDataChangedListener());
+		saver.execute();
 	}
 
 	public void save(Task task) {
@@ -109,10 +113,54 @@ public class DataManager {
 		values.put("name", task.getName());
 		values.put("color", task.getColor());
 		values.put("state", task.getState().name());
-		new Saver(_dbOpenHelper.getWritableDatabase(), "tasks", values).execute();
+		Saver saver = new Saver(_dbOpenHelper.getWritableDatabase(), "tasks", values, getOnDataChangedListener());
+		saver.execute();
+	}
+
+	public void update(Project project) {
+		ContentValues values = new ContentValues();
+		values.put("name", project.getName());
+		values.put("color", project.getColor());
+		values.put("is_favorite", project.isFavorite());
+		Updater updater = new Updater(_dbOpenHelper.getWritableDatabase(), "projects", project.getId(), values, getOnDataChangedListener());
+		updater.execute();
+	}
+
+	public void update(Task task) {
+		ContentValues values = new ContentValues();
+		values.put("name", task.getName());
+		values.put("color", task.getColor());
+		values.put("state", task.getState().name());
+		Updater updater = new Updater(_dbOpenHelper.getWritableDatabase(), "tasks", task.getId(), values, getOnDataChangedListener());
+		updater.execute();
 	}
 
 	public void closeDatabase() {
 		_dbOpenHelper.close();
+	}
+
+	public int addOnDataChangedListener(OnDataChangedListener listener) {
+		int id = _listeners.size();
+		_listeners.put(id, listener);
+		return id;
+	}
+
+	public void removeOnDataChangedListener(int listenerId) {
+		_listeners.delete(listenerId);
+	}
+
+	private void notifyListeners() {
+		for (int i = 0; i < _listeners.size(); i++) {
+			_listeners.valueAt(i).onDataChanged();
+		}
+	}
+
+	private OnDataChangedListener getOnDataChangedListener() {
+		return new OnDataChangedListener() {
+			@Override
+			public void onDataChanged() {
+				notifyListeners();
+			}
+		};
 	}
 }

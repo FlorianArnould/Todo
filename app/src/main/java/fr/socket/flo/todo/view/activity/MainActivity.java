@@ -7,10 +7,12 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,12 +21,14 @@ import java.util.List;
 
 import fr.socket.flo.todo.R;
 import fr.socket.flo.todo.database.DataManager;
+import fr.socket.flo.todo.database.OnDataChangedListener;
 import fr.socket.flo.todo.database.OnMultipleObjectsLoadedListener;
 import fr.socket.flo.todo.model.Project;
 import fr.socket.flo.todo.view.drawable.ColorGenerator;
 import fr.socket.flo.todo.view.drawable.ProgressTextDrawable;
 import fr.socket.flo.todo.view.mainFragments.AllProjectsFragment;
 import fr.socket.flo.todo.view.mainFragments.MainActivityFragment;
+import fr.socket.flo.todo.view.mainFragments.ProjectFragment;
 import fr.socket.flo.todo.view.settings.SettingsActivity;
 
 // TODO: 14/05/17 find a way to color in white the menuitems
@@ -41,6 +45,12 @@ public class MainActivity extends SearchActivity
 		super.onCreate(savedInstanceState);
 
 		DataManager.getInstance().initialize(this);
+		DataManager.getInstance().addOnDataChangedListener(new OnDataChangedListener() {
+			@Override
+			public void onDataChanged() {
+				updateDrawer();
+			}
+		});
 
 		_fab = (FloatingActionButton)findViewById(R.id.fab);
 
@@ -88,6 +98,7 @@ public class MainActivity extends SearchActivity
 
 	private void updateDrawer() {
 		final NavigationView navView = (NavigationView)findViewById(R.id.nav_view);
+		navView.getMenu().clear();
 		navView.inflateMenu(R.menu.drawer_menu);
 		final Menu menu = navView.getMenu().getItem(0).getSubMenu();
 		DataManager.getInstance().getFavorites(new OnMultipleObjectsLoadedListener<Project>() {
@@ -96,7 +107,7 @@ public class MainActivity extends SearchActivity
 				for (Project project : objects) {
 					@ColorInt int color = project.getColor();
 					final Drawable icon = new ProgressTextDrawable(project.getName().substring(0, 1), ColorGenerator.darkerColor(color), color, project.getProgress());
-					menu.add(Menu.NONE, Menu.NONE, Menu.NONE, project.getName()).setIcon(icon);
+					menu.add(DrawerGroup.PROJECTS.ordinal(), project.getId(), Menu.NONE, project.getName()).setIcon(icon);
 				}
 			}
 		});
@@ -126,11 +137,27 @@ public class MainActivity extends SearchActivity
 	@Override
 	public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 		// Handle navigation view item clicks here.
-		int id = item.getItemId();
-		switch (id) {
-			case R.id.settings:
-				Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-				startActivity(intent);
+		Log.d("menuItem", "id = " + item.getItemId() + ", group id = " + item.getGroupId() + ", title = " + item.getTitle());
+		DrawerGroup group = DrawerGroup.values()[item.getGroupId()];
+		switch(group){
+			case PROJECTS:
+				Fragment fragment = ProjectFragment.newInstance(item.getItemId());
+				getSupportFragmentManager()
+						.beginTransaction()
+						.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
+						.replace(R.id.fragmentContent, fragment)
+						.commit();
+				break;
+			case TASKS:
+				break;
+			case DEFAULT:
+				int id = item.getItemId();
+				switch (id) {
+					case R.id.settings:
+						Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+						startActivity(intent);
+						break;
+				}
 				break;
 		}
 		DrawerLayout drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
@@ -145,4 +172,6 @@ public class MainActivity extends SearchActivity
 	public View getRootView() {
 		return findViewById(R.id.fragmentContent);
 	}
+
+	private enum DrawerGroup {DEFAULT, PROJECTS, TASKS}
 }

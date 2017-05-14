@@ -3,6 +3,7 @@
     <item
         android:id="@+id/favorites"
         android:orderInCategory="0"
+        android:enabled="true"
         android:title="@string/favorites">
         <menu>
         </menu>
@@ -10,6 +11,7 @@
     <item
         android:id="@+id/current_task"
         android:orderInCategory="0"
+        android:enabled="true"
         android:title="@string/favorites">
         <menu>
         </menu>

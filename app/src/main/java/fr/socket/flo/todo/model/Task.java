@@ -49,5 +49,9 @@ public class Task extends Work {
 		return -1;
 	}
 
+	public void save(){
+		DataManager.getInstance().update(this);
+	}
+
 	public enum State {WAITING, IN_PROGRESS, COMPLETED}
 }
