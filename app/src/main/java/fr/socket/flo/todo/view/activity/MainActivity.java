@@ -31,8 +31,6 @@ import fr.socket.flo.todo.view.mainFragments.MainActivityFragment;
 import fr.socket.flo.todo.view.mainFragments.ProjectFragment;
 import fr.socket.flo.todo.view.settings.SettingsActivity;
 
-// TODO: 14/05/17 find a way to color in white the menuitems
-
 public class MainActivity extends SearchActivity
 		implements NavigationView.OnNavigationItemSelectedListener {
 	private FloatingActionButton _fab;
