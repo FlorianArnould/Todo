@@ -1,15 +1,17 @@
 package fr.socket.flo.todo.view.mainFragments;
 
+import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.support.annotation.ColorInt;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.ProgressBar;
 
 import fr.socket.flo.todo.R;
 import fr.socket.flo.todo.database.DataManager;
@@ -17,8 +19,6 @@ import fr.socket.flo.todo.database.OnObjectLoadedListener;
 import fr.socket.flo.todo.model.Project;
 import fr.socket.flo.todo.view.dialog.DialogManager;
 import fr.socket.flo.todo.view.dialog.OnDialogFinishedListener;
-import fr.socket.flo.todo.view.drawable.ColorGenerator;
-import fr.socket.flo.todo.view.drawable.ProgressTextDrawable;
 import fr.socket.flo.todo.view.mainFragments.adapters.TasksAdapter;
 
 /**
@@ -27,6 +27,7 @@ import fr.socket.flo.todo.view.mainFragments.adapters.TasksAdapter;
  */
 public class ProjectFragment extends MainActivityFragment {
 	private final static String PROJECT_ID_KEY = "PROJECT_ID";
+	private final static int PROGRESS_MAX = 1000;
 	private int _projectId;
 	private View _view;
 
@@ -55,10 +56,8 @@ public class ProjectFragment extends MainActivityFragment {
 			@Override
 			public void OnObjectLoaded(Project project) {
 				String projectName = project.getName();
-				@ColorInt int projectColor = project.getColor();
 				getActivity().setTitle(projectName);
-				ImageView iconView = (ImageView)_view.findViewById(R.id.project_icon);
-				iconView.setImageDrawable(new ProgressTextDrawable(projectName.substring(0, 1), ColorGenerator.darkerColor(projectColor), projectColor, project.getProgress()));
+				animateProjectProgress(project);
 			}
 		});
 	}
@@ -105,4 +104,26 @@ public class ProjectFragment extends MainActivityFragment {
 				.commit();
 	}
 
+	private void animateProjectProgress(Project project){
+		ProgressBar waiting = (ProgressBar)_view.findViewById(R.id.waiting_progress);
+		ProgressBar inProgress = (ProgressBar)_view.findViewById(R.id.in_progress);
+		ProgressBar complete = (ProgressBar)_view.findViewById(R.id.complete_progress);
+		complete.setMax(PROGRESS_MAX);
+		inProgress.setMax(PROGRESS_MAX);
+		waiting.setMax(PROGRESS_MAX);
+		ObjectAnimator waitingAnimator = initializeAnimation(waiting, 1, 400);
+		ObjectAnimator inProgressAnimator = initializeAnimation(inProgress, 0.7, 600);
+		ObjectAnimator completeAnimator = initializeAnimation(complete, project.getProgress(), 800);
+		waitingAnimator.start();
+		inProgressAnimator.start();
+		completeAnimator.start();
+	}
+
+	private ObjectAnimator initializeAnimation(ProgressBar progressBar, double progress, long delay){
+		ObjectAnimator animator = ObjectAnimator.ofInt(progressBar, "progress", (int)(PROGRESS_MAX*progress));
+		animator.setDuration(1000);
+		animator.setStartDelay(delay);
+		animator.setInterpolator(new DecelerateInterpolator());
+		return animator;
+	}
 }

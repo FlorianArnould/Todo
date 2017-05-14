@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3c3f41</color>
+    <color name="colorPrimary">#424242</color>
     <color name="colorPrimaryDark">#2b2b2b</color>
     <color name="colorAccent">#cc7832</color>
     <color name="todoColor">#a8c023</color>
     <color name="colorTextPrimary">#FFFFFF</color>
     <color name="colorTextDisable">#66FFFFFF</color>
+
+    <color name="complete">#64dd17</color>
+    <color name="inProgress">#f57f17</color>
+    <color name="waiting">#424242</color>
 </resources>
