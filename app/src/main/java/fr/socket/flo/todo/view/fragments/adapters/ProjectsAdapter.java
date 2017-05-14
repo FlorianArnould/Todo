@@ -31,7 +31,7 @@ import fr.socket.flo.todo.view.fragments.filters.OnNameableResultsPublishedListe
  * @author Florian Arnould
  * @version 1.0
  */
-public class ProjectsAdapter extends BaseAdapter implements Filterable{
+public class ProjectsAdapter extends BaseAdapter implements Filterable {
 	private final Context _context;
 	private List<Project> _projects;
 	private List<Project> _filteredProjects;
@@ -103,8 +103,8 @@ public class ProjectsAdapter extends BaseAdapter implements Filterable{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Filter getFilter(){
-		if(_filter == null){
+	public Filter getFilter() {
+		if (_filter == null) {
 			_filter = new NameableFilter(_projects, new OnNameableResultsPublishedListener() {
 				@Override
 				public void onNameableResultsPublished(List<? extends Nameable> _objects) {

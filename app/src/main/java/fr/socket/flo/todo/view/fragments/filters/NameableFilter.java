@@ -3,7 +3,6 @@ package fr.socket.flo.todo.view.fragments.filters;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Filter;
-import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;

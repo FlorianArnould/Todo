@@ -6,7 +6,7 @@ import android.support.annotation.ColorInt;
  * @author Florian Arnould
  * @version 1.0
  */
-abstract class Work implements Nameable{
+abstract class Work implements Nameable {
 	protected final static int NONE = -1;
 	private final int _id;
 	private final String _name;

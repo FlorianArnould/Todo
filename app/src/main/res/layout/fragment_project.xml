@@ -25,6 +25,6 @@
         android:layout_height="match_parent"
         android:divider="@null"
         tools:context="fr.socket.flo.todo.view.fragments.ProjectFragment"
-        tools:listitem="@layout/fragment_project_row" />
+        tools:listitem="@layout/fragment_project_row"/>
 
 </LinearLayout>

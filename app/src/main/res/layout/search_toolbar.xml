@@ -6,6 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:layout_alignParentTop="true"
+    android:background="@color/colorTextPrimary"
     app:collapseIcon="@drawable/ic_arrow_back"
-    app:titleTextColor="@color/colorPrimary"
-    android:background="@color/colorTextPrimary"/>
+    app:titleTextColor="@color/colorPrimary"/>

@@ -4,7 +4,7 @@
     android:shareInterpolator="false">
 
     <translate
-        android:fromXDelta="100%"
-        android:duration="@android:integer/config_mediumAnimTime" />
+        android:duration="@android:integer/config_mediumAnimTime"
+        android:fromXDelta="100%"/>
 
 </set>

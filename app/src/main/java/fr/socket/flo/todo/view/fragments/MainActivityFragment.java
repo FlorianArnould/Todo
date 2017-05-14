@@ -18,7 +18,7 @@ public abstract class MainActivityFragment extends ListFragment {
 
 	public abstract void onActivityBackPressed();
 
-	protected void cleanView(View view){
+	protected void cleanView(View view) {
 		InputMethodManager input = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 		input.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 		getMainActivity().closeSearch();

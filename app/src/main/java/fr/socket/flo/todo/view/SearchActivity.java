@@ -28,7 +28,7 @@ abstract class SearchActivity extends AppCompatActivity {
 	private boolean isOpen;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState){
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setSearchToolbar();
 		isOpen = false;
@@ -115,12 +115,12 @@ abstract class SearchActivity extends AppCompatActivity {
 		_itemSearch.expandActionView();
 	}
 
-	public SearchView getSearchView(){
+	public SearchView getSearchView() {
 		return _searchView;
 	}
 
-	public void closeSearch(){
-		if(isOpen) {
+	public void closeSearch() {
+		if (isOpen) {
 			circleReveal(R.id.search_toolbar, 1, true, false);
 		}
 	}
