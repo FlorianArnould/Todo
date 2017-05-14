@@ -11,23 +11,56 @@ import android.view.WindowManager;
 import android.widget.EditText;
 
 import fr.socket.flo.todo.R;
-import fr.socket.flo.todo.storage.Project;
+import fr.socket.flo.todo.model.Project;
+import fr.socket.flo.todo.model.Task;
 
 /**
  * @author Florian Arnould
  * @version 1.0
  */
 public class DialogManager {
-	public static void showNewProjectDialog(final Activity activity, @Nullable final OnDialogFinishedListener listener) {
-		final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-		LayoutInflater inflater = activity.getLayoutInflater();
-		final boolean result = false;
-		@SuppressLint("InflateParams") final View view = inflater.inflate(R.layout.new_project_dialog, null);
+	private final Activity _activity;
+
+	public DialogManager(final Activity activity) {
+		_activity = activity;
+	}
+
+	public void showNewProjectDialog(@Nullable final OnDialogFinishedListener listener) {
+		showNewObjectDialog(
+				_activity.getString(R.string.new_project),
+				_activity.getString(R.string.project_name),
+				listener,
+				new OnEditTextDialogClickListener() {
+					@Override
+					public void onEditTextDialogClickListener(String text) {
+						Project.newProject(text);
+					}
+				});
+	}
+
+	public void showNewTaskDialog(final int projectId, @Nullable final OnDialogFinishedListener listener) {
+		showNewObjectDialog(
+				_activity.getString(R.string.new_task),
+				_activity.getString(R.string.task_name),
+				listener,
+				new OnEditTextDialogClickListener() {
+					@Override
+					public void onEditTextDialogClickListener(String text) {
+						Task.newTask(projectId, text);
+					}
+				});
+	}
+
+	private void showNewObjectDialog(String title, String nameHint, @Nullable final OnDialogFinishedListener listener, final OnEditTextDialogClickListener onPositiveButtonWithTextClickListener) {
+		final AlertDialog.Builder builder = new AlertDialog.Builder(_activity);
+		LayoutInflater inflater = _activity.getLayoutInflater();
+		@SuppressLint("InflateParams") final View view = inflater.inflate(R.layout.new_object_dialog, null);
 		final EditText editText = (EditText)view.findViewById(R.id.projectName);
+		editText.setHint(nameHint);
 		builder.setView(view)
 				.setCancelable(true)
-				.setTitle(activity.getString(R.string.new_project))
-				.setNegativeButton(activity.getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
+				.setTitle(title)
+				.setNegativeButton(_activity.getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						if (listener != null) {
@@ -35,12 +68,12 @@ public class DialogManager {
 						}
 					}
 				})
-				.setPositiveButton(activity.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+				.setPositiveButton(_activity.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						final String name = editText.getText().toString();
+						String name = editText.getText().toString();
 						if (!name.isEmpty()) {
-							Project.newProject(activity, name);
+							onPositiveButtonWithTextClickListener.onEditTextDialogClickListener(name);
 							if (listener != null) {
 								listener.OnDialogFinished(true);
 							}
@@ -53,12 +86,11 @@ public class DialogManager {
 		editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
-				if(hasFocus && dialog.getWindow() != null){
+				if (hasFocus && dialog.getWindow() != null) {
 					dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 				}
 			}
 		});
 		dialog.show();
-
 	}
 }

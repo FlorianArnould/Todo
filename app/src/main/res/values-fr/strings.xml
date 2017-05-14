@@ -6,4 +6,16 @@
     <string name="project_title">Projets</string>
     <string name="project_name">Nom du projet</string>
     <string name="new_project">Nouveau projet</string>
+    <string name="current_tasks">Tâches en cours</string>
+    <string name="task_name">Nom de la Tâche</string>
+    <string name="new_task">Nouvelle tâche</string>
+    <string name="new_project_created">Nouveau projet crée</string>
+    <string name="configure">Configurer</string>
+    <string name="new_task_created">Nouvelle tâche crée</string>
+    <string name="no_current_task">Aucune tâche en cours</string>
+    <string name="in_progress">En cours</string>
+    <string name="completed">Terminé</string>
+    <string name="waiting">En attente</string>
+    <string name="action_search">Rechercher</string>
+    <string name="action_sort">Trier</string>
 </resources>

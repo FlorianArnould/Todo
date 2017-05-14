@@ -1,16 +1,17 @@
-package fr.socket.flo.todo.storage.database;
+package fr.socket.flo.todo.database;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 /**
  * @author Florian Arnould
  * @version 1.0
  */
 class ProjectsSQLiteOpenHelper extends SQLiteOpenHelper {
-	private static final int VERSION = 1;
+	private static final int VERSION = 4;
 	private static final String DATABASE_NAME = "ProjectsDatabase.db";
 
 	ProjectsSQLiteOpenHelper(Context context) {
@@ -26,20 +27,21 @@ class ProjectsSQLiteOpenHelper extends SQLiteOpenHelper {
 				"is_favorite BOOLEAN NOT NULL);");
 		db.execSQL("CREATE TABLE tasks(" +
 				"id INTEGER PRIMARY KEY AUTOINCREMENT," +
+				"project_id INTEGER NOT NULL REFERENCES projects(id)," +
 				"name VARCHAR(20) NOT NULL," +
-				"color INTEGER NOT NULL);");
-		db.execSQL("CREATE TABLE link(" +
-				"project_id INTEGER REFERENCES projects (id)," +
-				"task_id INTEGER REFERENCES tasks (id)," +
-				"PRIMARY KEY (project_id, task_id));");
+				"color INTEGER NOT NULL," +
+				"state INTEGER NOT NULL);");
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		if(oldVersion < newVersion) {
+		if (oldVersion < newVersion) {
 			Cursor c = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
 			while (c.moveToNext()) {
-				db.execSQL("DROP TABLE IF EXISTS " + c.getString(0));
+				if (!c.getString(0).equals("sqlite_sequence")) {
+					db.execSQL("DROP TABLE IF EXISTS " + c.getString(0));
+					Log.d("DROP TABLE", c.getString(0));
+				}
 			}
 			c.close();
 			onCreate(db);

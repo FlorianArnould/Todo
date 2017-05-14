@@ -1,4 +1,4 @@
-package fr.socket.flo.todo.storage.database;
+package fr.socket.flo.todo.database;
 
 import java.util.List;
 

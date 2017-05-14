@@ -11,8 +11,8 @@ import java.util.List;
  * @version 1.0
  */
 public class ColorGenerator {
-	private static float _darkerCoef = (float)0.2;
-	private static List<Integer> _colors = Arrays.asList(
+	private static final float _darkerCoef = (float)0.2;
+	private static final List<Integer> _colors = Arrays.asList(
 			0xffe57373,
 			0xfff06292,
 			0xffba68c8,

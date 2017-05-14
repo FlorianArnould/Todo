@@ -1,4 +1,4 @@
-package fr.socket.flo.todo.storage;
+package fr.socket.flo.todo.model;
 
 import android.support.annotation.ColorInt;
 
@@ -6,11 +6,11 @@ import android.support.annotation.ColorInt;
  * @author Florian Arnould
  * @version 1.0
  */
-abstract class Work {
-	protected static int NONE = -1;
-	private int _id;
-	private String _name;
-	private int _color;
+abstract class Work implements Nameable{
+	protected final static int NONE = -1;
+	private final int _id;
+	private final String _name;
+	private final int _color;
 
 	Work(int id, String name, @ColorInt int color) {
 		_id = id;
@@ -22,6 +22,7 @@ abstract class Work {
 		return _id;
 	}
 
+	@Override
 	public String getName() {
 		return _name;
 	}

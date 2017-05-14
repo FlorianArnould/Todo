@@ -22,7 +22,7 @@ public class ProgressTextDrawable extends ShapeDrawable {
 	private final Paint _progressPaint;
 	private final double _progress;
 
-	public ProgressTextDrawable(String letter, @ColorInt int backgroundColor, @ColorInt int progressColor, double current, double max) {
+	public ProgressTextDrawable(String letter, @ColorInt int backgroundColor, @ColorInt int progressColor, double progress) {
 		super(new OvalShape());
 		_text = letter.toUpperCase();
 		_textPaint = new Paint();
@@ -36,7 +36,11 @@ public class ProgressTextDrawable extends ShapeDrawable {
 		paint.setColor(backgroundColor);
 		_progressPaint = new Paint();
 		_progressPaint.setColor(progressColor);
-		_progress = current / max;
+		_progress = progress;
+	}
+
+	public ProgressTextDrawable(String letter, @ColorInt int backgroundColor) {
+		this(letter, backgroundColor, Color.argb(0, 0, 0, 0), 0);
 	}
 
 	@Override
