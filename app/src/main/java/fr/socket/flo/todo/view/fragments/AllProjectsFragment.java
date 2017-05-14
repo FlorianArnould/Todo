@@ -1,6 +1,5 @@
 package fr.socket.flo.todo.view.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -9,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 
 import fr.socket.flo.todo.R;
@@ -80,21 +78,18 @@ public class AllProjectsFragment extends MainActivityFragment {
 			}
 		});
 		final ProjectsAdapter adapter = (ProjectsAdapter)getListAdapter();
-		// TODO: 13/05/17 remove this if
-		if(mainActivity.getSearchView() != null) {
-			mainActivity.getSearchView().setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-				@Override
-				public boolean onQueryTextSubmit(String query) {
-					return false;
-				}
+		mainActivity.getSearchView().setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+			@Override
+			public boolean onQueryTextSubmit(String query) {
+				return false;
+			}
 
-				@Override
-				public boolean onQueryTextChange(String newText) {
-					adapter.getFilter().filter(newText);
-					return true;
-				}
-			});
-		}
+			@Override
+			public boolean onQueryTextChange(String newText) {
+				adapter.getFilter().filter(newText);
+				return true;
+			}
+		});
 	}
 
 	@Override

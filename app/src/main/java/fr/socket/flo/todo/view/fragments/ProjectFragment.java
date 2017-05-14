@@ -75,7 +75,7 @@ public class ProjectFragment extends MainActivityFragment {
 							snackbar.setAction(R.string.configure, new View.OnClickListener() {
 								@Override
 								public void onClick(View v) {
-									// TODO: 13/05/17 Open the edit project fragment
+									// TODO: 13/05/17 Open the edit task fragment
 									Log.d("Snackbar", "action clicked");
 								}
 							});
