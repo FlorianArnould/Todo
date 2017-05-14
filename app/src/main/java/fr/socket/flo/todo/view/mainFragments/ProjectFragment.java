@@ -2,12 +2,14 @@ package fr.socket.flo.todo.view.mainFragments;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import fr.socket.flo.todo.R;
 import fr.socket.flo.todo.database.DataManager;
@@ -15,6 +17,8 @@ import fr.socket.flo.todo.database.OnObjectLoadedListener;
 import fr.socket.flo.todo.model.Project;
 import fr.socket.flo.todo.view.dialog.DialogManager;
 import fr.socket.flo.todo.view.dialog.OnDialogFinishedListener;
+import fr.socket.flo.todo.view.drawable.ColorGenerator;
+import fr.socket.flo.todo.view.drawable.ProgressTextDrawable;
 import fr.socket.flo.todo.view.mainFragments.adapters.TasksAdapter;
 
 /**
@@ -24,6 +28,7 @@ import fr.socket.flo.todo.view.mainFragments.adapters.TasksAdapter;
 public class ProjectFragment extends MainActivityFragment {
 	private final static String PROJECT_ID_KEY = "PROJECT_ID";
 	private int _projectId;
+	private View _view;
 
 	public static ProjectFragment newInstance(int projectId) {
 		ProjectFragment fragment = new ProjectFragment();
@@ -36,9 +41,9 @@ public class ProjectFragment extends MainActivityFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_project, container, false);
-		cleanView(view);
-		return view;
+		_view = inflater.inflate(R.layout.fragment_project, container, false);
+		cleanView(_view);
+		return _view;
 	}
 
 	@Override
@@ -49,7 +54,11 @@ public class ProjectFragment extends MainActivityFragment {
 		DataManager.getInstance().getProjectById(_projectId, new OnObjectLoadedListener<Project>() {
 			@Override
 			public void OnObjectLoaded(Project project) {
-				getActivity().setTitle(project.getName());
+				String projectName = project.getName();
+				@ColorInt int projectColor = project.getColor();
+				getActivity().setTitle(projectName);
+				ImageView iconView = (ImageView)_view.findViewById(R.id.project_icon);
+				iconView.setImageDrawable(new ProgressTextDrawable(projectName.substring(0, 1), ColorGenerator.darkerColor(projectColor), projectColor, project.getProgress()));
 			}
 		});
 	}

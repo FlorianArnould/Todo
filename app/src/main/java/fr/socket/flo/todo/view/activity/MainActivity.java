@@ -42,9 +42,6 @@ public class MainActivity extends SearchActivity
 
 		DataManager.getInstance().initialize(this);
 
-
-		//setSearchToolbar();
-
 		_fab = (FloatingActionButton)findViewById(R.id.fab);
 
 		DrawerLayout drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
