@@ -71,6 +71,8 @@ public class TasksAdapter extends BaseAdapter {
 		icon.setImageDrawable(new ProgressTextDrawable(task.getName().substring(0, 1), task.getColor()));
 		TextView nameView = (TextView)view.findViewById(R.id.name);
 		nameView.setText(task.getName());
+		TextView stateView = (TextView)view.findViewById(R.id.state);
+		stateView.setText(task.getStringResIdState());
 		return view;
 	}
 }

@@ -20,4 +20,12 @@
         android:layout_toEndOf="@id/icon"
         android:textSize="18sp"/>
 
+    <TextView
+        android:id="@+id/state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:textColor="@android:color/tertiary_text_light"
+        android:layout_alignParentBottom="true"/>
+
 </RelativeLayout>

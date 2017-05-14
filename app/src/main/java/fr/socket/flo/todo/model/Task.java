@@ -1,7 +1,10 @@
 package fr.socket.flo.todo.model;
 
 import android.support.annotation.ColorInt;
+import android.support.annotation.IdRes;
+import android.support.annotation.StringRes;
 
+import fr.socket.flo.todo.R;
 import fr.socket.flo.todo.database.DataManager;
 import fr.socket.flo.todo.view.drawable.ColorGenerator;
 
@@ -30,6 +33,20 @@ public class Task extends Work {
 
 	public State getState() {
 		return _state;
+	}
+
+	public
+	@StringRes
+	int getStringResIdState() {
+		switch (_state) {
+			case WAITING:
+				return R.string.waiting;
+			case IN_PROGRESS:
+				return R.string.in_progress;
+			case COMPLETED:
+				return R.string.completed;
+		}
+		return -1;
 	}
 
 	public enum State {WAITING, IN_PROGRESS, COMPLETED}
