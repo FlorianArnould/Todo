@@ -1,21 +1,28 @@
 package fr.socket.flo.todo.model;
 
 import android.support.annotation.ColorInt;
+import android.support.annotation.Nullable;
+
+import java.util.Date;
 
 /**
  * @author Florian Arnould
  * @version 1.0
  */
-abstract class Work implements Nameable {
+abstract class Work implements Nameable, Sortable<Work> {
 	protected final static int NONE = -1;
 	private final int _id;
 	private final String _name;
 	private final int _color;
+	private final Date _deadline;
+	private final int _priority;
 
-	Work(int id, String name, @ColorInt int color) {
+	Work(int id, String name, @ColorInt int color, @Nullable Date deadline, int priority) {
 		_id = id;
 		_name = name;
 		_color = color;
+		_deadline = deadline;
+		_priority = priority;
 	}
 
 	public int getId() {
@@ -31,5 +38,41 @@ abstract class Work implements Nameable {
 	@ColorInt
 	int getColor() {
 		return _color;
+	}
+
+	public int getPriority() {
+		return _priority;
+	}
+
+	public boolean hasDeadline() {
+		return _deadline != null;
+	}
+
+	public Date getDeadline() {
+		return _deadline;
+	}
+
+	@Override
+	public int compareByName(Work other) {
+		return _name.compareToIgnoreCase(other._name);
+	}
+
+	@Override
+	public int compareByDeadline(Work other) {
+		if(other._deadline == null && _deadline == null){
+			return 0;
+		}
+		if (other._deadline == null) {
+			return -1;
+		}
+		if (_deadline == null) {
+			return 1;
+		}
+		return _deadline.compareTo(other._deadline);
+	}
+
+	@Override
+	public int compareByPriority(Work other) {
+		return _priority - other._priority;
 	}
 }

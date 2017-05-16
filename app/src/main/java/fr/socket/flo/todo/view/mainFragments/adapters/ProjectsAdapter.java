@@ -6,7 +6,6 @@ import android.support.annotation.ColorInt;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Filter;
@@ -23,6 +22,7 @@ import fr.socket.flo.todo.database.OnMultipleObjectsLoadedListener;
 import fr.socket.flo.todo.database.OnObjectLoadedListener;
 import fr.socket.flo.todo.model.Nameable;
 import fr.socket.flo.todo.model.Project;
+import fr.socket.flo.todo.model.Sorter;
 import fr.socket.flo.todo.model.Task;
 import fr.socket.flo.todo.view.drawable.ColorGenerator;
 import fr.socket.flo.todo.view.drawable.ProgressTextDrawable;
@@ -33,13 +33,14 @@ import fr.socket.flo.todo.view.mainFragments.filters.OnNameableResultsPublishedL
  * @author Florian Arnould
  * @version 1.0
  */
-public class ProjectsAdapter extends BaseAdapter implements Filterable {
+public class ProjectsAdapter extends SortableAdapter implements Filterable {
 	private final Context _context;
 	private List<Project> _projects;
 	private List<Project> _filteredProjects;
 	private Filter _filter;
 
-	public ProjectsAdapter(Context context) {
+	public ProjectsAdapter(Context context, Sorter.SortingWay sortingWay) {
+		super(sortingWay);
 		_context = context;
 		_projects = new ArrayList<>();
 		_filteredProjects = _projects;
@@ -128,5 +129,11 @@ public class ProjectsAdapter extends BaseAdapter implements Filterable {
 			});
 		}
 		return _filter;
+	}
+
+	@Override
+	public void notifyDataSetChanged(){
+		sort(_filteredProjects);
+		super.notifyDataSetChanged();
 	}
 }

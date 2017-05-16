@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.Filter;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import fr.socket.flo.todo.model.Nameable;
@@ -26,7 +27,7 @@ public class NameableFilter extends Filter {
 	protected FilterResults performFiltering(CharSequence constraint) {
 		FilterResults results = new FilterResults();
 		if (constraint != null && constraint.length() > 0) {
-			List<Nameable> tempList = new ArrayList<>();
+			Collection<Nameable> tempList = new ArrayList<>();
 			for (Nameable nameable : _objects) {
 				// TODO: 13/05/17 change to use Pattern java
 				if (nameable.getName().toLowerCase().contains(constraint.toString().toLowerCase())) {

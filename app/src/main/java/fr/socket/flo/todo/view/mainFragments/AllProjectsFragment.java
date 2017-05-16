@@ -1,40 +1,73 @@
 package fr.socket.flo.todo.view.mainFragments;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filterable;
 import android.widget.ListView;
 
 import fr.socket.flo.todo.R;
 import fr.socket.flo.todo.model.Project;
+import fr.socket.flo.todo.model.Sorter;
 import fr.socket.flo.todo.view.activity.MainActivity;
+import fr.socket.flo.todo.view.activity.OnSortChangedListener;
 import fr.socket.flo.todo.view.dialog.DialogManager;
 import fr.socket.flo.todo.view.dialog.OnDialogFinishedListener;
 import fr.socket.flo.todo.view.mainFragments.adapters.ProjectsAdapter;
+import fr.socket.flo.todo.view.mainFragments.adapters.SortableAdapter;
 
 /**
  * @author Florian Arnould
  * @version 1.0
  */
 public class AllProjectsFragment extends MainActivityFragment {
+	private static final String SORT_PREFERENCES_KEY = "all_projects_fragment_sort";
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_all_projects, container, false);
-		setListAdapter(new ProjectsAdapter(getContext()));
 		cleanView(view);
+		setHasOptionsMenu(true);
 		return view;
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		getActivity().setTitle(R.string.project_title);
+		Activity activity = getActivity();
+		activity.setTitle(R.string.project_title);
+		final SharedPreferences pref = activity.getSharedPreferences(getString(R.string.preferences_name_key), Context.MODE_PRIVATE);
+		String sort = pref.getString(SORT_PREFERENCES_KEY, Sorter.SortingWay.BY_NAME.name());
+		Sorter.SortingWay sortingWay = Sorter.SortingWay.valueOf(sort);
+		setListAdapter(new ProjectsAdapter(getContext(), sortingWay));
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		MainActivity activity = getMainActivity();
+		final SharedPreferences pref = activity.getSharedPreferences(getString(R.string.preferences_name_key), Context.MODE_PRIVATE);
+		String sort = pref.getString(SORT_PREFERENCES_KEY, Sorter.SortingWay.BY_NAME.name());
+		Sorter.SortingWay sortingWay = Sorter.SortingWay.valueOf(sort);
+		activity.setSortWay(sortingWay);
+		activity.setOnSortChangedListener(new OnSortChangedListener() {
+			@Override
+			public void onSortChangedListener(Sorter.SortingWay way) {
+				pref.edit().putString(SORT_PREFERENCES_KEY, way.name()).apply();
+				SortableAdapter adapter = (SortableAdapter)getListAdapter();
+				adapter.changeSortingWay(way);
+			}
+		});
 	}
 
 	@Override
@@ -77,7 +110,7 @@ public class AllProjectsFragment extends MainActivityFragment {
 				});
 			}
 		});
-		final ProjectsAdapter adapter = (ProjectsAdapter)getListAdapter();
+		final Filterable adapter = (Filterable)getListAdapter();
 		mainActivity.getSearchView().setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 			@Override
 			public boolean onQueryTextSubmit(String query) {

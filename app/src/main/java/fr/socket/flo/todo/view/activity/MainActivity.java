@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -24,6 +26,7 @@ import fr.socket.flo.todo.database.DataManager;
 import fr.socket.flo.todo.database.OnDataChangedListener;
 import fr.socket.flo.todo.database.OnMultipleObjectsLoadedListener;
 import fr.socket.flo.todo.model.Project;
+import fr.socket.flo.todo.model.Sorter;
 import fr.socket.flo.todo.view.drawable.ColorGenerator;
 import fr.socket.flo.todo.view.drawable.ProgressTextDrawable;
 import fr.socket.flo.todo.view.mainFragments.AllProjectsFragment;
@@ -34,6 +37,8 @@ import fr.socket.flo.todo.view.settings.SettingsActivity;
 public class MainActivity extends SearchActivity
 		implements NavigationView.OnNavigationItemSelectedListener {
 	private FloatingActionButton _fab;
+	private Menu _sortSubMenu;
+	private OnSortChangedListener _sortListener;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +46,6 @@ public class MainActivity extends SearchActivity
 		Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 		super.onCreate(savedInstanceState);
-
 		DataManager.getInstance().initialize(this);
 		DataManager.getInstance().addOnDataChangedListener(new OnDataChangedListener() {
 			@Override
@@ -112,8 +116,9 @@ public class MainActivity extends SearchActivity
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(Menu menu){
 		getMenuInflater().inflate(R.menu.main_menu, menu);
+		_sortSubMenu = menu.findItem(R.id.action_sort).getSubMenu();
 		return true;
 	}
 
@@ -127,8 +132,26 @@ public class MainActivity extends SearchActivity
 			case R.id.action_search:
 				openSearch();
 				break;
+			case R.id.sort_by_name:
+				item.setChecked(true);
+				callSortListener(Sorter.SortingWay.BY_NAME);
+				break;
+			case R.id.sort_by_deadline:
+				item.setChecked(true);
+				callSortListener(Sorter.SortingWay.BY_DEADLINE);
+				break;
+			case R.id.sort_by_priority:
+				item.setChecked(true);
+				callSortListener(Sorter.SortingWay.BY_PRIORITY);
+				break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	private void callSortListener(Sorter.SortingWay way) {
+		if (_sortListener != null) {
+			_sortListener.onSortChangedListener(way);
+		}
 	}
 
 	@SuppressWarnings("StatementWithEmptyBody")
@@ -137,7 +160,7 @@ public class MainActivity extends SearchActivity
 		// Handle navigation view item clicks here.
 		Log.d("menuItem", "id = " + item.getItemId() + ", group id = " + item.getGroupId() + ", title = " + item.getTitle());
 		DrawerGroup group = DrawerGroup.values()[item.getGroupId()];
-		switch(group){
+		switch (group) {
 			case PROJECTS:
 				Fragment fragment = ProjectFragment.newInstance(item.getItemId());
 				getSupportFragmentManager()
@@ -169,6 +192,25 @@ public class MainActivity extends SearchActivity
 
 	public View getRootView() {
 		return findViewById(R.id.fragmentContent);
+	}
+
+	public void setOnSortChangedListener(@Nullable OnSortChangedListener listener) {
+		_sortListener = listener;
+	}
+
+	public void setSortWay(Sorter.SortingWay way) {
+		@IdRes int itemId;
+		switch (way) {
+			case BY_DEADLINE:
+				itemId = R.id.sort_by_deadline;
+				break;
+			case BY_PRIORITY:
+				itemId = R.id.sort_by_priority;
+				break;
+			default:
+				itemId = R.id.sort_by_name;
+		}
+		_sortSubMenu.findItem(itemId).setChecked(true);
 	}
 
 	private enum DrawerGroup {DEFAULT, PROJECTS, TASKS}

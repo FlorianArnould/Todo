@@ -45,7 +45,8 @@ public class DataManager {
 		ObjectLoaderParameter<Project> parameter = new ObjectLoaderParameter<Project>(query) {
 			@Override
 			Project createInstance(Cursor c) {
-				return new Project(c.getInt(0), c.getString(1), c.getInt(2), c.getInt(3), c.getInt(4) == 1);
+				// TODO: 16/05/17 store deadline and priority value in database
+				return new Project(c.getInt(0), c.getString(1), c.getInt(2), null, 0, c.getInt(3), c.getInt(4) == 1);
 			}
 		};
 		new MultipleObjectsLoader<>(_dbOpenHelper.getWritableDatabase(), parameter, listener).execute();
@@ -57,7 +58,7 @@ public class DataManager {
 		ObjectLoaderParameter<Project> parameter = new ObjectLoaderParameter<Project>(query) {
 			@Override
 			Project createInstance(Cursor c) {
-				return new Project(c.getInt(0), c.getString(1), c.getInt(2), c.getInt(3), c.getInt(4) == 1);
+				return new Project(c.getInt(0), c.getString(1), c.getInt(2), null, 0, c.getInt(3), c.getInt(4) == 1);
 			}
 		};
 		new MultipleObjectsLoader<>(_dbOpenHelper.getWritableDatabase(), parameter, listener).execute();
@@ -68,7 +69,7 @@ public class DataManager {
 		ObjectLoaderParameter<Task> parameter = new ObjectLoaderParameter<Task>(query) {
 			@Override
 			Task createInstance(Cursor c) {
-				return new Task(c.getInt(0), c.getInt(1), c.getString(2), c.getInt(3), Task.State.valueOf(c.getString(4)));
+				return new Task(c.getInt(0), c.getInt(1), c.getString(2), c.getInt(3), null, 0, Task.State.valueOf(c.getString(4)));
 			}
 		};
 		new MultipleObjectsLoader<>(_dbOpenHelper.getWritableDatabase(), parameter, listener).execute();
@@ -81,7 +82,7 @@ public class DataManager {
 		ObjectLoaderParameter<Project> parameter = new ObjectLoaderParameter<Project>(query) {
 			@Override
 			Project createInstance(Cursor c) {
-				return new Project(c.getInt(0), c.getString(1), c.getInt(2), c.getInt(3), c.getInt(4) == 1);
+				return new Project(c.getInt(0), c.getString(1), c.getInt(2), null, 0, c.getInt(3), c.getInt(4) == 1);
 			}
 		};
 		new ObjectLoader<>(_dbOpenHelper.getWritableDatabase(), parameter, listener).execute();
@@ -92,7 +93,7 @@ public class DataManager {
 		ObjectLoaderParameter<Task> parameter = new ObjectLoaderParameter<Task>(query) {
 			@Override
 			Task createInstance(Cursor c) {
-				return new Task(c.getInt(0), c.getInt(1), c.getString(2), c.getInt(3), Task.State.valueOf(c.getString(4)));
+				return new Task(c.getInt(0), c.getInt(1), c.getString(2), c.getInt(3), null, 0, Task.State.valueOf(c.getString(4)));
 			}
 		};
 		new ObjectLoader<>(_dbOpenHelper.getWritableDatabase(), parameter, listener).execute();

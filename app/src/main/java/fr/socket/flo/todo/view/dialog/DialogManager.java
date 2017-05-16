@@ -51,7 +51,7 @@ public class DialogManager {
 				});
 	}
 
-	private void showNewObjectDialog(String title, String nameHint, @Nullable final OnDialogFinishedListener listener, final OnEditTextDialogClickListener onPositiveButtonWithTextClickListener) {
+	private void showNewObjectDialog(CharSequence title, CharSequence nameHint, @Nullable final OnDialogFinishedListener listener, final OnEditTextDialogClickListener onPositiveButtonWithTextClickListener) {
 		final AlertDialog.Builder builder = new AlertDialog.Builder(_activity);
 		LayoutInflater inflater = _activity.getLayoutInflater();
 		@SuppressLint("InflateParams") final View view = inflater.inflate(R.layout.new_object_dialog, null);

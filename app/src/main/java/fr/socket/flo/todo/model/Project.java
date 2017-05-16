@@ -1,6 +1,9 @@
 package fr.socket.flo.todo.model;
 
 import android.support.annotation.ColorInt;
+import android.support.annotation.Nullable;
+
+import java.util.Date;
 
 import fr.socket.flo.todo.database.DataManager;
 import fr.socket.flo.todo.view.drawable.ColorGenerator;
@@ -13,14 +16,14 @@ public class Project extends Work {
 	private final int _currentTaskId;
 	private boolean _isFavorite;
 
-	public Project(int id, String name, @ColorInt int color, int currentTaskId, boolean isFavorite) {
-		super(id, name, color);
+	public Project(int id, String name, @ColorInt int color, @Nullable Date deadline, int priority, int currentTaskId, boolean isFavorite) {
+		super(id, name, color, deadline, priority);
 		_currentTaskId = currentTaskId;
 		_isFavorite = isFavorite;
 	}
 
 	public static void newProject(String name) {
-		Project project = new Project(NONE, name, ColorGenerator.randomColor(), NONE, false);
+		Project project = new Project(NONE, name, ColorGenerator.randomColor(), null, 0, NONE, false);
 		DataManager.getInstance().save(project);
 	}
 
@@ -37,15 +40,15 @@ public class Project extends Work {
 		return _currentTaskId != NONE;
 	}
 
-	public boolean isFavorite(){
+	public boolean isFavorite() {
 		return _isFavorite;
 	}
 
-	public void setFavorite(boolean isFavorite){
+	public void setFavorite(boolean isFavorite) {
 		_isFavorite = isFavorite;
 	}
 
-	public void save(){
+	public void save() {
 		DataManager.getInstance().update(this);
 	}
 }
