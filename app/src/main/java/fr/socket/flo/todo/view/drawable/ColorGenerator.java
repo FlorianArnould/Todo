@@ -5,6 +5,7 @@ import android.support.annotation.ColorInt;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author Florian Arnould
@@ -12,6 +13,7 @@ import java.util.List;
  */
 public class ColorGenerator {
 	private static final float _darkerCoef = (float)0.2;
+	private static final Random random = new Random();
 	private static final List<Integer> _colors = Arrays.asList(
 			0xffe57373,
 			0xfff06292,
@@ -35,7 +37,7 @@ public class ColorGenerator {
 	public static
 	@ColorInt
 	int randomColor() {
-		return _colors.get((int)(Math.random() * _colors.size()));
+		return _colors.get(random.nextInt(_colors.size()));
 	}
 
 	public static

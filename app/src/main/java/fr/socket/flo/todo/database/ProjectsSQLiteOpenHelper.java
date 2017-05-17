@@ -38,7 +38,7 @@ class ProjectsSQLiteOpenHelper extends SQLiteOpenHelper {
 		if (oldVersion < newVersion) {
 			Cursor c = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
 			while (c.moveToNext()) {
-				if (!c.getString(0).equals("sqlite_sequence")) {
+				if (!"sqlite_sequence".equals(c.getString(0))) {
 					db.execSQL("DROP TABLE IF EXISTS " + c.getString(0));
 					Log.d("DROP TABLE", c.getString(0));
 				}
