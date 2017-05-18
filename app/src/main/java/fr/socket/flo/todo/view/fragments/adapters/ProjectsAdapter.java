@@ -1,4 +1,4 @@
-package fr.socket.flo.todo.view.mainFragments.adapters;
+package fr.socket.flo.todo.view.fragments.adapters;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -26,8 +26,8 @@ import fr.socket.flo.todo.model.Sorter;
 import fr.socket.flo.todo.model.Task;
 import fr.socket.flo.todo.view.drawable.ColorGenerator;
 import fr.socket.flo.todo.view.drawable.ProgressTextDrawable;
-import fr.socket.flo.todo.view.mainFragments.filters.NameableFilter;
-import fr.socket.flo.todo.view.mainFragments.filters.OnNameableResultsPublishedListener;
+import fr.socket.flo.todo.view.fragments.filters.NameableFilter;
+import fr.socket.flo.todo.view.fragments.filters.OnNameableResultsPublishedListener;
 
 /**
  * @author Florian Arnould
@@ -50,7 +50,7 @@ public class ProjectsAdapter extends SortableAdapter implements Filterable {
 	public void update() {
 		DataManager.getInstance().getAllProjects(new OnMultipleObjectsLoadedListener<Project>() {
 			@Override
-			public void OnObjectsLoaded(List<Project> objects) {
+			public void onObjectsLoaded(List<Project> objects) {
 				_projects = objects;
 				_filteredProjects = _projects;
 				notifyDataSetChanged();
@@ -81,7 +81,7 @@ public class ProjectsAdapter extends SortableAdapter implements Filterable {
 		}
 		final Project project = _filteredProjects.get(position);
 		final String projectName = project.getName();
-		final @ColorInt int color = project.getColor();
+		@ColorInt final int color = project.getColor();
 
 		ImageView iconView = (ImageView)view.findViewById(R.id.icon);
 		final Drawable icon = new ProgressTextDrawable(projectName.substring(0, 1), ColorGenerator.darkerColor(color), color, project.getProgress());
@@ -94,7 +94,7 @@ public class ProjectsAdapter extends SortableAdapter implements Filterable {
 		if (project.hasCurrentTask()) {
 			DataManager.getInstance().getTaskById(project.getCurrentTaskId(), new OnObjectLoadedListener<Task>() {
 				@Override
-				public void OnObjectLoaded(Task task) {
+				public void onObjectLoaded(Task task) {
 					currentTaskView.setText(task.getName());
 				}
 			});
@@ -107,7 +107,7 @@ public class ProjectsAdapter extends SortableAdapter implements Filterable {
 		favoriteBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if(isChecked != project.isFavorite()){
+				if (isChecked != project.isFavorite()) {
 					project.setFavorite(isChecked);
 					project.save();
 				}
@@ -122,8 +122,8 @@ public class ProjectsAdapter extends SortableAdapter implements Filterable {
 		if (_filter == null) {
 			_filter = new NameableFilter(_projects, new OnNameableResultsPublishedListener() {
 				@Override
-				public void onNameableResultsPublished(List<? extends Nameable> _objects) {
-					_filteredProjects = (List<Project>)_objects;
+				public void onNameableResultsPublished(List<? extends Nameable> objects) {
+					_filteredProjects = (List<Project>)objects;
 					notifyDataSetChanged();
 				}
 			});
@@ -132,7 +132,7 @@ public class ProjectsAdapter extends SortableAdapter implements Filterable {
 	}
 
 	@Override
-	public void notifyDataSetChanged(){
+	public void notifyDataSetChanged() {
 		sort(_filteredProjects);
 		super.notifyDataSetChanged();
 	}

@@ -31,8 +31,8 @@ class Updater extends AsyncTask<Void, Void, Void> {
 	}
 
 	@Override
-	protected void onPostExecute(Void result){
-		if(_listener != null){
+	protected void onPostExecute(Void result) {
+		if (_listener != null) {
 			_listener.onDataChanged();
 		}
 	}

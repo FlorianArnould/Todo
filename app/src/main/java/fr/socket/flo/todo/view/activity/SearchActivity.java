@@ -72,7 +72,7 @@ abstract class SearchActivity extends AppCompatActivity {
 		ImageView closeButton = (ImageView)_searchView.findViewById(R.id.search_close_btn);
 		closeButton.setImageResource(R.drawable.ic_close);
 
-		EditText txtSearch = ((EditText)_searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text));
+		EditText txtSearch = (EditText)_searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
 		txtSearch.setHint(getString(R.string.action_search) + " ...");
 		txtSearch.setHintTextColor(Color.DKGRAY);
 		txtSearch.setTextColor(getResources().getColor(R.color.colorPrimary, getTheme()));
@@ -127,7 +127,7 @@ abstract class SearchActivity extends AppCompatActivity {
 		}
 	}
 
-	public boolean isSearchViewOpen(){
+	public boolean isSearchViewOpen() {
 		return _isOpen;
 	}
 }

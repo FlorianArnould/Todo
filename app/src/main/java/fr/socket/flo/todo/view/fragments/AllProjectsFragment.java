@@ -1,4 +1,4 @@
-package fr.socket.flo.todo.view.mainFragments;
+package fr.socket.flo.todo.view.fragments;
 
 import android.app.Activity;
 import android.content.Context;
@@ -23,8 +23,8 @@ import fr.socket.flo.todo.view.activity.MainActivity;
 import fr.socket.flo.todo.view.activity.OnSortChangedListener;
 import fr.socket.flo.todo.view.dialog.DialogManager;
 import fr.socket.flo.todo.view.dialog.OnDialogFinishedListener;
-import fr.socket.flo.todo.view.mainFragments.adapters.ProjectsAdapter;
-import fr.socket.flo.todo.view.mainFragments.adapters.SortableAdapter;
+import fr.socket.flo.todo.view.fragments.adapters.ProjectsAdapter;
+import fr.socket.flo.todo.view.fragments.adapters.SortableAdapter;
 
 /**
  * @author Florian Arnould
@@ -85,31 +85,8 @@ public class AllProjectsFragment extends MainActivityFragment {
 	@Override
 	public void onStart() {
 		super.onStart();
+		setHasFloatingAction(true);
 		MainActivity mainActivity = getMainActivity();
-		mainActivity.getFloatingActionButton().setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				DialogManager dialogManager = new DialogManager(getActivity());
-				dialogManager.showNewProjectDialog(new OnDialogFinishedListener() {
-					@Override
-					public void OnDialogFinished(boolean state) {
-						if (state) {
-							ProjectsAdapter adapter = (ProjectsAdapter)getListAdapter();
-							adapter.update();
-							Snackbar snackbar = Snackbar.make(getMainActivity().getRootView(), R.string.new_project_created, Snackbar.LENGTH_LONG);
-							snackbar.setAction(R.string.configure, new View.OnClickListener() {
-								@Override
-								public void onClick(View v) {
-									// TODO: 13/05/17 Open the edit project fragment
-									Log.d("Snackbar", "action clicked");
-								}
-							});
-							snackbar.show();
-						}
-					}
-				});
-			}
-		});
 		final Filterable adapter = (Filterable)getListAdapter();
 		mainActivity.getSearchView().setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 			@Override
@@ -121,6 +98,29 @@ public class AllProjectsFragment extends MainActivityFragment {
 			public boolean onQueryTextChange(String newText) {
 				adapter.getFilter().filter(newText);
 				return true;
+			}
+		});
+	}
+
+	@Override
+	public void onFloatingActionButtonClicked() {
+		DialogManager dialogManager = new DialogManager(getActivity());
+		dialogManager.showNewProjectDialog(new OnDialogFinishedListener() {
+			@Override
+			public void onDialogFinished(boolean state) {
+				if (state) {
+					ProjectsAdapter adapter = (ProjectsAdapter)getListAdapter();
+					adapter.update();
+					Snackbar snackbar = Snackbar.make(getMainActivity().getRootView(), R.string.new_project_created, Snackbar.LENGTH_LONG);
+					snackbar.setAction(R.string.configure, new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							// TODO: 13/05/17 Open the edit project fragment
+							Log.d("Snackbar", "action clicked");
+						}
+					});
+					snackbar.show();
+				}
 			}
 		});
 	}

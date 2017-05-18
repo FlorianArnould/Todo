@@ -29,13 +29,15 @@ import fr.socket.flo.todo.model.Project;
 import fr.socket.flo.todo.model.Sorter;
 import fr.socket.flo.todo.view.drawable.ColorGenerator;
 import fr.socket.flo.todo.view.drawable.ProgressTextDrawable;
-import fr.socket.flo.todo.view.mainFragments.AllProjectsFragment;
-import fr.socket.flo.todo.view.mainFragments.MainActivityFragment;
-import fr.socket.flo.todo.view.mainFragments.ProjectFragment;
+import fr.socket.flo.todo.view.fragments.AllProjectsFragment;
+import fr.socket.flo.todo.view.fragments.MainActivityFragment;
+import fr.socket.flo.todo.view.fragments.ProjectFragment;
 import fr.socket.flo.todo.view.settings.SettingsActivity;
 
 public class MainActivity extends SearchActivity
 		implements NavigationView.OnNavigationItemSelectedListener {
+	private enum DrawerGroup {DEFAULT, PROJECTS, TASKS}
+
 	private FloatingActionButton _fab;
 	private Menu _sortSubMenu;
 	private OnSortChangedListener _sortListener;
@@ -105,7 +107,7 @@ public class MainActivity extends SearchActivity
 		final Menu menu = navView.getMenu().getItem(0).getSubMenu();
 		DataManager.getInstance().getFavorites(new OnMultipleObjectsLoadedListener<Project>() {
 			@Override
-			public void OnObjectsLoaded(List<Project> objects) {
+			public void onObjectsLoaded(List<Project> objects) {
 				for (Project project : objects) {
 					@ColorInt int color = project.getColor();
 					final Drawable icon = new ProgressTextDrawable(project.getName().substring(0, 1), ColorGenerator.darkerColor(color), color, project.getProgress());
@@ -116,7 +118,7 @@ public class MainActivity extends SearchActivity
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu){
+	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main_menu, menu);
 		_sortSubMenu = menu.findItem(R.id.action_sort).getSubMenu();
 		return true;
@@ -157,33 +159,48 @@ public class MainActivity extends SearchActivity
 	@SuppressWarnings("StatementWithEmptyBody")
 	@Override
 	public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-		// Handle navigation view item clicks here.
-		Log.d("menuItem", "id = " + item.getItemId() + ", group id = " + item.getGroupId() + ", title = " + item.getTitle());
 		DrawerGroup group = DrawerGroup.values()[item.getGroupId()];
 		switch (group) {
 			case PROJECTS:
-				Fragment fragment = ProjectFragment.newInstance(item.getItemId());
-				getSupportFragmentManager()
-						.beginTransaction()
-						.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
-						.replace(R.id.fragmentContent, fragment)
-						.commit();
+				inflateProjectFragment(item.getItemId());
 				break;
 			case TASKS:
 				break;
 			case DEFAULT:
-				int id = item.getItemId();
-				switch (id) {
-					case R.id.settings:
-						Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-						startActivity(intent);
-						break;
-				}
+				onFixedNavigationItemSelected(item);
 				break;
 		}
 		DrawerLayout drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
 		drawer.closeDrawer(GravityCompat.START);
 		return true;
+	}
+
+	private void onFixedNavigationItemSelected(@NonNull MenuItem item) {
+		int id = item.getItemId();
+		switch (id) {
+			case R.id.settings:
+				showSettings();
+				break;
+			case R.id.about:
+				// TODO: 18/05/17 create about activity to show here
+				break;
+			default:
+				Log.w("Drawer items", "A static item selected was not handle by the MainActivity");
+		}
+	}
+
+	private void showSettings() {
+		Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+		startActivity(intent);
+	}
+
+	private void inflateProjectFragment(int projectId) {
+		Fragment fragment = ProjectFragment.newInstance(projectId);
+		getSupportFragmentManager()
+				.beginTransaction()
+				.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
+				.replace(R.id.fragmentContent, fragment)
+				.commit();
 	}
 
 	public FloatingActionButton getFloatingActionButton() {
@@ -212,6 +229,4 @@ public class MainActivity extends SearchActivity
 		}
 		_sortSubMenu.findItem(itemId).setChecked(true);
 	}
-
-	private enum DrawerGroup {DEFAULT, PROJECTS, TASKS}
 }

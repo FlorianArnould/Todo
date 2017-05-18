@@ -5,5 +5,5 @@ package fr.socket.flo.todo.view.dialog;
  * @version 1.0
  */
 public interface OnDialogFinishedListener {
-	void OnDialogFinished(boolean state);
+	void onDialogFinished(boolean state);
 }

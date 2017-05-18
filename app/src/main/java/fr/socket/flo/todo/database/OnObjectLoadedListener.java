@@ -5,5 +5,5 @@ package fr.socket.flo.todo.database;
  * @version 1.0
  */
 public interface OnObjectLoadedListener<T> {
-	void OnObjectLoaded(T object);
+	void onObjectLoaded(T object);
 }

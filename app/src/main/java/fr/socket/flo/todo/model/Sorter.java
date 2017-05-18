@@ -9,6 +9,8 @@ import java.util.List;
  * @version 1.0
  */
 public class Sorter {
+	public enum SortingWay {BY_NAME, BY_DEADLINE, BY_PRIORITY}
+
 	private Sorter() {
 	}
 
@@ -52,6 +54,4 @@ public class Sorter {
 			}
 		});
 	}
-
-	public enum SortingWay {BY_NAME, BY_DEADLINE, BY_PRIORITY}
 }

@@ -15,6 +15,8 @@ import fr.socket.flo.todo.view.drawable.ColorGenerator;
  * @version 1.0
  */
 public class Task extends Work {
+	public enum State {WAITING, IN_PROGRESS, COMPLETED}
+
 	private final int _projectId;
 	private final State _state;
 
@@ -37,9 +39,8 @@ public class Task extends Work {
 		return _state;
 	}
 
-	public
 	@StringRes
-	int getStringResIdState() {
+	public int getStringResIdState() {
 		switch (_state) {
 			case WAITING:
 				return R.string.waiting;
@@ -54,6 +55,4 @@ public class Task extends Work {
 	public void save() {
 		DataManager.getInstance().update(this);
 	}
-
-	public enum State {WAITING, IN_PROGRESS, COMPLETED}
 }

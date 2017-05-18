@@ -1,4 +1,4 @@
-package fr.socket.flo.todo.view.mainFragments.filters;
+package fr.socket.flo.todo.view.fragments.filters;
 
 import java.util.List;
 
@@ -9,5 +9,5 @@ import fr.socket.flo.todo.model.Nameable;
  * @version 1.0
  */
 public interface OnNameableResultsPublishedListener {
-	void onNameableResultsPublished(List<? extends Nameable> _objects);
+	void onNameableResultsPublished(List<? extends Nameable> objects);
 }

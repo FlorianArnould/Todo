@@ -36,6 +36,6 @@ class MultipleObjectsLoader<E> extends AsyncTask<Void, Void, Void> {
 
 	@Override
 	protected void onPostExecute(Void param) {
-		_listener.OnObjectsLoaded(_list);
+		_listener.onObjectsLoaded(_list);
 	}
 }

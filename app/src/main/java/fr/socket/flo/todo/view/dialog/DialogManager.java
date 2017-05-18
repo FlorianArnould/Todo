@@ -64,7 +64,7 @@ public class DialogManager {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						if (listener != null) {
-							listener.OnDialogFinished(false);
+							listener.onDialogFinished(false);
 						}
 					}
 				})
@@ -75,10 +75,10 @@ public class DialogManager {
 						if (!name.isEmpty()) {
 							onPositiveButtonWithTextClickListener.onEditTextDialogClickListener(name);
 							if (listener != null) {
-								listener.OnDialogFinished(true);
+								listener.onDialogFinished(true);
 							}
 						} else if (listener != null) {
-							listener.OnDialogFinished(false);
+							listener.onDialogFinished(false);
 						}
 					}
 				});

@@ -1,4 +1,4 @@
-package fr.socket.flo.todo.view.mainFragments.adapters;
+package fr.socket.flo.todo.view.fragments.adapters;
 
 import android.widget.BaseAdapter;
 
@@ -11,19 +11,19 @@ import fr.socket.flo.todo.model.Sorter;
  * @author Florian Arnould
  * @version 1.0
  */
-public abstract class SortableAdapter extends BaseAdapter{
+public abstract class SortableAdapter extends BaseAdapter {
 	private Sorter.SortingWay _sortingWay;
 
-	SortableAdapter(Sorter.SortingWay sortingWay){
+	SortableAdapter(Sorter.SortingWay sortingWay) {
 		_sortingWay = sortingWay;
 	}
 
-	public void changeSortingWay(Sorter.SortingWay sortingWay){
+	public void changeSortingWay(Sorter.SortingWay sortingWay) {
 		_sortingWay = sortingWay;
 		notifyDataSetChanged();
 	}
 
-	protected void sort(List<? extends Sortable> sortables){
+	protected void sort(List<? extends Sortable> sortables) {
 		Sorter.sortByWay(_sortingWay, sortables);
 	}
 }

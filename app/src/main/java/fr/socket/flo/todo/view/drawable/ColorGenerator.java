@@ -12,7 +12,7 @@ import java.util.Random;
  * @version 1.0
  */
 public class ColorGenerator {
-	private static final float _darkerCoef = (float)0.2;
+	private static final float DARKER_COEFFICIENT = (float)0.2;
 	private static final Random random = new Random();
 	private static final List<Integer> _colors = Arrays.asList(
 			0xffe57373,
@@ -34,18 +34,19 @@ public class ColorGenerator {
 			0xff90a4ae
 	);
 
-	public static
+	private ColorGenerator() {
+	}
+
 	@ColorInt
-	int randomColor() {
+	public static int randomColor() {
 		return _colors.get(random.nextInt(_colors.size()));
 	}
 
-	public static
 	@ColorInt
-	int darkerColor(@ColorInt int color) {
-		float hsv[] = new float[3];
+	public static int darkerColor(@ColorInt int color) {
+		float[] hsv = new float[3];
 		Color.colorToHSV(color, hsv);
-		hsv[2] -= _darkerCoef;
+		hsv[2] -= DARKER_COEFFICIENT;
 		return Color.HSVToColor(hsv);
 	}
 }

@@ -10,7 +10,7 @@ import java.util.Date;
  * @version 1.0
  */
 abstract class Work implements Nameable, Sortable<Work> {
-	protected final static int NONE = -1;
+	protected static final int NONE = -1;
 	private final int _id;
 	private final String _name;
 	private final int _color;
@@ -34,9 +34,8 @@ abstract class Work implements Nameable, Sortable<Work> {
 		return _name;
 	}
 
-	public
 	@ColorInt
-	int getColor() {
+	public int getColor() {
 		return _color;
 	}
 
@@ -59,7 +58,7 @@ abstract class Work implements Nameable, Sortable<Work> {
 
 	@Override
 	public int compareByDeadline(Work other) {
-		if(other._deadline == null && _deadline == null){
+		if (other._deadline == null && _deadline == null) {
 			return 0;
 		}
 		if (other._deadline == null) {

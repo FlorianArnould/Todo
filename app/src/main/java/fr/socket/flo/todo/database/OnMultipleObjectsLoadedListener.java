@@ -7,5 +7,5 @@ import java.util.List;
  * @version 1.0
  */
 public interface OnMultipleObjectsLoadedListener<T> {
-	void OnObjectsLoaded(List<T> objects);
+	void onObjectsLoaded(List<T> objects);
 }

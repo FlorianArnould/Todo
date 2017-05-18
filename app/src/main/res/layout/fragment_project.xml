@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="@null"
-            tools:context="fr.socket.flo.todo.view.mainFragments.ProjectFragment"
+            tools:context="fr.socket.flo.todo.view.fragments.ProjectFragment"
             tools:listitem="@layout/fragment_task_row"/>
 
     </LinearLayout>

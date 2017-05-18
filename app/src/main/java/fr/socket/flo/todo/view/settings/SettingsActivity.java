@@ -18,7 +18,7 @@ public class SettingsActivity extends AppCompatActivity {
 		setContentView(R.layout.settings_activity);
 		Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
-		if(getSupportActionBar() != null) {
+		if (getSupportActionBar() != null) {
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		}
 		getFragmentManager().beginTransaction()
@@ -28,7 +28,7 @@ public class SettingsActivity extends AppCompatActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch(item.getItemId()){
+		switch (item.getItemId()) {
 			case android.R.id.home:
 				this.finish();
 				break;

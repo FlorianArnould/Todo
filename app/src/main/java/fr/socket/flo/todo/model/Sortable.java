@@ -6,6 +6,8 @@ package fr.socket.flo.todo.model;
  */
 public interface Sortable<E> {
 	int compareByName(E other);
+
 	int compareByDeadline(E other);
+
 	int compareByPriority(E other);
 }

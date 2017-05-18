@@ -1,4 +1,4 @@
-package fr.socket.flo.todo.view.mainFragments.adapters;
+package fr.socket.flo.todo.view.fragments.adapters;
 
 import android.content.Context;
 import android.util.Log;
@@ -20,8 +20,8 @@ import fr.socket.flo.todo.model.Nameable;
 import fr.socket.flo.todo.model.Sorter;
 import fr.socket.flo.todo.model.Task;
 import fr.socket.flo.todo.view.drawable.ProgressTextDrawable;
-import fr.socket.flo.todo.view.mainFragments.filters.NameableFilter;
-import fr.socket.flo.todo.view.mainFragments.filters.OnNameableResultsPublishedListener;
+import fr.socket.flo.todo.view.fragments.filters.NameableFilter;
+import fr.socket.flo.todo.view.fragments.filters.OnNameableResultsPublishedListener;
 
 /**
  * @author Florian Arnould
@@ -46,7 +46,7 @@ public class TasksAdapter extends SortableAdapter implements Filterable {
 	public void update() {
 		DataManager.getInstance().getTasksByProjectId(_projectId, new OnMultipleObjectsLoadedListener<Task>() {
 			@Override
-			public void OnObjectsLoaded(List<Task> tasks) {
+			public void onObjectsLoaded(List<Task> tasks) {
 				_tasks = tasks;
 				_filteredTasks = _tasks;
 				notifyDataSetChanged();
@@ -91,8 +91,8 @@ public class TasksAdapter extends SortableAdapter implements Filterable {
 		if (_filter == null) {
 			_filter = new NameableFilter(_tasks, new OnNameableResultsPublishedListener() {
 				@Override
-				public void onNameableResultsPublished(List<? extends Nameable> _objects) {
-					_filteredTasks = (List<Task>)_objects;
+				public void onNameableResultsPublished(List<? extends Nameable> objects) {
+					_filteredTasks = (List<Task>)objects;
 					Log.d("taskAdpater", "callback");
 					notifyDataSetChanged();
 				}

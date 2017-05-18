@@ -1,4 +1,4 @@
-package fr.socket.flo.todo.view.mainFragments.filters;
+package fr.socket.flo.todo.view.fragments.filters;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
