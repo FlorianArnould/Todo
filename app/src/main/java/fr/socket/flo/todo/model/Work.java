@@ -10,7 +10,7 @@ import java.util.Date;
  * @version 1.0
  */
 abstract class Work implements Nameable, Sortable<Work> {
-	protected static final int NONE = -1;
+	public static final int NONE = -1;
 	private final int _id;
 	private final String _name;
 	private final int _color;
