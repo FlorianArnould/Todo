@@ -42,6 +42,10 @@ public class ProjectFragment extends MainActivityFragment {
 	private int _projectId;
 	private View _view;
 
+	public ProjectFragment(){
+		super(SORT_PREFERENCES_KEY);
+	}
+
 	public static ProjectFragment newInstance(int projectId) {
 		ProjectFragment fragment = new ProjectFragment();
 		Bundle bundle = new Bundle();
@@ -82,24 +86,6 @@ public class ProjectFragment extends MainActivityFragment {
 				String projectName = project.getName();
 				activity.setTitle(projectName);
 				animateProjectProgress(project);
-			}
-		});
-	}
-
-	// TODO: 16/05/17 refactor this method in an abstraction
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		MainActivity activity = getMainActivity();
-		final SharedPreferences pref = activity.getSharedPreferences(getString(R.string.preferences_name_key), Context.MODE_PRIVATE);
-		String sort = pref.getString(SORT_PREFERENCES_KEY, Sorter.SortingWay.BY_NAME.name());
-		Sorter.SortingWay sortingWay = Sorter.SortingWay.valueOf(sort);
-		activity.setSortWay(sortingWay);
-		activity.setOnSortChangedListener(new OnSortChangedListener() {
-			@Override
-			public void onSortChangedListener(Sorter.SortingWay way) {
-				pref.edit().putString(SORT_PREFERENCES_KEY, way.name()).apply();
-				SortableAdapter adapter = (SortableAdapter)getListAdapter();
-				adapter.changeSortingWay(way);
 			}
 		});
 	}

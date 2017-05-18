@@ -33,6 +33,10 @@ import fr.socket.flo.todo.view.fragments.adapters.SortableAdapter;
 public class AllProjectsFragment extends MainActivityFragment {
 	private static final String SORT_PREFERENCES_KEY = "all_projects_fragment_sort";
 
+	public AllProjectsFragment(){
+		super(SORT_PREFERENCES_KEY);
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
@@ -51,23 +55,6 @@ public class AllProjectsFragment extends MainActivityFragment {
 		String sort = pref.getString(SORT_PREFERENCES_KEY, Sorter.SortingWay.BY_NAME.name());
 		Sorter.SortingWay sortingWay = Sorter.SortingWay.valueOf(sort);
 		setListAdapter(new ProjectsAdapter(getContext(), sortingWay));
-	}
-
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		MainActivity activity = getMainActivity();
-		final SharedPreferences pref = activity.getSharedPreferences(getString(R.string.preferences_name_key), Context.MODE_PRIVATE);
-		String sort = pref.getString(SORT_PREFERENCES_KEY, Sorter.SortingWay.BY_NAME.name());
-		Sorter.SortingWay sortingWay = Sorter.SortingWay.valueOf(sort);
-		activity.setSortWay(sortingWay);
-		activity.setOnSortChangedListener(new OnSortChangedListener() {
-			@Override
-			public void onSortChangedListener(Sorter.SortingWay way) {
-				pref.edit().putString(SORT_PREFERENCES_KEY, way.name()).apply();
-				SortableAdapter adapter = (SortableAdapter)getListAdapter();
-				adapter.changeSortingWay(way);
-			}
-		});
 	}
 
 	@Override
