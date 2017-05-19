@@ -11,7 +11,7 @@
     <string name="favorites">Favorites</string>
     <string name="project_icon_description" translatable="false">The icon of the project</string>
     <string name="task_icon_description" translatable="false">The icon of the task</string>
-    <string name="return_button_description" translatable="false">button which simulate a back press event</string>
+    <string name="priority_label_description" translatable="false">The label of the priority</string>
     <string name="project_name">Project name</string>
     <string name="new_project">New project</string>
     <string name="new_project_created">New project created</string>
@@ -30,4 +30,5 @@
     <string name="sort_by_priority">Priority</string>
     <string name="sort_by_deadline">Deadline</string>
     <string name="preferences_name_key" translatable="false">application_preferences</string>
+    <string name="unlimited">Unlimited</string>
 </resources>

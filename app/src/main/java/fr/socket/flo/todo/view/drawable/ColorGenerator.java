@@ -14,6 +14,7 @@ import java.util.Random;
 public class ColorGenerator {
 	private static final float DARKER_COEFFICIENT = (float)0.2;
 	private static final Random random = new Random();
+	private static final float[] _priorityColor = new float[]{0, (float)0.8, (float)0.95};
 	private static final List<Integer> _colors = Arrays.asList(
 			0xffe57373,
 			0xfff06292,
@@ -48,5 +49,11 @@ public class ColorGenerator {
 		Color.colorToHSV(color, hsv);
 		hsv[2] -= DARKER_COEFFICIENT;
 		return Color.HSVToColor(hsv);
+	}
+
+	@ColorInt
+	public static int priorityColor(int current){
+		_priorityColor[0] = 360*(current-1)/250;
+		return Color.HSVToColor(_priorityColor);
 	}
 }

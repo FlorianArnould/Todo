@@ -3,7 +3,9 @@ package fr.socket.flo.todo.model;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * @author Florian Arnould
@@ -49,6 +51,15 @@ abstract class Work implements Nameable, Sortable<Work> {
 
 	public Date getDeadline() {
 		return _deadline;
+	}
+
+	public String getDeadlineAsString(){
+		if(_deadline == null) {
+			return "";
+		}else{
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-mm-yyyy HH:mm", Locale.FRENCH);
+			return simpleDateFormat.format(_deadline);
+		}
 	}
 
 	@Override

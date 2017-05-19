@@ -21,4 +21,5 @@
     <string name="sort_by_name">Nom</string>
     <string name="sort_by_deadline">Date limite</string>
     <string name="sort_by_priority">Priorité</string>
+    <string name="unlimited">Illimité</string>
 </resources>
