@@ -19,7 +19,7 @@ public class TextDrawable extends ShapeDrawable {
 	private final Paint _textPaint;
 	private final String _text;
 
-	public TextDrawable(String letter, @ColorInt int backgroundColor){
+	public TextDrawable(String letter, @ColorInt int backgroundColor) {
 		super(new OvalShape());
 		_text = letter.toUpperCase();
 		_textPaint = new Paint();
@@ -34,7 +34,7 @@ public class TextDrawable extends ShapeDrawable {
 	}
 
 	@Override
-	public void draw(Canvas canvas){
+	public void draw(Canvas canvas) {
 		super.draw(canvas);
 		Rect r = getBounds();
 		int count = canvas.save();

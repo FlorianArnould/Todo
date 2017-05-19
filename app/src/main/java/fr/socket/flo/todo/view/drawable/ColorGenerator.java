@@ -52,8 +52,8 @@ public class ColorGenerator {
 	}
 
 	@ColorInt
-	public static int priorityColor(int current){
-		_priorityColor[0] = 360*(current-1)/250;
+	public static int priorityColor(int current) {
+		_priorityColor[0] = 360 * ((float)current - 1) / 250;
 		return Color.HSVToColor(_priorityColor);
 	}
 }

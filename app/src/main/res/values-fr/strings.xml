@@ -22,4 +22,6 @@
     <string name="sort_by_deadline">Date limite</string>
     <string name="sort_by_priority">Priorité</string>
     <string name="unlimited">Illimité</string>
+    <string name="settings_priority_max_value_summary">Définir la valeur maximale pour la priorité des projets et des tâches</string>
+    <string name="settings_priority_max_value_title">Valeur de priorité maximum</string>
 </resources>

@@ -20,7 +20,6 @@ import fr.socket.flo.todo.model.Nameable;
 import fr.socket.flo.todo.model.Sorter;
 import fr.socket.flo.todo.model.Task;
 import fr.socket.flo.todo.view.drawable.ColorGenerator;
-import fr.socket.flo.todo.view.drawable.ProgressTextDrawable;
 import fr.socket.flo.todo.view.drawable.TextDrawable;
 import fr.socket.flo.todo.view.fragments.filters.NameableFilter;
 import fr.socket.flo.todo.view.fragments.filters.OnNameableResultsPublishedListener;
@@ -83,9 +82,9 @@ public class TasksAdapter extends SortableAdapter implements Filterable {
 		TextView stateView = (TextView)view.findViewById(R.id.state);
 		stateView.setText(task.getStringResIdState());
 		TextView deadlineView = (TextView)view.findViewById(R.id.deadline);
-		if(task.hasDeadline()) {
+		if (task.hasDeadline()) {
 			deadlineView.setText(task.getDeadlineAsString());
-		}else{
+		} else {
 			deadlineView.setText(_context.getString(R.string.unlimited));
 		}
 		ImageView priorityLabelView = (ImageView)view.findViewById(R.id.priority_label);

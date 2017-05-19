@@ -31,4 +31,7 @@
     <string name="sort_by_deadline">Deadline</string>
     <string name="preferences_name_key" translatable="false">application_preferences</string>
     <string name="unlimited">Unlimited</string>
+
+    <string name="settings_priority_max_value_title">Maximum priority value</string>
+    <string name="settings_priority_max_value_summary">Set the maximum possible value for the priorityof tasks and projects</string>
 </resources>

@@ -5,4 +5,14 @@
         android:title="test title"
         android:summary="test summary"
         android:defaultValue="true" />
+
+    <fr.socket.flo.todo.view.settings.SeekBarPreference
+        android:key="max_priority"
+        android:title="@string/settings_priority_max_value_title"
+        android:summary="@string/settings_priority_max_value_summary"
+        android:defaultValue="5"
+        android:selectable="true"
+        android:dialogMessage="message"
+        android:max="20"
+        android:text="text"/>
 </PreferenceScreen>

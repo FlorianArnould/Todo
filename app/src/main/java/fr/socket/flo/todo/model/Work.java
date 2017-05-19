@@ -53,10 +53,10 @@ abstract class Work implements Nameable, Sortable<Work> {
 		return _deadline;
 	}
 
-	public String getDeadlineAsString(){
-		if(_deadline == null) {
+	public String getDeadlineAsString() {
+		if (_deadline == null) {
 			return "";
-		}else{
+		} else {
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-mm-yyyy HH:mm", Locale.FRENCH);
 			return simpleDateFormat.format(_deadline);
 		}
