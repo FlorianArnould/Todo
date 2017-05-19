@@ -12,7 +12,5 @@
         android:summary="@string/settings_priority_max_value_summary"
         android:defaultValue="5"
         android:selectable="true"
-        android:dialogMessage="message"
-        android:max="20"
-        android:text="text"/>
+        android:max="20"/>
 </PreferenceScreen>
