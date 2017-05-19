@@ -18,17 +18,17 @@ import android.widget.TextView;
  */
 public class SeekBarPreference extends DialogPreference implements SeekBar.OnSeekBarChangeListener, View.OnClickListener {
 	private static final String ANDROID_NS = "http://schemas.android.com/apk/res/android";
+	private final Context _context;
+	private final int _default;
+	private final int _min;
+	private final int _max;
 	private SeekBar _seekBar;
 	private TextView _valueText;
-	private Context _context;
-	private int _default, _min, _max, _value;
+	private int _value;
 
 	public SeekBarPreference(Context context, AttributeSet attrs) {
-
 		super(context, attrs);
 		_context = context;
-
-		// Get default and max seekbar values :
 		_default = attrs.getAttributeIntValue(ANDROID_NS, "defaultValue", 5);
 		_max = attrs.getAttributeIntValue(ANDROID_NS, "max", 20);
 		_min = 5;
@@ -56,8 +56,9 @@ public class SeekBarPreference extends DialogPreference implements SeekBar.OnSee
 		_seekBar.setOnSeekBarChangeListener(this);
 		layout.addView(_seekBar, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
-		if (shouldPersist())
+		if (shouldPersist()) {
 			_value = getPersistedInt(_default);
+		}
 		_seekBar.setMax(_max - _min);
 		_seekBar.setProgress(_value - _min);
 
@@ -74,10 +75,11 @@ public class SeekBarPreference extends DialogPreference implements SeekBar.OnSee
 	@Override
 	protected void onSetInitialValue(boolean restore, Object defaultValue) {
 		super.onSetInitialValue(restore, defaultValue);
-		if (restore)
+		if (restore) {
 			_value = shouldPersist() ? getPersistedInt(_default) : 0;
-		else
+		} else {
 			_value = (Integer)defaultValue;
+		}
 	}
 
 	@Override
@@ -87,17 +89,17 @@ public class SeekBarPreference extends DialogPreference implements SeekBar.OnSee
 
 	@Override
 	public void onStartTrackingTouch(SeekBar seek) {
+		//onProgressChanged is the only listener needed
 	}
 
 	@Override
 	public void onStopTrackingTouch(SeekBar seek) {
+		//onProgressChanged is the only listener needed
 	}
 
 	@Override
 	public void showDialog(Bundle state) {
-
 		super.showDialog(state);
-
 		Button positiveButton = ((AlertDialog)getDialog()).getButton(AlertDialog.BUTTON_POSITIVE);
 		positiveButton.setOnClickListener(this);
 	}
@@ -105,7 +107,6 @@ public class SeekBarPreference extends DialogPreference implements SeekBar.OnSee
 	@Override
 	public void onClick(View v) {
 		if (shouldPersist()) {
-
 			_value = _seekBar.getProgress() + _min;
 			persistInt(_value);
 			callChangeListener(_value);

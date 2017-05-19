@@ -3,10 +3,12 @@ package fr.socket.flo.todo.view.fragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v4.app.ListFragment;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Filterable;
 
 import fr.socket.flo.todo.R;
 import fr.socket.flo.todo.model.Sorter;
@@ -62,6 +64,20 @@ public abstract class MainActivityFragment extends ListFragment {
 			@Override
 			public void onClick(View v) {
 				onFloatingActionButtonClicked();
+			}
+		});
+		MainActivity mainActivity = getMainActivity();
+		final Filterable adapter = (Filterable)getListAdapter();
+		mainActivity.getSearchView().setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+			@Override
+			public boolean onQueryTextSubmit(String query) {
+				return false;
+			}
+
+			@Override
+			public boolean onQueryTextChange(String newText) {
+				adapter.getFilter().filter(newText);
+				return true;
 			}
 		});
 	}

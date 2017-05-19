@@ -6,18 +6,15 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filterable;
 import android.widget.ListView;
 
 import fr.socket.flo.todo.R;
 import fr.socket.flo.todo.model.Project;
 import fr.socket.flo.todo.model.Sorter;
-import fr.socket.flo.todo.view.activity.MainActivity;
 import fr.socket.flo.todo.view.dialog.DialogManager;
 import fr.socket.flo.todo.view.dialog.OnDialogFinishedListener;
 import fr.socket.flo.todo.view.fragments.adapters.ProjectsAdapter;
@@ -69,20 +66,6 @@ public class AllProjectsFragment extends MainActivityFragment {
 	public void onStart() {
 		super.onStart();
 		setHasFloatingAction(true);
-		MainActivity mainActivity = getMainActivity();
-		final Filterable adapter = (Filterable)getListAdapter();
-		mainActivity.getSearchView().setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-			@Override
-			public boolean onQueryTextSubmit(String query) {
-				return false;
-			}
-
-			@Override
-			public boolean onQueryTextChange(String newText) {
-				adapter.getFilter().filter(newText);
-				return true;
-			}
-		});
 	}
 
 	@Override
