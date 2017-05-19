@@ -5,10 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.util.SparseArray;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -24,11 +23,12 @@ public class DataManager {
 	// TODO: 14/05/17 Refactor queries
 	private static DataManager _dataManager;
 	private final SparseArray<OnDataChangedListener> _listeners;
+	private final SimpleDateFormat _dateFormat;
 	private SQLiteOpenHelper _dbOpenHelper;
-	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-mm-yyyy HH:mm:ss", Locale.FRENCH);
 
 	private DataManager() {
 		_listeners = new SparseArray<>();
+		_dateFormat = new SimpleDateFormat("dd-mm-yyyy HH:mm:ss", Locale.FRENCH);
 	}
 
 	public static DataManager getInstance() {
@@ -103,9 +103,9 @@ public class DataManager {
 		ContentValues values = new ContentValues();
 		values.put("name", project.getName());
 		values.put("color", project.getColor());
-		if(project.hasDeadline()) {
-			values.put("deadline", DATE_FORMAT.format(project.getDeadline()));
-		}else{
+		if (project.hasDeadline()) {
+			values.put("deadline", _dateFormat.format(project.getDeadline()));
+		} else {
 			values.putNull("deadline");
 		}
 		values.put("priority", project.getPriority());
@@ -119,9 +119,9 @@ public class DataManager {
 		values.put("project_id", task.getProjectId());
 		values.put("name", task.getName());
 		values.put("color", task.getColor());
-		if(task.hasDeadline()) {
-			values.put("deadline", DATE_FORMAT.format(task.getDeadline()));
-		}else{
+		if (task.hasDeadline()) {
+			values.put("deadline", _dateFormat.format(task.getDeadline()));
+		} else {
 			values.putNull("deadline");
 		}
 		values.put("priority", task.getPriority());
@@ -134,9 +134,9 @@ public class DataManager {
 		ContentValues values = new ContentValues();
 		values.put("name", project.getName());
 		values.put("color", project.getColor());
-		if(project.hasDeadline()) {
-			values.put("deadline", DATE_FORMAT.format(project.getDeadline()));
-		}else{
+		if (project.hasDeadline()) {
+			values.put("deadline", _dateFormat.format(project.getDeadline()));
+		} else {
 			values.putNull("deadline");
 		}
 		values.put("priority", project.getPriority());
@@ -149,9 +149,9 @@ public class DataManager {
 		ContentValues values = new ContentValues();
 		values.put("name", task.getName());
 		values.put("color", task.getColor());
-		if(task.hasDeadline()) {
-			values.put("deadline", DATE_FORMAT.format(task.getDeadline()));
-		}else{
+		if (task.hasDeadline()) {
+			values.put("deadline", _dateFormat.format(task.getDeadline()));
+		} else {
 			values.putNull("deadline");
 		}
 		values.put("priority", task.getPriority());
@@ -190,26 +190,27 @@ public class DataManager {
 	}
 
 	// TODO: 13/05/17 get the current task with another criteria
-	private int getCurrentTask(int projectId){
+	private int getCurrentTask(int projectId) {
 		String query = "SELECT id FROM tasks " +
 				"WHERE state = '" + Task.State.IN_PROGRESS.name() + "' AND project_id='" + projectId + "'";
 		SQLiteDatabase db = _dbOpenHelper.getWritableDatabase();
 		Cursor cursor = db.rawQuery(query, null, null);
 		int taskId;
-		if(cursor.moveToNext()){
+		if (cursor.moveToNext()) {
 			taskId = cursor.getInt(0);
-		}else{
-			taskId =  Project.NONE;
+		} else {
+			taskId = Project.NONE;
 		}
 		cursor.close();
 		return taskId;
 	}
 
-	private Date stringToDate(String string){
+	private Date stringToDate(String string) {
 		Date date;
-		try{
-			date = DATE_FORMAT.parse(string);
-		}catch (Exception e){
+		try {
+			date = _dateFormat.parse(string);
+		} catch (Exception e) {
+			Log.d("Parse sql string", "Date wasn't parse");
 			date = null;
 		}
 		return date;

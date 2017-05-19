@@ -1,82 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
+    android:id="@+id/parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <ListView
+        android:id="@+id/android:list"
+        android:name="fr.socket.flo.todo.view.AllProjectsFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:id="@+id/header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/text_margin"
-            android:background="@color/colorPrimary"
-            android:theme="@style/AppTheme.AppBarOverlay">
-
-            <ImageButton
-                android:id="@+id/return_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_arrow_back"
-                android:tint="@android:color/white"
-                android:contentDescription="@string/return_button_description"
-                android:background="?attr/selectableItemBackgroundBorderless"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/text_margin"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@id/return_button"
-                android:text="Hello world"/>
-
-        </RelativeLayout>
-
-        <ListView
-            android:id="@+id/android:list"
-            android:name="fr.socket.flo.todo.view.AllProjectsFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:divider="@null"
-            tools:context="fr.socket.flo.todo.view.fragments.ProjectFragment"
-            tools:listitem="@layout/fragment_task_row"/>
-
-    </LinearLayout>
+        android:paddingTop="@dimen/project_progress_height"
+        android:divider="@null"
+        tools:context="fr.socket.flo.todo.view.fragments.ProjectFragment"
+        tools:listitem="@layout/fragment_task_row"/>
 
     <ProgressBar
         android:id="@+id/waiting_progress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:progressTint="@color/waiting"
-        android:progressBackgroundTint="@android:color/transparent"
         style="?android:attr/progressBarStyleHorizontal"
-        app:layout_anchor="@id/header"
-        app:layout_anchorGravity="bottom"/>
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/project_progress_height"
+        android:progressBackgroundTint="@android:color/transparent"
+        android:progressTint="@color/waiting"
+        app:layout_anchor="@id/android:list"
+        app:layout_anchorGravity="top"/>
 
     <ProgressBar
         android:id="@+id/in_progress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:progressTint="@color/inProgress"
-        android:progressBackgroundTint="@android:color/transparent"
         style="?android:attr/progressBarStyleHorizontal"
-        app:layout_anchor="@id/header"
-        app:layout_anchorGravity="bottom"/>
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/project_progress_height"
+        android:progressBackgroundTint="@android:color/transparent"
+        android:progressTint="@color/inProgress"
+        app:layout_anchor="@id/android:list"
+        app:layout_anchorGravity="top"/>
 
     <ProgressBar
         android:id="@+id/complete_progress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:progressTint="@color/complete"
-        android:progressBackgroundTint="@android:color/transparent"
         style="?android:attr/progressBarStyleHorizontal"
-        app:layout_anchor="@id/header"
-        app:layout_anchorGravity="bottom"/>
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/project_progress_height"
+        android:progressBackgroundTint="@android:color/transparent"
+        android:progressTint="@color/complete"
+        app:layout_anchor="@id/android:list"
+        app:layout_anchorGravity="top"/>
 
 </android.support.design.widget.CoordinatorLayout>

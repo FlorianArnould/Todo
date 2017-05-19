@@ -9,8 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filterable;
@@ -20,11 +18,9 @@ import fr.socket.flo.todo.R;
 import fr.socket.flo.todo.model.Project;
 import fr.socket.flo.todo.model.Sorter;
 import fr.socket.flo.todo.view.activity.MainActivity;
-import fr.socket.flo.todo.view.activity.OnSortChangedListener;
 import fr.socket.flo.todo.view.dialog.DialogManager;
 import fr.socket.flo.todo.view.dialog.OnDialogFinishedListener;
 import fr.socket.flo.todo.view.fragments.adapters.ProjectsAdapter;
-import fr.socket.flo.todo.view.fragments.adapters.SortableAdapter;
 
 /**
  * @author Florian Arnould
@@ -33,7 +29,7 @@ import fr.socket.flo.todo.view.fragments.adapters.SortableAdapter;
 public class AllProjectsFragment extends MainActivityFragment {
 	private static final String SORT_PREFERENCES_KEY = "all_projects_fragment_sort";
 
-	public AllProjectsFragment(){
+	public AllProjectsFragment() {
 		super(SORT_PREFERENCES_KEY);
 	}
 

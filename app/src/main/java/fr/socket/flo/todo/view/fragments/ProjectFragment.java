@@ -10,8 +10,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
@@ -25,10 +23,8 @@ import fr.socket.flo.todo.database.OnObjectLoadedListener;
 import fr.socket.flo.todo.model.Project;
 import fr.socket.flo.todo.model.Sorter;
 import fr.socket.flo.todo.view.activity.MainActivity;
-import fr.socket.flo.todo.view.activity.OnSortChangedListener;
 import fr.socket.flo.todo.view.dialog.DialogManager;
 import fr.socket.flo.todo.view.dialog.OnDialogFinishedListener;
-import fr.socket.flo.todo.view.fragments.adapters.SortableAdapter;
 import fr.socket.flo.todo.view.fragments.adapters.TasksAdapter;
 
 /**
@@ -42,7 +38,7 @@ public class ProjectFragment extends MainActivityFragment {
 	private int _projectId;
 	private View _view;
 
-	public ProjectFragment(){
+	public ProjectFragment() {
 		super(SORT_PREFERENCES_KEY);
 	}
 
@@ -60,13 +56,6 @@ public class ProjectFragment extends MainActivityFragment {
 		_view = inflater.inflate(R.layout.fragment_project, container, false);
 		cleanView(_view);
 		setHasOptionsMenu(true);
-		ImageButton returnButton = (ImageButton)_view.findViewById(R.id.return_button);
-		returnButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				onActivityBackPressed();
-			}
-		});
 		return _view;
 	}
 

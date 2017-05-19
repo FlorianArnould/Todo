@@ -19,10 +19,10 @@ import fr.socket.flo.todo.view.fragments.adapters.SortableAdapter;
  * @version 1.0
  */
 public abstract class MainActivityFragment extends ListFragment {
-	private final String _sort_preference_key;
+	private final String _sortPreferenceKey;
 
-	public MainActivityFragment(String sort_preference_key){
-		_sort_preference_key = sort_preference_key;
+	public MainActivityFragment(String sortPreferenceKey) {
+		_sortPreferenceKey = sortPreferenceKey;
 	}
 
 	protected MainActivity getMainActivity() {
@@ -41,13 +41,13 @@ public abstract class MainActivityFragment extends ListFragment {
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		MainActivity activity = getMainActivity();
 		final SharedPreferences pref = activity.getSharedPreferences(getString(R.string.preferences_name_key), Context.MODE_PRIVATE);
-		String sort = pref.getString(_sort_preference_key, Sorter.SortingWay.BY_NAME.name());
+		String sort = pref.getString(_sortPreferenceKey, Sorter.SortingWay.BY_NAME.name());
 		Sorter.SortingWay sortingWay = Sorter.SortingWay.valueOf(sort);
 		activity.setSortWay(sortingWay);
 		activity.setOnSortChangedListener(new OnSortChangedListener() {
 			@Override
 			public void onSortChangedListener(Sorter.SortingWay way) {
-				pref.edit().putString(_sort_preference_key, way.name()).apply();
+				pref.edit().putString(_sortPreferenceKey, way.name()).apply();
 				SortableAdapter adapter = (SortableAdapter)getListAdapter();
 				adapter.changeSortingWay(way);
 			}

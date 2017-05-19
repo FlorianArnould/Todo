@@ -29,7 +29,6 @@ public class NameableFilter extends Filter {
 		if (constraint != null && constraint.length() > 0) {
 			Collection<Nameable> tempList = new ArrayList<>();
 			for (Nameable nameable : _objects) {
-				// TODO: 13/05/17 change to use Pattern java
 				if (nameable.getName().toLowerCase().contains(constraint.toString().toLowerCase())) {
 					tempList.add(nameable);
 				}
