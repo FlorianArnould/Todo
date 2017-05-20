@@ -19,15 +19,16 @@ import fr.socket.flo.todo.database.DataManager;
  */
 abstract class Work extends Savable implements Nameable, Sortable<Work> {
 	public static final int NONE = -1;
+	private final SimpleDateFormat _dateFormat;
 	private int _id;
 	private String _name;
 	private int _color;
 	private Date _deadline;
 	private int _priority;
-	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-mm-yyyy HH:mm:ss", Locale.FRENCH);
 
-	Work(Cursor cursor){
+	Work(Cursor cursor) {
 		super(cursor);
+		_dateFormat = new SimpleDateFormat("dd-mm-yyyy HH:mm:ss", Locale.FRENCH);
 	}
 
 	Work(int id, String name, @ColorInt int color, @Nullable Date deadline, int priority) {
@@ -36,6 +37,17 @@ abstract class Work extends Savable implements Nameable, Sortable<Work> {
 		_color = color;
 		_deadline = deadline;
 		_priority = priority;
+		_dateFormat = new SimpleDateFormat("dd-mm-yyyy HH:mm:ss", Locale.FRENCH);
+	}
+
+	protected static Collection<String> getColumns() {
+		Collection<String> columns = Savable.getColumns();
+		columns.add("id");
+		columns.add("name");
+		columns.add("color");
+		columns.add("deadline");
+		columns.add("priority");
+		return columns;
 	}
 
 	@Override
@@ -113,23 +125,13 @@ abstract class Work extends Savable implements Nameable, Sortable<Work> {
 		return index;
 	}
 
-	protected static Collection<String> getColumns(){
-		Collection<String> columns = Savable.getColumns();
-		columns.add("id");
-		columns.add("name");
-		columns.add("color");
-		columns.add("deadline");
-		columns.add("priority");
-		return columns;
-	}
-
 	@Override
 	public ContentValues toContentValues() {
 		ContentValues values = super.toContentValues();
 		values.put("name", _name);
 		values.put("color", _color);
 		if (_deadline != null) {
-			values.put("deadline", DATE_FORMAT.format(_deadline));
+			values.put("deadline", _dateFormat.format(_deadline));
 		} else {
 			values.putNull("deadline");
 		}
@@ -137,14 +139,14 @@ abstract class Work extends Savable implements Nameable, Sortable<Work> {
 		return values;
 	}
 
-	private Date stringToDate(String string) {
-		Date date;
-		try {
-			date = DATE_FORMAT.parse(string);
-		} catch (Exception e) {
-			Log.d("Parse sql string", "Date wasn't parse");
-			date = null;
+	private Date stringToDate(@Nullable String string) {
+		if (string != null && !string.isEmpty()) {
+			try {
+				return _dateFormat.parse(string);
+			} catch (Exception e) {
+				Log.w("Parse sql string", "Date wasn't parse", e);
+			}
 		}
-		return date;
+		return null;
 	}
 }

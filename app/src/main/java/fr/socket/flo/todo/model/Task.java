@@ -20,10 +20,11 @@ import fr.socket.flo.todo.view.drawable.ColorGenerator;
 public class Task extends Work {
 	public enum State {WAITING, IN_PROGRESS, COMPLETED}
 
+	public static final String TABLE_NAME = "tasks";
 	private int _projectId;
 	private State _state;
 
-	public Task(Cursor cursor){
+	public Task(Cursor cursor) {
 		super(cursor);
 	}
 
@@ -36,6 +37,13 @@ public class Task extends Work {
 	public static void newTask(int projectId, String name) {
 		Task task = new Task(NONE, projectId, name, ColorGenerator.randomColor(), null, 0, State.WAITING);
 		DataManager.getInstance().save(task);
+	}
+
+	public static Collection<String> getColumns() {
+		Collection<String> columns = Work.getColumns();
+		columns.add("project_id");
+		columns.add("state");
+		return columns;
 	}
 
 	public int getProjectId() {
@@ -67,13 +75,6 @@ public class Task extends Work {
 		return index;
 	}
 
-	public static Collection<String> getColumns(){
-		Collection<String> columns = Work.getColumns();
-		columns.add("project_id");
-		columns.add("state");
-		return columns;
-	}
-
 	@Override
 	public ContentValues toContentValues() {
 		ContentValues values = super.toContentValues();
@@ -84,10 +85,6 @@ public class Task extends Work {
 
 	@Override
 	public String getTable() {
-		return getDatabaseTable();
-	}
-
-	public static String getDatabaseTable(){
-		return "tasks";
+		return TABLE_NAME;
 	}
 }

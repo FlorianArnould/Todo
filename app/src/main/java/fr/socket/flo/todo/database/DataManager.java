@@ -40,7 +40,7 @@ public class DataManager {
 		Collection<String> collection = Project.getColumns();
 		String[] columns = collection.toArray(new String[collection.size()]);
 		ObjectLoaderParameter<Project> parameter = new ObjectLoaderParameter<Project>(
-				Project.getDatabaseTable(),
+				Project.TABLE_NAME,
 				columns,
 				"is_favorite=1",
 				null) {
@@ -58,7 +58,7 @@ public class DataManager {
 		Collection<String> collection = Project.getColumns();
 		String[] columns = collection.toArray(new String[collection.size()]);
 		ObjectLoaderParameter<Project> parameter = new ObjectLoaderParameter<Project>(
-				Project.getDatabaseTable(),
+				Project.TABLE_NAME,
 				columns,
 				null,
 				null) {
@@ -76,7 +76,7 @@ public class DataManager {
 		Collection<String> collection = Project.getColumns();
 		String[] columns = collection.toArray(new String[collection.size()]);
 		ObjectLoaderParameter<Project> parameter = new ObjectLoaderParameter<Project>(
-				Project.getDatabaseTable(),
+				Project.TABLE_NAME,
 				columns,
 				"id=?",
 				new String[]{String.valueOf(projectId)}) {
@@ -94,7 +94,7 @@ public class DataManager {
 		Collection<String> collection = Task.getColumns();
 		String[] columns = collection.toArray(new String[collection.size()]);
 		ObjectLoaderParameter<Task> parameter = new ObjectLoaderParameter<Task>(
-				Task.getDatabaseTable(),
+				Task.TABLE_NAME,
 				columns,
 				"project_id=?",
 				new String[]{String.valueOf(projectId)}) {
@@ -110,7 +110,7 @@ public class DataManager {
 		Collection<String> collection = Task.getColumns();
 		String[] columns = collection.toArray(new String[collection.size()]);
 		ObjectLoaderParameter<Task> parameter = new ObjectLoaderParameter<Task>(
-				Task.getDatabaseTable(),
+				Task.TABLE_NAME,
 				columns,
 				"id=?",
 				new String[]{String.valueOf(taskId)}) {
@@ -124,7 +124,7 @@ public class DataManager {
 
 	public void save(Savable savable) {
 
-		Saver saver = new Saver(_dbOpenHelper.getWritableDatabase(), savable.getTable(), savable.toContentValues(), getOnDataChangedListener());
+		Saver saver = new Inserter(_dbOpenHelper.getWritableDatabase(), savable.getTable(), savable.toContentValues(), getOnDataChangedListener());
 		saver.execute();
 	}
 

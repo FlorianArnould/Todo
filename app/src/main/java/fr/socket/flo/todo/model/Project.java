@@ -16,10 +16,11 @@ import fr.socket.flo.todo.view.drawable.ColorGenerator;
  * @version 1.0
  */
 public class Project extends Work {
+	public static final String TABLE_NAME = "projects";
 	private int _currentTaskId;
 	private boolean _isFavorite;
 
-	public Project(Cursor cursor){
+	public Project(Cursor cursor) {
 		super(cursor);
 	}
 
@@ -34,6 +35,12 @@ public class Project extends Work {
 		DataManager.getInstance().save(project);
 	}
 
+	public static Collection<String> getColumns() {
+		Collection<String> columns = Work.getColumns();
+		columns.add("is_favorite");
+		return columns;
+	}
+
 	public double getProgress() {
 		// TODO: 13/05/17 return the real value
 		return 0.5;
@@ -41,6 +48,10 @@ public class Project extends Work {
 
 	public int getCurrentTaskId() {
 		return _currentTaskId;
+	}
+
+	public void setCurrentTaskId(int taskId) {
+		_currentTaskId = taskId;
 	}
 
 	public boolean hasCurrentTask() {
@@ -63,12 +74,6 @@ public class Project extends Work {
 		return index;
 	}
 
-	public static Collection<String> getColumns(){
-		Collection<String> columns = Work.getColumns();
-		columns.add("is_favorite");
-		return columns;
-	}
-
 	@Override
 	public ContentValues toContentValues() {
 		ContentValues values = super.toContentValues();
@@ -76,15 +81,8 @@ public class Project extends Work {
 		return values;
 	}
 
-	public static String getDatabaseTable(){
-		return "projects";
-	}
-
+	@Override
 	public String getTable() {
-		return getDatabaseTable();
-	}
-
-	public void setCurrentTaskId(int taskId){
-		_currentTaskId = taskId;
+		return TABLE_NAME;
 	}
 }

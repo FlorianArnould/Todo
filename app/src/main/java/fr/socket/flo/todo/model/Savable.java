@@ -15,7 +15,7 @@ public abstract class Savable {
 	Savable() {
 	}
 
-	Savable(Cursor cursor){
+	Savable(Cursor cursor) {
 		fromCursor(cursor);
 	}
 
