@@ -110,7 +110,7 @@ public class MainActivity extends SearchActivity
 			public void onObjectsLoaded(List<Project> objects) {
 				for (Project project : objects) {
 					@ColorInt int color = project.getColor();
-					final Drawable icon = new ProgressTextDrawable(project.getName().substring(0, 1), ColorGenerator.darkerColor(color), color, project.getProgress());
+					final Drawable icon = new ProgressTextDrawable(project.getName().substring(0, 1), ColorGenerator.darkerColor(color), color, project.getCompleteProgress());
 					menu.add(DrawerGroup.PROJECTS.ordinal(), project.getId(), Menu.NONE, project.getName()).setIcon(icon);
 				}
 			}
@@ -136,23 +136,23 @@ public class MainActivity extends SearchActivity
 				break;
 			case R.id.sort_by_name:
 				item.setChecked(true);
-				callSortListener(Sorter.SortingWay.BY_NAME);
+				callSortListener(Sorter.Sort.BY_NAME);
 				break;
 			case R.id.sort_by_deadline:
 				item.setChecked(true);
-				callSortListener(Sorter.SortingWay.BY_DEADLINE);
+				callSortListener(Sorter.Sort.BY_DEADLINE);
 				break;
 			case R.id.sort_by_priority:
 				item.setChecked(true);
-				callSortListener(Sorter.SortingWay.BY_PRIORITY);
+				callSortListener(Sorter.Sort.BY_PRIORITY);
 				break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void callSortListener(Sorter.SortingWay way) {
+	private void callSortListener(Sorter.Sort sort) {
 		if (_sortListener != null) {
-			_sortListener.onSortChangedListener(way);
+			_sortListener.onSortChangedListener(sort);
 		}
 	}
 
@@ -215,9 +215,9 @@ public class MainActivity extends SearchActivity
 		_sortListener = listener;
 	}
 
-	public void setSortWay(Sorter.SortingWay way) {
+	public void setSortWay(Sorter.Sort sort) {
 		@IdRes int itemId;
-		switch (way) {
+		switch (sort) {
 			case BY_DEADLINE:
 				itemId = R.id.sort_by_deadline;
 				break;

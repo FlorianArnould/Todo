@@ -35,8 +35,8 @@ public class TasksAdapter extends SortableAdapter implements Filterable {
 	private List<Task> _filteredTasks;
 	private Filter _filter;
 
-	public TasksAdapter(Context context, int projectId, Sorter.SortingWay sortingWay) {
-		super(sortingWay);
+	public TasksAdapter(Context context, int projectId, Sorter.Sort sort) {
+		super(sort);
 		_context = context;
 		_projectId = projectId;
 		_tasks = new ArrayList<>();

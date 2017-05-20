@@ -61,8 +61,8 @@ public class ProjectFragment extends MainActivityFragment {
 		_projectId = getArguments().getInt(PROJECT_ID_KEY);
 		final Activity activity = getActivity();
 		final SharedPreferences pref = activity.getSharedPreferences(getString(R.string.preferences_name_key), Context.MODE_PRIVATE);
-		String sort = pref.getString(SORT_PREFERENCES_KEY, Sorter.SortingWay.BY_NAME.name());
-		Sorter.SortingWay sortingWay = Sorter.SortingWay.valueOf(sort);
+		String sort = pref.getString(SORT_PREFERENCES_KEY, Sorter.Sort.BY_NAME.name());
+		Sorter.Sort sortingWay = Sorter.Sort.valueOf(sort);
 		setListAdapter(new TasksAdapter(getContext(), _projectId, sortingWay));
 
 		DataManager.getInstance().getProjectById(_projectId, new OnObjectLoadedListener<Project>() {
@@ -125,8 +125,8 @@ public class ProjectFragment extends MainActivityFragment {
 		inProgress.setMax(PROGRESS_MAX);
 		waiting.setMax(PROGRESS_MAX);
 		ObjectAnimator waitingAnimator = initializeAnimation(waiting, 1, 400);
-		ObjectAnimator inProgressAnimator = initializeAnimation(inProgress, 0.7, 600);
-		ObjectAnimator completeAnimator = initializeAnimation(complete, project.getProgress(), 800);
+		ObjectAnimator inProgressAnimator = initializeAnimation(inProgress, project.getInProgress(), 600);
+		ObjectAnimator completeAnimator = initializeAnimation(complete, project.getCompleteProgress(), 800);
 		waitingAnimator.start();
 		inProgressAnimator.start();
 		completeAnimator.start();

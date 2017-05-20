@@ -39,8 +39,8 @@ public class ProjectsAdapter extends SortableAdapter implements Filterable {
 	private List<Project> _filteredProjects;
 	private Filter _filter;
 
-	public ProjectsAdapter(Context context, Sorter.SortingWay sortingWay) {
-		super(sortingWay);
+	public ProjectsAdapter(Context context, Sorter.Sort sort) {
+		super(sort);
 		_context = context;
 		_projects = new ArrayList<>();
 		_filteredProjects = _projects;
@@ -84,7 +84,7 @@ public class ProjectsAdapter extends SortableAdapter implements Filterable {
 		@ColorInt final int color = project.getColor();
 
 		ImageView iconView = (ImageView)view.findViewById(R.id.icon);
-		final Drawable icon = new ProgressTextDrawable(projectName.substring(0, 1), ColorGenerator.darkerColor(color), color, project.getProgress());
+		final Drawable icon = new ProgressTextDrawable(projectName.substring(0, 1), ColorGenerator.darkerColor(color), color, project.getCompleteProgress());
 		iconView.setImageDrawable(icon);
 
 		TextView nameView = (TextView)view.findViewById(R.id.name);

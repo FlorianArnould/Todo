@@ -7,5 +7,5 @@ import fr.socket.flo.todo.model.Sorter;
  * @version 1.0
  */
 public interface OnSortChangedListener {
-	void onSortChangedListener(Sorter.SortingWay way);
+	void onSortChangedListener(Sorter.Sort sort);
 }

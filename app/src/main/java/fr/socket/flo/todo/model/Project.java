@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 
@@ -19,15 +20,19 @@ public class Project extends Work {
 	public static final String TABLE_NAME = "projects";
 	private int _currentTaskId;
 	private boolean _isFavorite;
+	private int[] _numberOfTasks;
+	private int _totalOfTasks;
 
 	public Project(Cursor cursor) {
 		super(cursor);
+		_numberOfTasks = new int[3];
 	}
 
 	private Project(int id, String name, @ColorInt int color, @Nullable Date deadline, int priority, int currentTaskId, boolean isFavorite) {
 		super(id, name, color, deadline, priority);
 		_currentTaskId = currentTaskId;
 		_isFavorite = isFavorite;
+		_numberOfTasks = new int[3];
 	}
 
 	public static void newProject(String name) {
@@ -41,9 +46,12 @@ public class Project extends Work {
 		return columns;
 	}
 
-	public double getProgress() {
-		// TODO: 13/05/17 return the real value
-		return 0.5;
+	public double getCompleteProgress() {
+		return ((double)_numberOfTasks[Task.State.COMPLETED.ordinal()])/_totalOfTasks;
+	}
+
+	public double getInProgress(){
+		return ((double)_numberOfTasks[Task.State.COMPLETED.ordinal()] + _numberOfTasks[Task.State.IN_PROGRESS.ordinal()])/_totalOfTasks;
 	}
 
 	public int getCurrentTaskId() {
@@ -84,5 +92,13 @@ public class Project extends Work {
 	@Override
 	public String getTable() {
 		return TABLE_NAME;
+	}
+
+	public void setNumberOfTasks(Task.State state, int number){
+		_numberOfTasks[state.ordinal()] = number;
+		_totalOfTasks = 0;
+		for (int _numberOfTask : _numberOfTasks) {
+			_totalOfTasks += _numberOfTask;
+		}
 	}
 }

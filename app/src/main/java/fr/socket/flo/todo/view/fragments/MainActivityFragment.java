@@ -43,15 +43,15 @@ public abstract class MainActivityFragment extends ListFragment {
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		MainActivity activity = getMainActivity();
 		final SharedPreferences pref = activity.getSharedPreferences(getString(R.string.preferences_name_key), Context.MODE_PRIVATE);
-		String sort = pref.getString(_sortPreferenceKey, Sorter.SortingWay.BY_NAME.name());
-		Sorter.SortingWay sortingWay = Sorter.SortingWay.valueOf(sort);
+		String sort = pref.getString(_sortPreferenceKey, Sorter.Sort.BY_NAME.name());
+		Sorter.Sort sortingWay = Sorter.Sort.valueOf(sort);
 		activity.setSortWay(sortingWay);
 		activity.setOnSortChangedListener(new OnSortChangedListener() {
 			@Override
-			public void onSortChangedListener(Sorter.SortingWay way) {
-				pref.edit().putString(_sortPreferenceKey, way.name()).apply();
+			public void onSortChangedListener(Sorter.Sort sort) {
+				pref.edit().putString(_sortPreferenceKey, sort.name()).apply();
 				SortableAdapter adapter = (SortableAdapter)getListAdapter();
-				adapter.changeSortingWay(way);
+				adapter.changeSortingWay(sort);
 			}
 		});
 	}

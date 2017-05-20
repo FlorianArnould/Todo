@@ -9,13 +9,13 @@ import java.util.List;
  * @version 1.0
  */
 public class Sorter {
-	public enum SortingWay {BY_NAME, BY_DEADLINE, BY_PRIORITY}
+	public enum Sort {BY_NAME, BY_DEADLINE, BY_PRIORITY}
 
 	private Sorter() {
 	}
 
-	public static void sortByWay(SortingWay way, List<? extends Sortable> list) {
-		switch (way) {
+	public static void sortByWay(Sort sort, List<? extends Sortable> list) {
+		switch (sort) {
 			case BY_NAME:
 				sortByName(list);
 				break;

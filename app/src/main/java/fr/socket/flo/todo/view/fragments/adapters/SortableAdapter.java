@@ -12,18 +12,18 @@ import fr.socket.flo.todo.model.Sorter;
  * @version 1.0
  */
 public abstract class SortableAdapter extends BaseAdapter {
-	private Sorter.SortingWay _sortingWay;
+	private Sorter.Sort _sort;
 
-	SortableAdapter(Sorter.SortingWay sortingWay) {
-		_sortingWay = sortingWay;
+	SortableAdapter(Sorter.Sort sort) {
+		_sort = sort;
 	}
 
-	public void changeSortingWay(Sorter.SortingWay sortingWay) {
-		_sortingWay = sortingWay;
+	public void changeSortingWay(Sorter.Sort sort) {
+		_sort = sort;
 		notifyDataSetChanged();
 	}
 
 	protected void sort(List<? extends Sortable> sortables) {
-		Sorter.sortByWay(_sortingWay, sortables);
+		Sorter.sortByWay(_sort, sortables);
 	}
 }

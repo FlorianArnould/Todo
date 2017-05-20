@@ -45,8 +45,8 @@ public class AllProjectsFragment extends MainActivityFragment {
 		Activity activity = getActivity();
 		activity.setTitle(R.string.project_title);
 		final SharedPreferences pref = activity.getSharedPreferences(getString(R.string.preferences_name_key), Context.MODE_PRIVATE);
-		String sort = pref.getString(SORT_PREFERENCES_KEY, Sorter.SortingWay.BY_NAME.name());
-		Sorter.SortingWay sortingWay = Sorter.SortingWay.valueOf(sort);
+		String sort = pref.getString(SORT_PREFERENCES_KEY, Sorter.Sort.BY_NAME.name());
+		Sorter.Sort sortingWay = Sorter.Sort.valueOf(sort);
 		setListAdapter(new ProjectsAdapter(getContext(), sortingWay));
 	}
 

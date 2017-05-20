@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
  * @author Florian Arnould
  * @version 1.0
  */
-
 abstract class Saver extends AsyncTask<Void, Void, Void> {
 	private final OnDataChangedListener _listener;
 
