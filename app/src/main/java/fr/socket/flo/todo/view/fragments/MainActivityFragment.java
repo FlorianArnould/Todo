@@ -23,7 +23,7 @@ import fr.socket.flo.todo.view.fragments.adapters.SortableAdapter;
 public abstract class MainActivityFragment extends ListFragment {
 	private final String _sortPreferenceKey;
 
-	public MainActivityFragment(String sortPreferenceKey) {
+	MainActivityFragment(String sortPreferenceKey) {
 		_sortPreferenceKey = sortPreferenceKey;
 	}
 

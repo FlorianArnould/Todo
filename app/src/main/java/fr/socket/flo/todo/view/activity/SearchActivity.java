@@ -84,7 +84,7 @@ abstract class SearchActivity extends AppCompatActivity {
 		int width = myView.getWidth();
 		// TODO: 14/05/17 find a way to avoid the use of these dimens resources
 		if (posFromRight > 0) {
-			width -= (posFromRight * getResources().getDimensionPixelSize(R.dimen.abc_action_button_min_width_material)) - (getResources().getDimensionPixelSize(R.dimen.abc_action_button_min_width_material) / 2);
+			width -= (posFromRight * getResources().getDimensionPixelSize(R.dimen.abc_action_button_min_material)) - (getResources().getDimensionPixelSize(R.dimen.abc_action_button_min_material) / 2);
 		}
 		int cx = width;
 		int cy = myView.getHeight() / 2;

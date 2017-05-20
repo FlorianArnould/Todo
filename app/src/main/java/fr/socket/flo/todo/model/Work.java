@@ -53,7 +53,7 @@ abstract class Work implements Nameable, Sortable<Work> {
 		return _deadline;
 	}
 
-	public String getDeadlineAsString() {
+	public CharSequence getDeadlineAsString() {
 		if (_deadline == null) {
 			return "";
 		} else {

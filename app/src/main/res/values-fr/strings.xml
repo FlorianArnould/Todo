@@ -6,7 +6,6 @@
     <string name="project_title">Projets</string>
     <string name="project_name">Nom du projet</string>
     <string name="new_project">Nouveau projet</string>
-    <string name="current_tasks">Tâches en cours</string>
     <string name="task_name">Nom de la Tâche</string>
     <string name="new_task">Nouvelle tâche</string>
     <string name="new_project_created">Nouveau projet crée</string>

@@ -10,7 +10,6 @@
     <string name="todo_comment" translatable="false">TODO so many things</string>
     <string name="favorites">Favorites</string>
     <string name="project_icon_description" translatable="false">The icon of the project</string>
-    <string name="task_icon_description" translatable="false">The icon of the task</string>
     <string name="priority_label_description" translatable="false">The label of the priority</string>
     <string name="project_name">Project name</string>
     <string name="new_project">New project</string>
@@ -19,7 +18,6 @@
     <string name="task_name">Task name</string>
     <string name="new_task">New task</string>
     <string name="new_task_created">New task created</string>
-    <string name="current_tasks">Current Tasks</string>
     <string name="no_current_task">No current task</string>
     <string name="waiting">Waiting</string>
     <string name="in_progress">In Progress</string>

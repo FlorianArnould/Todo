@@ -5,7 +5,6 @@
     <color name="colorAccent">#cc7832</color>
     <color name="todoColor">#a8c023</color>
     <color name="colorTextPrimary">#FFFFFF</color>
-    <color name="colorTextDisable">#66FFFFFF</color>
 
     <color name="complete">#64dd17</color>
     <color name="inProgress">#f57f17</color>
