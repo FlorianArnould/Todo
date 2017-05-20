@@ -26,11 +26,11 @@ class MultipleObjectsLoader<E> extends AsyncTask<Void, Void, Void> {
 
 	@Override
 	protected Void doInBackground(Void... params) {
-		Cursor c = _db.rawQuery(_parameter.getQuery(), null);
-		while (c.moveToNext()) {
-			_list.add(_parameter.createInstance(c));
+		Cursor cursor = _db.query(_parameter.getTable(), _parameter.getColumns(), _parameter.getSelection(), _parameter.getSelectionArgs(), null, null, null);
+		while (cursor.moveToNext()) {
+			_list.add(_parameter.createInstance(cursor));
 		}
-		c.close();
+		cursor.close();
 		return null;
 	}
 

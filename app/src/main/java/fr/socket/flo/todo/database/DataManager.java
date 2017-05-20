@@ -1,18 +1,15 @@
 package fr.socket.flo.todo.database;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 import android.util.SparseArray;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import java.util.Collection;
 
 import fr.socket.flo.todo.model.Project;
+import fr.socket.flo.todo.model.Savable;
 import fr.socket.flo.todo.model.Task;
 
 /**
@@ -20,15 +17,12 @@ import fr.socket.flo.todo.model.Task;
  * @version 1.0
  */
 public class DataManager {
-	// TODO: 14/05/17 Refactor queries
 	private static DataManager _dataManager;
 	private final SparseArray<OnDataChangedListener> _listeners;
-	private final SimpleDateFormat _dateFormat;
 	private SQLiteOpenHelper _dbOpenHelper;
 
 	private DataManager() {
 		_listeners = new SparseArray<>();
-		_dateFormat = new SimpleDateFormat("dd-mm-yyyy HH:mm:ss", Locale.FRENCH);
 	}
 
 	public static DataManager getInstance() {
@@ -43,120 +37,99 @@ public class DataManager {
 	}
 
 	public void getFavorites(OnMultipleObjectsLoadedListener<Project> listener) {
-		String query = "SELECT id, name, color, deadline, priority, is_favorite FROM projects " +
-				"WHERE is_favorite=1";
-		ObjectLoaderParameter<Project> parameter = new ObjectLoaderParameter<Project>(query) {
+		Collection<String> collection = Project.getColumns();
+		String[] columns = collection.toArray(new String[collection.size()]);
+		ObjectLoaderParameter<Project> parameter = new ObjectLoaderParameter<Project>(
+				Project.getDatabaseTable(),
+				columns,
+				"is_favorite=1",
+				null) {
 			@Override
-			Project createInstance(Cursor c) {
-				return new Project(c.getInt(0), c.getString(1), c.getInt(2), stringToDate(c.getString(3)), c.getInt(4), getCurrentTask(c.getInt(0)), c.getInt(5) == 1);
+			Project createInstance(Cursor cursor) {
+				Project project = new Project(cursor);
+				project.setCurrentTaskId(getCurrentTask(project.getId()));
+				return project;
 			}
 		};
 		new MultipleObjectsLoader<>(_dbOpenHelper.getWritableDatabase(), parameter, listener).execute();
 	}
 
 	public void getAllProjects(OnMultipleObjectsLoadedListener<Project> listener) {
-		String query = "SELECT id, name, color, deadline, priority, is_favorite FROM projects";
-		ObjectLoaderParameter<Project> parameter = new ObjectLoaderParameter<Project>(query) {
+		Collection<String> collection = Project.getColumns();
+		String[] columns = collection.toArray(new String[collection.size()]);
+		ObjectLoaderParameter<Project> parameter = new ObjectLoaderParameter<Project>(
+				Project.getDatabaseTable(),
+				columns,
+				null,
+				null) {
 			@Override
-			Project createInstance(Cursor c) {
-				return new Project(c.getInt(0), c.getString(1), c.getInt(2), stringToDate(c.getString(3)), c.getInt(4), getCurrentTask(c.getInt(0)), c.getInt(5) == 1);
-			}
-		};
-		new MultipleObjectsLoader<>(_dbOpenHelper.getWritableDatabase(), parameter, listener).execute();
-	}
-
-	public void getTasksByProjectId(int projectId, OnMultipleObjectsLoadedListener<Task> listener) {
-		String query = "SELECT id, project_id, name, color, deadline, priority, state FROM tasks WHERE project_id='" + projectId + "'";
-		ObjectLoaderParameter<Task> parameter = new ObjectLoaderParameter<Task>(query) {
-			@Override
-			Task createInstance(Cursor c) {
-				return new Task(c.getInt(0), c.getInt(1), c.getString(2), c.getInt(3), stringToDate(c.getString(4)), c.getInt(5), Task.State.valueOf(c.getString(6)));
+			Project createInstance(Cursor cursor) {
+				Project project = new Project(cursor);
+				project.setCurrentTaskId(getCurrentTask(project.getId()));
+				return project;
 			}
 		};
 		new MultipleObjectsLoader<>(_dbOpenHelper.getWritableDatabase(), parameter, listener).execute();
 	}
 
 	public void getProjectById(int projectId, OnObjectLoadedListener<Project> listener) {
-		String query = "SELECT id, name, color, deadline, priority, is_favorite FROM projects " +
-				"WHERE id='" + projectId + "'";
-		ObjectLoaderParameter<Project> parameter = new ObjectLoaderParameter<Project>(query) {
+		Collection<String> collection = Project.getColumns();
+		String[] columns = collection.toArray(new String[collection.size()]);
+		ObjectLoaderParameter<Project> parameter = new ObjectLoaderParameter<Project>(
+				Project.getDatabaseTable(),
+				columns,
+				"id=?",
+				new String[]{String.valueOf(projectId)}) {
 			@Override
-			Project createInstance(Cursor c) {
-				return new Project(c.getInt(0), c.getString(1), c.getInt(2), stringToDate(c.getString(3)), c.getInt(4), getCurrentTask(c.getInt(0)), c.getInt(5) == 1);
+			Project createInstance(Cursor cursor) {
+				Project project = new Project(cursor);
+				project.setCurrentTaskId(getCurrentTask(project.getId()));
+				return project;
 			}
 		};
 		new ObjectLoader<>(_dbOpenHelper.getWritableDatabase(), parameter, listener).execute();
+	}
+
+	public void getTasksByProjectId(int projectId, OnMultipleObjectsLoadedListener<Task> listener) {
+		Collection<String> collection = Task.getColumns();
+		String[] columns = collection.toArray(new String[collection.size()]);
+		ObjectLoaderParameter<Task> parameter = new ObjectLoaderParameter<Task>(
+				Task.getDatabaseTable(),
+				columns,
+				"project_id=?",
+				new String[]{String.valueOf(projectId)}) {
+			@Override
+			Task createInstance(Cursor cursor) {
+				return new Task(cursor);
+			}
+		};
+		new MultipleObjectsLoader<>(_dbOpenHelper.getWritableDatabase(), parameter, listener).execute();
 	}
 
 	public void getTaskById(int taskId, OnObjectLoadedListener<Task> listener) {
-		String query = "SELECT id, project_id, name, color, deadline, priority, state FROM tasks WHERE id='" + taskId + "'";
-		ObjectLoaderParameter<Task> parameter = new ObjectLoaderParameter<Task>(query) {
+		Collection<String> collection = Task.getColumns();
+		String[] columns = collection.toArray(new String[collection.size()]);
+		ObjectLoaderParameter<Task> parameter = new ObjectLoaderParameter<Task>(
+				Task.getDatabaseTable(),
+				columns,
+				"id=?",
+				new String[]{String.valueOf(taskId)}) {
 			@Override
-			Task createInstance(Cursor c) {
-				return new Task(c.getInt(0), c.getInt(1), c.getString(2), c.getInt(3), stringToDate(c.getString(4)), c.getInt(5), Task.State.valueOf(c.getString(6)));
+			Task createInstance(Cursor cursor) {
+				return new Task(cursor);
 			}
 		};
 		new ObjectLoader<>(_dbOpenHelper.getWritableDatabase(), parameter, listener).execute();
 	}
 
-	public void save(Project project) {
-		ContentValues values = new ContentValues();
-		values.put("name", project.getName());
-		values.put("color", project.getColor());
-		if (project.hasDeadline()) {
-			values.put("deadline", _dateFormat.format(project.getDeadline()));
-		} else {
-			values.putNull("deadline");
-		}
-		values.put("priority", project.getPriority());
-		values.put("is_favorite", project.isFavorite());
-		Saver saver = new Saver(_dbOpenHelper.getWritableDatabase(), "projects", values, getOnDataChangedListener());
+	public void save(Savable savable) {
+
+		Saver saver = new Saver(_dbOpenHelper.getWritableDatabase(), savable.getTable(), savable.toContentValues(), getOnDataChangedListener());
 		saver.execute();
 	}
 
-	public void save(Task task) {
-		ContentValues values = new ContentValues();
-		values.put("project_id", task.getProjectId());
-		values.put("name", task.getName());
-		values.put("color", task.getColor());
-		if (task.hasDeadline()) {
-			values.put("deadline", _dateFormat.format(task.getDeadline()));
-		} else {
-			values.putNull("deadline");
-		}
-		values.put("priority", task.getPriority());
-		values.put("state", task.getState().name());
-		Saver saver = new Saver(_dbOpenHelper.getWritableDatabase(), "tasks", values, getOnDataChangedListener());
-		saver.execute();
-	}
-
-	public void update(Project project) {
-		ContentValues values = new ContentValues();
-		values.put("name", project.getName());
-		values.put("color", project.getColor());
-		if (project.hasDeadline()) {
-			values.put("deadline", _dateFormat.format(project.getDeadline()));
-		} else {
-			values.putNull("deadline");
-		}
-		values.put("priority", project.getPriority());
-		values.put("is_favorite", project.isFavorite());
-		Updater updater = new Updater(_dbOpenHelper.getWritableDatabase(), "projects", project.getId(), values, getOnDataChangedListener());
-		updater.execute();
-	}
-
-	public void update(Task task) {
-		ContentValues values = new ContentValues();
-		values.put("name", task.getName());
-		values.put("color", task.getColor());
-		if (task.hasDeadline()) {
-			values.put("deadline", _dateFormat.format(task.getDeadline()));
-		} else {
-			values.putNull("deadline");
-		}
-		values.put("priority", task.getPriority());
-		values.put("state", task.getState().name());
-		Updater updater = new Updater(_dbOpenHelper.getWritableDatabase(), "tasks", task.getId(), values, getOnDataChangedListener());
+	public void update(Savable savable) {
+		Updater updater = new Updater(_dbOpenHelper.getWritableDatabase(), savable.getTable(), savable.getId(), savable.toContentValues(), getOnDataChangedListener());
 		updater.execute();
 	}
 
@@ -203,16 +176,5 @@ public class DataManager {
 		}
 		cursor.close();
 		return taskId;
-	}
-
-	private Date stringToDate(String string) {
-		Date date;
-		try {
-			date = _dateFormat.parse(string);
-		} catch (Exception e) {
-			Log.d("Parse sql string", "Date wasn't parse");
-			date = null;
-		}
-		return date;
 	}
 }

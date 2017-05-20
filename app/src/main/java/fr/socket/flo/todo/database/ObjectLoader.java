@@ -22,11 +22,11 @@ class ObjectLoader<E> extends AsyncTask<Void, Void, Void> {
 
 	@Override
 	protected Void doInBackground(Void... params) {
-		Cursor c = _db.rawQuery(_parameter.getQuery(), null);
-		if (c.moveToNext()) {
-			_object = _parameter.createInstance(c);
+		Cursor cursor = _db.query(_parameter.getTable(), _parameter.getColumns(), _parameter.getSelection(), _parameter.getSelectionArgs(), null, null, null);
+		if (cursor.moveToNext()) {
+			_object = _parameter.createInstance(cursor);
 		}
-		c.close();
+		cursor.close();
 		return null;
 	}
 

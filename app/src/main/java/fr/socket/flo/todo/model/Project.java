@@ -1,8 +1,11 @@
 package fr.socket.flo.todo.model;
 
+import android.content.ContentValues;
+import android.database.Cursor;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 
+import java.util.Collection;
 import java.util.Date;
 
 import fr.socket.flo.todo.database.DataManager;
@@ -13,10 +16,14 @@ import fr.socket.flo.todo.view.drawable.ColorGenerator;
  * @version 1.0
  */
 public class Project extends Work {
-	private final int _currentTaskId;
+	private int _currentTaskId;
 	private boolean _isFavorite;
 
-	public Project(int id, String name, @ColorInt int color, @Nullable Date deadline, int priority, int currentTaskId, boolean isFavorite) {
+	public Project(Cursor cursor){
+		super(cursor);
+	}
+
+	private Project(int id, String name, @ColorInt int color, @Nullable Date deadline, int priority, int currentTaskId, boolean isFavorite) {
 		super(id, name, color, deadline, priority);
 		_currentTaskId = currentTaskId;
 		_isFavorite = isFavorite;
@@ -48,7 +55,36 @@ public class Project extends Work {
 		_isFavorite = isFavorite;
 	}
 
-	public void save() {
-		DataManager.getInstance().update(this);
+	@Override
+	protected int fromCursor(Cursor cursor) {
+		int index = super.fromCursor(cursor);
+		_currentTaskId = NONE;
+		_isFavorite = cursor.getInt(index) == 1;
+		return index;
+	}
+
+	public static Collection<String> getColumns(){
+		Collection<String> columns = Work.getColumns();
+		columns.add("is_favorite");
+		return columns;
+	}
+
+	@Override
+	public ContentValues toContentValues() {
+		ContentValues values = super.toContentValues();
+		values.put("is_favorite", isFavorite());
+		return values;
+	}
+
+	public static String getDatabaseTable(){
+		return "projects";
+	}
+
+	public String getTable() {
+		return getDatabaseTable();
+	}
+
+	public void setCurrentTaskId(int taskId){
+		_currentTaskId = taskId;
 	}
 }
