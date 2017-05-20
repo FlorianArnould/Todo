@@ -27,6 +27,7 @@ import fr.socket.flo.todo.database.OnDataChangedListener;
 import fr.socket.flo.todo.database.OnMultipleObjectsLoadedListener;
 import fr.socket.flo.todo.model.Project;
 import fr.socket.flo.todo.model.Sorter;
+import fr.socket.flo.todo.view.about.AboutActivity;
 import fr.socket.flo.todo.view.drawable.ColorGenerator;
 import fr.socket.flo.todo.view.drawable.ProgressTextDrawable;
 import fr.socket.flo.todo.view.fragments.AllProjectsFragment;
@@ -182,7 +183,7 @@ public class MainActivity extends SearchActivity
 				showSettings();
 				break;
 			case R.id.about:
-				// TODO: 18/05/17 create about activity to show here
+				showAbout();
 				break;
 			default:
 				Log.w("Drawer items", "A static item selected was not handle by the MainActivity");
@@ -191,6 +192,11 @@ public class MainActivity extends SearchActivity
 
 	private void showSettings() {
 		Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+		startActivity(intent);
+	}
+
+	private void showAbout(){
+		Intent intent = new Intent(MainActivity.this, AboutActivity.class);
 		startActivity(intent);
 	}
 

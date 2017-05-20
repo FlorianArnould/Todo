@@ -24,6 +24,10 @@
             android:name=".view.settings.SettingsActivity"
             android:label="@string/action_settings"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".view.about.AboutActivity"
+            android:label="@string/action_about"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
