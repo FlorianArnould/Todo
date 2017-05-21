@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.annotation.Nullable;
 import android.util.SparseArray;
 
 import java.util.Collection;
@@ -125,9 +126,16 @@ public class DataManager {
 		new ObjectLoader<>(_dbOpenHelper.getWritableDatabase(), parameter, listener).execute();
 	}
 
-	public void save(Savable savable) {
-
-		Saver saver = new Inserter(_dbOpenHelper.getWritableDatabase(), savable.getTable(), savable.toContentValues(), getOnDataChangedListener());
+	public void save(Savable savable, @Nullable final OnNewObjectCreatedListener listener) {
+		Saver saver = new Saver(_dbOpenHelper.getWritableDatabase(), savable.getTable(), savable.toContentValues(), new OnNewObjectCreatedListener() {
+			@Override
+			public void onNewObjectCreated(int objectId) {
+				getOnDataChangedListener().onDataChanged();
+				if(listener != null){
+					listener.onNewObjectCreated(objectId);
+				}
+			}
+		});
 		saver.execute();
 	}
 
@@ -181,10 +189,10 @@ public class DataManager {
 		return taskId;
 	}
 
-	private void setProjectTasks(Project project){
+	private void setProjectTasks(Project project) {
 		SQLiteDatabase db = _dbOpenHelper.getWritableDatabase();
 		Cursor cursor = db.query(Task.TABLE_NAME, new String[]{"state", "COUNT(state)"}, null, null, "state", null, null);
-		while (cursor.moveToNext()){
+		while (cursor.moveToNext()) {
 			project.setNumberOfTasks(Task.State.valueOf(cursor.getString(0)), cursor.getInt(1));
 		}
 		cursor.close();

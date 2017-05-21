@@ -26,6 +26,7 @@ import fr.socket.flo.todo.model.Sorter;
 import fr.socket.flo.todo.model.Task;
 import fr.socket.flo.todo.view.drawable.ColorGenerator;
 import fr.socket.flo.todo.view.drawable.ProgressTextDrawable;
+import fr.socket.flo.todo.view.drawable.TextDrawable;
 import fr.socket.flo.todo.view.fragments.filters.NameableFilter;
 import fr.socket.flo.todo.view.fragments.filters.OnNameableResultsPublishedListener;
 
@@ -86,6 +87,10 @@ public class ProjectsAdapter extends SortableAdapter implements Filterable {
 		ImageView iconView = (ImageView)view.findViewById(R.id.icon);
 		final Drawable icon = new ProgressTextDrawable(projectName.substring(0, 1), ColorGenerator.darkerColor(color), color, project.getCompleteProgress());
 		iconView.setImageDrawable(icon);
+
+		ImageView priorityView = (ImageView)view.findViewById(R.id.priority_label);
+		final Drawable priorityLabel = new TextDrawable(String.valueOf(project.getPriority()), ColorGenerator.priorityColor(project.getPriority()));
+		priorityView.setImageDrawable(priorityLabel);
 
 		TextView nameView = (TextView)view.findViewById(R.id.name);
 		nameView.setText(projectName);

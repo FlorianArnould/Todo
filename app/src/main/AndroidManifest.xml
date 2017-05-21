@@ -28,6 +28,9 @@
             android:name=".view.about.AboutActivity"
             android:label="@string/action_about"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".view.activity.EditProjectActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

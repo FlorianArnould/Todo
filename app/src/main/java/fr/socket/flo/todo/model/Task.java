@@ -11,6 +11,8 @@ import java.util.Date;
 
 import fr.socket.flo.todo.R;
 import fr.socket.flo.todo.database.DataManager;
+import fr.socket.flo.todo.database.OnDataChangedListener;
+import fr.socket.flo.todo.database.OnNewObjectCreatedListener;
 import fr.socket.flo.todo.view.drawable.ColorGenerator;
 
 /**
@@ -34,9 +36,9 @@ public class Task extends Work {
 		_state = state;
 	}
 
-	public static void newTask(int projectId, String name) {
+	public static void newTask(int projectId, String name, @Nullable OnNewObjectCreatedListener listener) {
 		Task task = new Task(NONE, projectId, name, ColorGenerator.randomColor(), null, 0, State.WAITING);
-		DataManager.getInstance().save(task);
+		DataManager.getInstance().save(task, listener);
 	}
 
 	public static Collection<String> getColumns() {

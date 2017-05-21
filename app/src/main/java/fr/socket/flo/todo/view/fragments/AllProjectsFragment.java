@@ -2,6 +2,7 @@ package fr.socket.flo.todo.view.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -13,8 +14,10 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import fr.socket.flo.todo.R;
+import fr.socket.flo.todo.database.OnNewObjectCreatedListener;
 import fr.socket.flo.todo.model.Project;
 import fr.socket.flo.todo.model.Sorter;
+import fr.socket.flo.todo.view.activity.EditProjectActivity;
 import fr.socket.flo.todo.view.dialog.DialogManager;
 import fr.socket.flo.todo.view.dialog.OnDialogFinishedListener;
 import fr.socket.flo.todo.view.fragments.adapters.ProjectsAdapter;
@@ -71,22 +74,26 @@ public class AllProjectsFragment extends MainActivityFragment {
 	@Override
 	public void onFloatingActionButtonClicked() {
 		DialogManager dialogManager = new DialogManager(getActivity());
-		dialogManager.showNewProjectDialog(new OnDialogFinishedListener() {
+		dialogManager.showNewProjectDialog(new OnNewObjectCreatedListener() {
 			@Override
-			public void onDialogFinished(boolean state) {
-				if (state) {
+			public void onNewObjectCreated(final int objectId) {
+				Snackbar snackbar;
+				if (objectId == -1) {
+					snackbar = Snackbar.make(getMainActivity().getRootView(), R.string.new_project_was_not_created, Snackbar.LENGTH_SHORT);
+				} else {
 					ProjectsAdapter adapter = (ProjectsAdapter)getListAdapter();
 					adapter.update();
-					Snackbar snackbar = Snackbar.make(getMainActivity().getRootView(), R.string.new_project_created, Snackbar.LENGTH_LONG);
+					snackbar = Snackbar.make(getMainActivity().getRootView(), R.string.new_project_created, Snackbar.LENGTH_LONG);
 					snackbar.setAction(R.string.configure, new View.OnClickListener() {
 						@Override
-						public void onClick(View v) {
-							// TODO: 13/05/17 Open the edit project fragment
-							Log.d("Snackbar", "action clicked");
+						public void onClick(View v){
+							Intent intent = new Intent(getContext(), EditProjectActivity.class);
+							intent.putExtra(EditProjectActivity.PROJECT_ID, objectId);
+							getContext().startActivity(intent);
 						}
 					});
-					snackbar.show();
 				}
+				snackbar.show();
 			}
 		});
 	}

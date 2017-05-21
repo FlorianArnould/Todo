@@ -11,7 +11,7 @@ import android.util.Log;
  * @version 1.0
  */
 class ProjectsSQLiteOpenHelper extends SQLiteOpenHelper {
-	private static final int VERSION = 5;
+	private static final int VERSION = 7;
 	private static final String DATABASE_NAME = "ProjectsDatabase.db";
 
 	ProjectsSQLiteOpenHelper(Context context) {

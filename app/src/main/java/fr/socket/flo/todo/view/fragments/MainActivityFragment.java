@@ -2,6 +2,7 @@ package fr.socket.flo.todo.view.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.CallSuper;
 import android.support.v4.app.ListFragment;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
@@ -40,6 +41,7 @@ public abstract class MainActivityFragment extends ListFragment {
 	}
 
 	@Override
+	@CallSuper
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		MainActivity activity = getMainActivity();
 		final SharedPreferences pref = activity.getSharedPreferences(getString(R.string.preferences_name_key), Context.MODE_PRIVATE);

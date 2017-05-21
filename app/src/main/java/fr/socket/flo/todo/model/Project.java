@@ -5,11 +5,11 @@ import android.database.Cursor;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 
 import fr.socket.flo.todo.database.DataManager;
+import fr.socket.flo.todo.database.OnNewObjectCreatedListener;
 import fr.socket.flo.todo.view.drawable.ColorGenerator;
 
 /**
@@ -35,9 +35,9 @@ public class Project extends Work {
 		_numberOfTasks = new int[3];
 	}
 
-	public static void newProject(String name) {
-		Project project = new Project(NONE, name, ColorGenerator.randomColor(), null, 0, NONE, false);
-		DataManager.getInstance().save(project);
+	public static void newProject(String name, @Nullable OnNewObjectCreatedListener listener) {
+		Project project = new Project(NONE, name, ColorGenerator.randomColor(), null, 1, NONE, false);
+		DataManager.getInstance().save(project, listener);
 	}
 
 	public static Collection<String> getColumns() {
@@ -47,11 +47,11 @@ public class Project extends Work {
 	}
 
 	public double getCompleteProgress() {
-		return ((double)_numberOfTasks[Task.State.COMPLETED.ordinal()])/_totalOfTasks;
+		return ((double)_numberOfTasks[Task.State.COMPLETED.ordinal()]) / _totalOfTasks;
 	}
 
-	public double getInProgress(){
-		return ((double)_numberOfTasks[Task.State.COMPLETED.ordinal()] + _numberOfTasks[Task.State.IN_PROGRESS.ordinal()])/_totalOfTasks;
+	public double getInProgress() {
+		return ((double)_numberOfTasks[Task.State.COMPLETED.ordinal()] + _numberOfTasks[Task.State.IN_PROGRESS.ordinal()]) / _totalOfTasks;
 	}
 
 	public int getCurrentTaskId() {
@@ -94,7 +94,7 @@ public class Project extends Work {
 		return TABLE_NAME;
 	}
 
-	public void setNumberOfTasks(Task.State state, int number){
+	public void setNumberOfTasks(Task.State state, int number) {
 		_numberOfTasks[state.ordinal()] = number;
 		_totalOfTasks = 0;
 		for (int _numberOfTask : _numberOfTasks) {

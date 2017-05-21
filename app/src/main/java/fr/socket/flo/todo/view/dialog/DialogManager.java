@@ -11,6 +11,8 @@ import android.view.WindowManager;
 import android.widget.EditText;
 
 import fr.socket.flo.todo.R;
+import fr.socket.flo.todo.database.OnDataChangedListener;
+import fr.socket.flo.todo.database.OnNewObjectCreatedListener;
 import fr.socket.flo.todo.model.Project;
 import fr.socket.flo.todo.model.Task;
 
@@ -25,33 +27,31 @@ public class DialogManager {
 		_activity = activity;
 	}
 
-	public void showNewProjectDialog(@Nullable final OnDialogFinishedListener listener) {
+	public void showNewProjectDialog(@Nullable final OnNewObjectCreatedListener listener) {
 		showNewObjectDialog(
 				_activity.getString(R.string.new_project),
 				_activity.getString(R.string.project_name),
-				listener,
 				new OnEditTextDialogClickListener() {
 					@Override
 					public void onEditTextDialogClickListener(String text) {
-						Project.newProject(text);
+						Project.newProject(text, listener);
 					}
 				});
 	}
 
-	public void showNewTaskDialog(final int projectId, @Nullable final OnDialogFinishedListener listener) {
+	public void showNewTaskDialog(final int projectId, @Nullable final OnNewObjectCreatedListener listener) {
 		showNewObjectDialog(
 				_activity.getString(R.string.new_task),
 				_activity.getString(R.string.task_name),
-				listener,
 				new OnEditTextDialogClickListener() {
 					@Override
 					public void onEditTextDialogClickListener(String text) {
-						Task.newTask(projectId, text);
+						Task.newTask(projectId, text, listener);
 					}
 				});
 	}
 
-	private void showNewObjectDialog(CharSequence title, CharSequence nameHint, @Nullable final OnDialogFinishedListener listener, final OnEditTextDialogClickListener onPositiveButtonWithTextClickListener) {
+	private void showNewObjectDialog(CharSequence title, CharSequence nameHint, final OnEditTextDialogClickListener onPositiveButtonWithTextClickListener) {
 		final AlertDialog.Builder builder = new AlertDialog.Builder(_activity);
 		LayoutInflater inflater = _activity.getLayoutInflater();
 		@SuppressLint("InflateParams") final View view = inflater.inflate(R.layout.new_object_dialog, null);
@@ -60,25 +60,12 @@ public class DialogManager {
 		builder.setView(view)
 				.setCancelable(true)
 				.setTitle(title)
-				.setNegativeButton(_activity.getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						if (listener != null) {
-							listener.onDialogFinished(false);
-						}
-					}
-				})
 				.setPositiveButton(_activity.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						String name = editText.getText().toString();
 						if (!name.isEmpty()) {
 							onPositiveButtonWithTextClickListener.onEditTextDialogClickListener(name);
-							if (listener != null) {
-								listener.onDialogFinished(true);
-							}
-						} else if (listener != null) {
-							listener.onDialogFinished(false);
 						}
 					}
 				});

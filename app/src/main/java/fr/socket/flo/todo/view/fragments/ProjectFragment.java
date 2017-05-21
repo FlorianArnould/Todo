@@ -3,12 +3,17 @@ package fr.socket.flo.todo.view.fragments;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
@@ -16,9 +21,11 @@ import android.widget.ProgressBar;
 
 import fr.socket.flo.todo.R;
 import fr.socket.flo.todo.database.DataManager;
+import fr.socket.flo.todo.database.OnNewObjectCreatedListener;
 import fr.socket.flo.todo.database.OnObjectLoadedListener;
 import fr.socket.flo.todo.model.Project;
 import fr.socket.flo.todo.model.Sorter;
+import fr.socket.flo.todo.view.activity.EditProjectActivity;
 import fr.socket.flo.todo.view.dialog.DialogManager;
 import fr.socket.flo.todo.view.dialog.OnDialogFinishedListener;
 import fr.socket.flo.todo.view.fragments.adapters.TasksAdapter;
@@ -30,6 +37,7 @@ import fr.socket.flo.todo.view.fragments.adapters.TasksAdapter;
 public class ProjectFragment extends MainActivityFragment {
 	private static final String PROJECT_ID_KEY = "PROJECT_ID";
 	private static final String SORT_PREFERENCES_KEY = "project_fragment_sort";
+	private static final int EDIT_ITEM_ID = 0;
 	private static final int PROGRESS_MAX = 1000;
 	private int _projectId;
 	private View _view;
@@ -76,6 +84,25 @@ public class ProjectFragment extends MainActivityFragment {
 	}
 
 	@Override
+	@CallSuper
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		super.onCreateOptionsMenu(menu, inflater);
+		MenuItem item = menu.add(0, EDIT_ITEM_ID, Menu.NONE, "Edit");
+		item.setIcon(R.drawable.ic_edit);
+		item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected (MenuItem item){
+		if(item.getItemId() == EDIT_ITEM_ID){
+			Intent intent = new Intent(getActivity(), EditProjectActivity.class);
+			intent.putExtra(EditProjectActivity.PROJECT_ID, _projectId);
+			getActivity().startActivity(intent);
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
 	public void onStart() {
 		super.onStart();
 		setHasFloatingAction(true);
@@ -85,14 +112,17 @@ public class ProjectFragment extends MainActivityFragment {
 	public void onFloatingActionButtonClicked() {
 		Activity activity = getActivity();
 		DialogManager dialogManager = new DialogManager(activity);
-		dialogManager.showNewTaskDialog(_projectId, new OnDialogFinishedListener() {
+		dialogManager.showNewTaskDialog(_projectId, new OnNewObjectCreatedListener() {
 			@Override
-			public void onDialogFinished(boolean state) {
-				if (state) {
+			public void onNewObjectCreated(int objectId) {
+				Snackbar snackbar;
+				if (objectId == -1) {
+					snackbar = Snackbar.make(getMainActivity().getRootView(), R.string.new_task_was_not_created, Snackbar.LENGTH_SHORT);
+				} else {
 					TasksAdapter adapter = (TasksAdapter)getListAdapter();
 					adapter.update();
 					adapter.notifyDataSetChanged();
-					Snackbar snackbar = Snackbar.make(getMainActivity().getRootView(), R.string.new_task_created, Snackbar.LENGTH_LONG);
+					snackbar = Snackbar.make(getMainActivity().getRootView(), R.string.new_task_created, Snackbar.LENGTH_LONG);
 					snackbar.setAction(R.string.configure, new View.OnClickListener() {
 						@Override
 						public void onClick(View v) {
@@ -100,8 +130,8 @@ public class ProjectFragment extends MainActivityFragment {
 							Log.d("Snackbar", "action clicked");
 						}
 					});
-					snackbar.show();
 				}
+				snackbar.show();
 			}
 		});
 	}

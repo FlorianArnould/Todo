@@ -13,10 +13,12 @@
     <string name="project_name">Project name</string>
     <string name="new_project">New project</string>
     <string name="new_project_created">New project created</string>
+    <string name="new_project_was_not_created">New project was not created</string>
     <string name="configure">Configure</string>
     <string name="task_name">Task name</string>
     <string name="new_task">New task</string>
     <string name="new_task_created">New task created</string>
+    <string name="new_task_was_not_created">New task was not created</string>
     <string name="no_current_task">No current task</string>
     <string name="waiting">Waiting</string>
     <string name="in_progress">In Progress</string>

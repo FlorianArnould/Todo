@@ -25,4 +25,6 @@
     <string name="settings_priority_max_value_title">Valeur de priorité maximum</string>
     <string name="developer">Développeur</string>
     <string name="version">Version</string>
+    <string name="new_project_was_not_created">Le project n\'a pas été crée</string>
+    <string name="new_task_was_not_created">La tâche n\'a pas été crée</string>
 </resources>

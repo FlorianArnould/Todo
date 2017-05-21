@@ -13,6 +13,14 @@
         android:layout_gravity="center_vertical"
         android:contentDescription="@string/project_icon_description"/>
 
+    <ImageView
+        android:id="@+id/priority_label"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignEnd="@id/icon"
+        android:layout_alignBottom="@id/icon"
+        android:contentDescription="@string/priority_label_description"/>
+
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"

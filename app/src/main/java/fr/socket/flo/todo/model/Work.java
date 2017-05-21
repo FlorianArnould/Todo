@@ -65,6 +65,10 @@ abstract class Work extends Savable implements Nameable, Sortable<Work> {
 		return _color;
 	}
 
+	public void setPriority(int priority){
+		_priority = priority;
+	}
+
 	public int getPriority() {
 		return _priority;
 	}

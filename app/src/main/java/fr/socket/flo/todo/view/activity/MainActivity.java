@@ -195,7 +195,7 @@ public class MainActivity extends SearchActivity
 		startActivity(intent);
 	}
 
-	private void showAbout(){
+	private void showAbout() {
 		Intent intent = new Intent(MainActivity.this, AboutActivity.class);
 		startActivity(intent);
 	}
