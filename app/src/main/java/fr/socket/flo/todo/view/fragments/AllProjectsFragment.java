@@ -24,7 +24,7 @@ import fr.socket.flo.todo.view.fragments.adapters.ProjectsAdapter;
  * @author Florian Arnould
  * @version 1.0
  */
-public class AllProjectsFragment extends MainActivityFragment implements OnNewObjectCreatedListener{
+public class AllProjectsFragment extends MainActivityFragment implements OnNewObjectCreatedListener {
 	private static final String SORT_PREFERENCES_KEY = "all_projects_fragment_sort";
 
 	public AllProjectsFragment() {

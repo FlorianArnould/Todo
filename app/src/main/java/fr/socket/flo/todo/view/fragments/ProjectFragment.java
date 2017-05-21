@@ -33,7 +33,7 @@ import fr.socket.flo.todo.view.fragments.adapters.TasksAdapter;
  * @author Florian Arnould
  * @version 1.0
  */
-public class ProjectFragment extends MainActivityFragment implements OnNewObjectCreatedListener{
+public class ProjectFragment extends MainActivityFragment implements OnNewObjectCreatedListener {
 	private static final String PROJECT_ID_KEY = "PROJECT_ID";
 	private static final String SORT_PREFERENCES_KEY = "project_fragment_sort";
 	private static final int EDIT_ITEM_ID = 0;

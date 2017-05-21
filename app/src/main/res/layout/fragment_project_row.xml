@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/text_margin"
-    android:descendantFocusability="blocksDescendants">
+    android:descendantFocusability="blocksDescendants"
+    android:padding="@dimen/text_margin">
 
     <ImageView
         android:id="@+id/icon"
@@ -17,8 +17,8 @@
         android:id="@+id/priority_label"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_alignEnd="@id/icon"
         android:layout_alignBottom="@id/icon"
+        android:layout_alignEnd="@id/icon"
         android:contentDescription="@string/priority_label_description"/>
 
     <TextView
@@ -39,9 +39,9 @@
 
     <CheckBox
         android:id="@+id/is_favorite"
+        style="?android:attr/starStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        style="?android:attr/starStyle"/>
+        android:layout_alignParentEnd="true"/>
 
 </RelativeLayout>

@@ -2,16 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/favorites"
-        android:orderInCategory="0"
         android:enabled="true"
+        android:orderInCategory="0"
         android:title="@string/favorites">
         <menu>
         </menu>
     </item>
     <item
         android:id="@+id/current_task"
-        android:orderInCategory="0"
         android:enabled="true"
+        android:orderInCategory="0"
         android:title="@string/favorites">
         <menu>
         </menu>
