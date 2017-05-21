@@ -28,17 +28,15 @@ import fr.socket.flo.todo.database.OnMultipleObjectsLoadedListener;
 import fr.socket.flo.todo.model.Project;
 import fr.socket.flo.todo.model.Sorter;
 import fr.socket.flo.todo.view.about.AboutActivity;
-import fr.socket.flo.todo.view.drawable.ColorGenerator;
-import fr.socket.flo.todo.view.drawable.ProgressTextDrawable;
 import fr.socket.flo.todo.view.fragments.AllProjectsFragment;
 import fr.socket.flo.todo.view.fragments.MainActivityFragment;
 import fr.socket.flo.todo.view.fragments.ProjectFragment;
+import fr.socket.flo.todo.view.graphics.ColorGenerator;
+import fr.socket.flo.todo.view.graphics.ProgressTextDrawable;
 import fr.socket.flo.todo.view.settings.SettingsActivity;
 
 public class MainActivity extends SearchActivity
-		implements NavigationView.OnNavigationItemSelectedListener {
-	private enum DrawerGroup {DEFAULT, PROJECTS, TASKS}
-
+		implements NavigationView.OnNavigationItemSelectedListener, OnDataChangedListener {
 	private FloatingActionButton _fab;
 	private Menu _sortSubMenu;
 	private OnSortChangedListener _sortListener;
@@ -50,12 +48,6 @@ public class MainActivity extends SearchActivity
 		setSupportActionBar(toolbar);
 		super.onCreate(savedInstanceState);
 		DataManager.getInstance().initialize(this);
-		DataManager.getInstance().addOnDataChangedListener(new OnDataChangedListener() {
-			@Override
-			public void onDataChanged() {
-				updateDrawer();
-			}
-		});
 
 		_fab = (FloatingActionButton)findViewById(R.id.fab);
 
@@ -69,23 +61,26 @@ public class MainActivity extends SearchActivity
 		navigationView.setNavigationItemSelectedListener(this);
 		navigationView.setItemIconTintList(null);
 		updateDrawer();
-		getSupportFragmentManager()
-				.beginTransaction()
-				.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-				.replace(R.id.fragmentContent, new AllProjectsFragment())
-				.commit();
+		showAllProjects();
 	}
 
 	@Override
 	public void onStart() {
 		super.onStart();
-		invalidateOptionsMenu();
+		DataManager.getInstance().addOnDataChangedListener(this);
+	}
+
+	@Override
+	public void onRestart() {
+		super.onRestart();
+		DataManager.getInstance().addOnDataChangedListener(this);
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
 		DataManager.getInstance().closeDatabase();
+		DataManager.getInstance().removeOnDataChangedListener(this);
 	}
 
 	@Override
@@ -105,14 +100,14 @@ public class MainActivity extends SearchActivity
 		final NavigationView navView = (NavigationView)findViewById(R.id.nav_view);
 		navView.getMenu().clear();
 		navView.inflateMenu(R.menu.drawer_menu);
-		final Menu menu = navView.getMenu().getItem(0).getSubMenu();
+		final Menu menu = navView.getMenu().getItem(1).getSubMenu();
 		DataManager.getInstance().getFavorites(new OnMultipleObjectsLoadedListener<Project>() {
 			@Override
 			public void onObjectsLoaded(List<Project> objects) {
 				for (Project project : objects) {
 					@ColorInt int color = project.getColor();
 					final Drawable icon = new ProgressTextDrawable(project.getName().substring(0, 1), ColorGenerator.darkerColor(color), color, project.getCompleteProgress());
-					menu.add(DrawerGroup.PROJECTS.ordinal(), project.getId(), Menu.NONE, project.getName()).setIcon(icon);
+					menu.add(R.id.favorites_group, project.getId(), Menu.NONE, project.getName()).setIcon(icon);
 				}
 			}
 		});
@@ -127,9 +122,6 @@ public class MainActivity extends SearchActivity
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		switch (id) {
 			case R.id.action_search:
@@ -147,6 +139,8 @@ public class MainActivity extends SearchActivity
 				item.setChecked(true);
 				callSortListener(Sorter.Sort.BY_PRIORITY);
 				break;
+			default:
+				Log.w("Options items", "A option item selected was not handle by the MainActivity");
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -157,19 +151,19 @@ public class MainActivity extends SearchActivity
 		}
 	}
 
-	@SuppressWarnings("StatementWithEmptyBody")
 	@Override
 	public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-		DrawerGroup group = DrawerGroup.values()[item.getGroupId()];
-		switch (group) {
-			case PROJECTS:
+		int groupId = item.getGroupId();
+		switch (groupId) {
+			case R.id.favorites_group:
 				inflateProjectFragment(item.getItemId());
 				break;
-			case TASKS:
-				break;
-			case DEFAULT:
+			case R.id.header_group:
+			case R.id.footer_group:
 				onFixedNavigationItemSelected(item);
 				break;
+			default:
+				Log.w("Drawer groups", "A group selected was not handle by the MainActivity");
 		}
 		DrawerLayout drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
 		drawer.closeDrawer(GravityCompat.START);
@@ -179,6 +173,9 @@ public class MainActivity extends SearchActivity
 	private void onFixedNavigationItemSelected(@NonNull MenuItem item) {
 		int id = item.getItemId();
 		switch (id) {
+			case R.id.all_projects:
+				showAllProjects();
+				break;
 			case R.id.settings:
 				showSettings();
 				break;
@@ -188,6 +185,14 @@ public class MainActivity extends SearchActivity
 			default:
 				Log.w("Drawer items", "A static item selected was not handle by the MainActivity");
 		}
+	}
+
+	private void showAllProjects() {
+		getSupportFragmentManager()
+				.beginTransaction()
+				.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+				.replace(R.id.fragmentContent, new AllProjectsFragment())
+				.commit();
 	}
 
 	private void showSettings() {
@@ -234,5 +239,10 @@ public class MainActivity extends SearchActivity
 				itemId = R.id.sort_by_name;
 		}
 		_sortSubMenu.findItem(itemId).setChecked(true);
+	}
+
+	@Override
+	public void onDataChanged() {
+		updateDrawer();
 	}
 }

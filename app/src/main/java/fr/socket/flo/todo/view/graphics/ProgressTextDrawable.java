@@ -1,6 +1,7 @@
-package fr.socket.flo.todo.view.drawable;
+package fr.socket.flo.todo.view.graphics;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -15,7 +16,7 @@ public class ProgressTextDrawable extends TextDrawable {
 	private final double _progress;
 
 	public ProgressTextDrawable(String letter, @ColorInt int backgroundColor, @ColorInt int progressColor, double progress) {
-		super(letter, backgroundColor);
+		super(letter, backgroundColor, Color.WHITE);
 		_progressPaint = new Paint();
 		_progressPaint.setColor(progressColor);
 		_progress = progress;

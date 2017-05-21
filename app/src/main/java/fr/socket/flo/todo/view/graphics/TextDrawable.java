@@ -1,4 +1,4 @@
-package fr.socket.flo.todo.view.drawable;
+package fr.socket.flo.todo.view.graphics;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -15,15 +15,15 @@ import android.support.annotation.ColorInt;
  * @author Florian Arnould
  * @version 1.0
  */
-public class TextDrawable extends ShapeDrawable {
+abstract class TextDrawable extends ShapeDrawable {
 	private final Paint _textPaint;
 	private final String _text;
 
-	public TextDrawable(String letter, @ColorInt int backgroundColor) {
+	TextDrawable(String letter, @ColorInt int backgroundColor, @ColorInt int textColor) {
 		super(new OvalShape());
 		_text = letter.toUpperCase();
 		_textPaint = new Paint();
-		_textPaint.setColor(Color.argb(170, 255, 255, 255));
+		_textPaint.setColor(Color.argb(170, Color.red(textColor), Color.green(textColor), Color.blue(textColor)));
 		_textPaint.setAntiAlias(true);
 		_textPaint.setFakeBoldText(true);
 		_textPaint.setStyle(Paint.Style.FILL);

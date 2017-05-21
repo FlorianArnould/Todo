@@ -2,6 +2,7 @@ package fr.socket.flo.todo.view.activity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -41,8 +42,8 @@ public class EditProjectActivity extends AppCompatActivity {
 		}
 		final Spinner prioritySpinner = (Spinner)findViewById(R.id.priority_spinner);
 		List<String> list = new ArrayList<>();
-		final SharedPreferences pref = getSharedPreferences(getString(R.string.preferences_name_key), MODE_PRIVATE);
-		int max = pref.getInt("max_priority", 5);
+		final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+		int max = pref.getInt(getString(R.string.settings_priority_max_value_key), 5);
 		for (int i = 1; i <= max; i++) {
 			list.add(String.valueOf(i));
 		}

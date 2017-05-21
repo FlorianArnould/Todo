@@ -24,17 +24,17 @@ import fr.socket.flo.todo.model.Nameable;
 import fr.socket.flo.todo.model.Project;
 import fr.socket.flo.todo.model.Sorter;
 import fr.socket.flo.todo.model.Task;
-import fr.socket.flo.todo.view.drawable.ColorGenerator;
-import fr.socket.flo.todo.view.drawable.ProgressTextDrawable;
-import fr.socket.flo.todo.view.drawable.TextDrawable;
 import fr.socket.flo.todo.view.fragments.filters.NameableFilter;
 import fr.socket.flo.todo.view.fragments.filters.OnNameableResultsPublishedListener;
+import fr.socket.flo.todo.view.graphics.ColorGenerator;
+import fr.socket.flo.todo.view.graphics.PriorityDrawable;
+import fr.socket.flo.todo.view.graphics.ProgressTextDrawable;
 
 /**
  * @author Florian Arnould
  * @version 1.0
  */
-public class ProjectsAdapter extends SortableAdapter implements Filterable {
+public class ProjectsAdapter extends SortableAdapter implements Filterable, UpdatableAdapter {
 	private final Context _context;
 	private List<Project> _projects;
 	private List<Project> _filteredProjects;
@@ -48,6 +48,7 @@ public class ProjectsAdapter extends SortableAdapter implements Filterable {
 		update();
 	}
 
+	@Override
 	public void update() {
 		DataManager.getInstance().getAllProjects(new OnMultipleObjectsLoadedListener<Project>() {
 			@Override
@@ -89,7 +90,7 @@ public class ProjectsAdapter extends SortableAdapter implements Filterable {
 		iconView.setImageDrawable(icon);
 
 		ImageView priorityView = (ImageView)view.findViewById(R.id.priority_label);
-		final Drawable priorityLabel = new TextDrawable(String.valueOf(project.getPriority()), ColorGenerator.priorityColor(project.getPriority()));
+		final Drawable priorityLabel = new PriorityDrawable(project.getPriority());
 		priorityView.setImageDrawable(priorityLabel);
 
 		TextView nameView = (TextView)view.findViewById(R.id.name);

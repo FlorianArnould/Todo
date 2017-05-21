@@ -5,9 +5,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
-import android.util.SparseArray;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import fr.socket.flo.todo.model.Project;
 import fr.socket.flo.todo.model.Savable;
@@ -19,11 +20,11 @@ import fr.socket.flo.todo.model.Task;
  */
 public class DataManager {
 	private static DataManager _dataManager;
-	private final SparseArray<OnDataChangedListener> _listeners;
+	private final Set<OnDataChangedListener> _listeners;
 	private SQLiteOpenHelper _dbOpenHelper;
 
 	private DataManager() {
-		_listeners = new SparseArray<>();
+		_listeners = new HashSet<>();
 	}
 
 	public static DataManager getInstance() {
@@ -148,19 +149,17 @@ public class DataManager {
 		_dbOpenHelper.close();
 	}
 
-	public int addOnDataChangedListener(OnDataChangedListener listener) {
-		int id = _listeners.size();
-		_listeners.put(id, listener);
-		return id;
+	public void addOnDataChangedListener(OnDataChangedListener listener) {
+		_listeners.add(listener);
 	}
 
-	public void removeOnDataChangedListener(int listenerId) {
-		_listeners.delete(listenerId);
+	public void removeOnDataChangedListener(OnDataChangedListener listener) {
+		_listeners.remove(listener);
 	}
 
 	private void notifyListeners() {
-		for (int i = 0; i < _listeners.size(); i++) {
-			_listeners.valueAt(i).onDataChanged();
+		for (OnDataChangedListener listener : _listeners) {
+			listener.onDataChanged();
 		}
 	}
 

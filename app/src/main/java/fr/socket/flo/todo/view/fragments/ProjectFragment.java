@@ -89,6 +89,12 @@ public class ProjectFragment extends MainActivityFragment implements OnNewObject
 		MenuItem item = menu.add(0, EDIT_ITEM_ID, Menu.NONE, "Edit");
 		item.setIcon(R.drawable.ic_edit);
 		item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+		// TODO: 21/05/17 find a way to animate the edit option item
+		/*item.setCheckable(true);
+		ImageView imageView = new ImageView(getContext());
+		imageView.setImageDrawable(getContext().getDrawable(R.drawable.ic_edit));
+		item.setActionView(imageView);
+		imageView.setAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));*/
 	}
 
 	@Override

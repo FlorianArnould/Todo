@@ -16,6 +16,7 @@ import fr.socket.flo.todo.model.Sorter;
 import fr.socket.flo.todo.view.activity.MainActivity;
 import fr.socket.flo.todo.view.activity.OnSortChangedListener;
 import fr.socket.flo.todo.view.fragments.adapters.SortableAdapter;
+import fr.socket.flo.todo.view.fragments.adapters.UpdatableAdapter;
 
 /**
  * @author Florian Arnould
@@ -69,7 +70,7 @@ public abstract class MainActivityFragment extends ListFragment {
 			}
 		});
 		MainActivity mainActivity = getMainActivity();
-		final Filterable adapter = (Filterable)getListAdapter();
+		final Filterable filterable = (Filterable)getListAdapter();
 		mainActivity.getSearchView().setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 			@Override
 			public boolean onQueryTextSubmit(String query) {
@@ -78,10 +79,12 @@ public abstract class MainActivityFragment extends ListFragment {
 
 			@Override
 			public boolean onQueryTextChange(String newText) {
-				adapter.getFilter().filter(newText);
+				filterable.getFilter().filter(newText);
 				return true;
 			}
 		});
+		final UpdatableAdapter updatableAdapter = (UpdatableAdapter)getListAdapter();
+		updatableAdapter.update();
 	}
 
 	public void setHasFloatingAction(boolean hasFab) {

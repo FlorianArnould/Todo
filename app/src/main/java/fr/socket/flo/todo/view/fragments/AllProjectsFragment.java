@@ -49,6 +49,7 @@ public class AllProjectsFragment extends MainActivityFragment implements OnNewOb
 		String sort = pref.getString(SORT_PREFERENCES_KEY, Sorter.Sort.BY_NAME.name());
 		Sorter.Sort sortingWay = Sorter.Sort.valueOf(sort);
 		setListAdapter(new ProjectsAdapter(getContext(), sortingWay));
+
 	}
 
 	@Override
@@ -86,8 +87,6 @@ public class AllProjectsFragment extends MainActivityFragment implements OnNewOb
 		if (objectId == -1) {
 			snackbar = Snackbar.make(getMainActivity().getRootView(), R.string.new_project_was_not_created, Snackbar.LENGTH_SHORT);
 		} else {
-			ProjectsAdapter adapter = (ProjectsAdapter)getListAdapter();
-			adapter.update();
 			snackbar = Snackbar.make(getMainActivity().getRootView(), R.string.new_project_created, Snackbar.LENGTH_LONG);
 			snackbar.setAction(R.string.configure, new View.OnClickListener() {
 				@Override

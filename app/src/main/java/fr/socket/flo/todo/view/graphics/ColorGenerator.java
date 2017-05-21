@@ -1,4 +1,4 @@
-package fr.socket.flo.todo.view.drawable;
+package fr.socket.flo.todo.view.graphics;
 
 import android.graphics.Color;
 import android.support.annotation.ColorInt;
@@ -52,8 +52,16 @@ public class ColorGenerator {
 	}
 
 	@ColorInt
-	public static int priorityColor(int current) {
-		_priorityColor[0] = 360 * ((float)current - 1) / 250;
+	static int priorityColor(int priority) {
+		_priorityColor[0] = 250 * ((float)priority - 1) / 19;
 		return Color.HSVToColor(_priorityColor);
+	}
+
+	@ColorInt
+	static int textColorOfLatestPriorityColor() {
+		if (_priorityColor[0] > 39.5 && _priorityColor[0] < 210.5) {
+			return Color.BLACK;
+		}
+		return Color.WHITE;
 	}
 }
