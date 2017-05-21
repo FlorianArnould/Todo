@@ -11,7 +11,6 @@ import java.util.Date;
 
 import fr.socket.flo.todo.R;
 import fr.socket.flo.todo.database.DataManager;
-import fr.socket.flo.todo.database.OnDataChangedListener;
 import fr.socket.flo.todo.database.OnNewObjectCreatedListener;
 import fr.socket.flo.todo.view.drawable.ColorGenerator;
 

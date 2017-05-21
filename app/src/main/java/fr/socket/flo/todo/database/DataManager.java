@@ -131,7 +131,7 @@ public class DataManager {
 			@Override
 			public void onNewObjectCreated(int objectId) {
 				getOnDataChangedListener().onDataChanged();
-				if(listener != null){
+				if (listener != null) {
 					listener.onNewObjectCreated(objectId);
 				}
 			}

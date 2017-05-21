@@ -28,7 +28,7 @@ public class AboutActivity extends AppCompatActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if(item.getItemId() == android.R.id.home){
+		if (item.getItemId() == android.R.id.home) {
 			this.finish();
 		}
 		return super.onOptionsItemSelected(item);

@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
  * @author Florian Arnould
  * @version 1.0
  */
-class Updater extends AsyncTask<Void,Void,Void> {
+class Updater extends AsyncTask<Void, Void, Void> {
 	private final SQLiteDatabase _db;
 	private final int _id;
 	private final String _tableName;

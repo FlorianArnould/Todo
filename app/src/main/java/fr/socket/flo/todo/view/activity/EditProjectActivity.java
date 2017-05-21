@@ -63,7 +63,7 @@ public class EditProjectActivity extends AppCompatActivity {
 
 					@Override
 					public void onNothingSelected(AdapterView<?> parent) {
-
+						// This method can't be called : we just preselect the project priority, default -> 1
 					}
 				});
 			}

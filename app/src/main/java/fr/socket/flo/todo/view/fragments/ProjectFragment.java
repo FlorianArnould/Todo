@@ -27,14 +27,13 @@ import fr.socket.flo.todo.model.Project;
 import fr.socket.flo.todo.model.Sorter;
 import fr.socket.flo.todo.view.activity.EditProjectActivity;
 import fr.socket.flo.todo.view.dialog.DialogManager;
-import fr.socket.flo.todo.view.dialog.OnDialogFinishedListener;
 import fr.socket.flo.todo.view.fragments.adapters.TasksAdapter;
 
 /**
  * @author Florian Arnould
  * @version 1.0
  */
-public class ProjectFragment extends MainActivityFragment {
+public class ProjectFragment extends MainActivityFragment implements OnNewObjectCreatedListener{
 	private static final String PROJECT_ID_KEY = "PROJECT_ID";
 	private static final String SORT_PREFERENCES_KEY = "project_fragment_sort";
 	private static final int EDIT_ITEM_ID = 0;
@@ -93,8 +92,8 @@ public class ProjectFragment extends MainActivityFragment {
 	}
 
 	@Override
-	public boolean onOptionsItemSelected (MenuItem item){
-		if(item.getItemId() == EDIT_ITEM_ID){
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == EDIT_ITEM_ID) {
 			Intent intent = new Intent(getActivity(), EditProjectActivity.class);
 			intent.putExtra(EditProjectActivity.PROJECT_ID, _projectId);
 			getActivity().startActivity(intent);
@@ -112,28 +111,7 @@ public class ProjectFragment extends MainActivityFragment {
 	public void onFloatingActionButtonClicked() {
 		Activity activity = getActivity();
 		DialogManager dialogManager = new DialogManager(activity);
-		dialogManager.showNewTaskDialog(_projectId, new OnNewObjectCreatedListener() {
-			@Override
-			public void onNewObjectCreated(int objectId) {
-				Snackbar snackbar;
-				if (objectId == -1) {
-					snackbar = Snackbar.make(getMainActivity().getRootView(), R.string.new_task_was_not_created, Snackbar.LENGTH_SHORT);
-				} else {
-					TasksAdapter adapter = (TasksAdapter)getListAdapter();
-					adapter.update();
-					adapter.notifyDataSetChanged();
-					snackbar = Snackbar.make(getMainActivity().getRootView(), R.string.new_task_created, Snackbar.LENGTH_LONG);
-					snackbar.setAction(R.string.configure, new View.OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							// TODO: 13/05/17 Open the edit task fragment
-							Log.d("Snackbar", "action clicked");
-						}
-					});
-				}
-				snackbar.show();
-			}
-		});
+		dialogManager.showNewTaskDialog(_projectId, this);
 	}
 
 	@Override
@@ -168,5 +146,26 @@ public class ProjectFragment extends MainActivityFragment {
 		animator.setStartDelay(delay);
 		animator.setInterpolator(new DecelerateInterpolator());
 		return animator;
+	}
+
+	@Override
+	public void onNewObjectCreated(final int objectId) {
+		Snackbar snackbar;
+		if (objectId == -1) {
+			snackbar = Snackbar.make(getMainActivity().getRootView(), R.string.new_task_was_not_created, Snackbar.LENGTH_SHORT);
+		} else {
+			TasksAdapter adapter = (TasksAdapter)getListAdapter();
+			adapter.update();
+			adapter.notifyDataSetChanged();
+			snackbar = Snackbar.make(getMainActivity().getRootView(), R.string.new_task_created, Snackbar.LENGTH_LONG);
+			snackbar.setAction(R.string.configure, new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					// TODO: 13/05/17 Open the edit task fragment
+					Log.d("Snackbar", "action clicked");
+				}
+			});
+		}
+		snackbar.show();
 	}
 }

@@ -11,7 +11,6 @@ import android.view.WindowManager;
 import android.widget.EditText;
 
 import fr.socket.flo.todo.R;
-import fr.socket.flo.todo.database.OnDataChangedListener;
 import fr.socket.flo.todo.database.OnNewObjectCreatedListener;
 import fr.socket.flo.todo.model.Project;
 import fr.socket.flo.todo.model.Task;
