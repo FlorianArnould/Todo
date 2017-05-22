@@ -8,7 +8,9 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -17,12 +19,22 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:hint="@string/project_name"
+            android:layout_marginStart="@dimen/text_margin"
+            android:layout_marginEnd="@dimen/text_margin"
+            android:layout_marginBottom="10dp"/>
+
     </android.support.design.widget.AppBarLayout>
 
-    <include
-        layout="@layout/edit_project_content"
+    <ListView
+        android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize"/>
+        android:layout_marginTop="116dp"/>
 
 </android.support.design.widget.CoordinatorLayout>

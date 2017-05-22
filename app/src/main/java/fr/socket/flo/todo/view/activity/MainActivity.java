@@ -140,7 +140,7 @@ public class MainActivity extends SearchActivity
 				callSortListener(Sorter.Sort.BY_PRIORITY);
 				break;
 			default:
-				Log.w("Options items", "A option item selected was not handle by the MainActivity");
+				Log.w("Options items", "An option item selected was not handle by the MainActivity");
 		}
 		return super.onOptionsItemSelected(item);
 	}

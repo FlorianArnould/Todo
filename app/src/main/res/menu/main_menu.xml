@@ -24,15 +24,15 @@
                 <item
                     android:id="@+id/sort_by_name"
                     android:checked="true"
-                    android:title="@string/sort_by_name"/>
+                    android:title="@string/name"/>
 
                 <item
                     android:id="@+id/sort_by_priority"
-                    android:title="@string/sort_by_priority"/>
+                    android:title="@string/priority"/>
 
                 <item
                     android:id="@+id/sort_by_deadline"
-                    android:title="@string/sort_by_deadline"/>
+                    android:title="@string/deadline"/>
 
             </group>
         </menu>

@@ -17,9 +17,9 @@
     <string name="waiting">En attente</string>
     <string name="action_search">Rechercher</string>
     <string name="action_sort">Trier</string>
-    <string name="sort_by_name">Nom</string>
-    <string name="sort_by_deadline">Date limite</string>
-    <string name="sort_by_priority">Priorité</string>
+    <string name="name">Nom</string>
+    <string name="deadline">Date limite</string>
+    <string name="priority">Priorité</string>
     <string name="unlimited">Illimité</string>
     <string name="settings_priority_max_value_summary">Définir la valeur maximale pour la priorité des projets et des tâches</string>
     <string name="settings_priority_max_value_title">Valeur de priorité maximum</string>
@@ -28,4 +28,5 @@
     <string name="new_project_was_not_created">Le project n\'a pas été crée</string>
     <string name="new_task_was_not_created">La tâche n\'a pas été crée</string>
     <string name="all_projects">Tous les projets</string>
+    <string name="edit_title">Edition</string>
 </resources>
