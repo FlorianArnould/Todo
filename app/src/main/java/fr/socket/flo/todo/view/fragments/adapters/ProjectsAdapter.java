@@ -83,10 +83,9 @@ public class ProjectsAdapter extends SortableAdapter implements Filterable, Upda
 		}
 		final Project project = _filteredProjects.get(position);
 		final String projectName = project.getName();
-		@ColorInt final int color = project.getColor();
 
 		ImageView iconView = (ImageView)view.findViewById(R.id.icon);
-		final Drawable icon = new ProgressTextDrawable(projectName.substring(0, 1), ColorGenerator.darkerColor(color), color, project.getCompleteProgress());
+		final Drawable icon = new ProgressTextDrawable(projectName.substring(0, 1), project.getColor(), project.getCompleteProgress());
 		iconView.setImageDrawable(icon);
 
 		ImageView priorityView = (ImageView)view.findViewById(R.id.priority_label);
@@ -106,6 +105,13 @@ public class ProjectsAdapter extends SortableAdapter implements Filterable, Upda
 			});
 		} else {
 			currentTaskView.setText(_context.getString(R.string.no_current_task));
+		}
+
+		TextView deadlineView = (TextView)view.findViewById(R.id.deadline);
+		if (project.hasDeadline()) {
+			deadlineView.setText(project.getDeadlineAsString());
+		} else {
+			deadlineView.setText(_context.getString(R.string.unlimited));
 		}
 
 		CheckBox favoriteBox = (CheckBox)view.findViewById(R.id.is_favorite);

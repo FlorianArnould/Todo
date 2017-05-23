@@ -106,7 +106,7 @@ public class MainActivity extends SearchActivity
 			public void onObjectsLoaded(List<Project> objects) {
 				for (Project project : objects) {
 					@ColorInt int color = project.getColor();
-					final Drawable icon = new ProgressTextDrawable(project.getName().substring(0, 1), ColorGenerator.darkerColor(color), color, project.getCompleteProgress());
+					final Drawable icon = new ProgressTextDrawable(project.getName().substring(0, 1), color, project.getCompleteProgress());
 					menu.add(R.id.favorites_group, project.getId(), Menu.NONE, project.getName()).setIcon(icon);
 				}
 			}

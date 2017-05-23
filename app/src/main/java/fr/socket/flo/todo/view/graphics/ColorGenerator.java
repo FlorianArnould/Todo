@@ -44,7 +44,7 @@ public class ColorGenerator {
 	}
 
 	@ColorInt
-	public static int darkerColor(@ColorInt int color) {
+	static int darkerColor(@ColorInt int color) {
 		float[] hsv = new float[3];
 		Color.colorToHSV(color, hsv);
 		hsv[2] -= DARKER_COEFFICIENT;

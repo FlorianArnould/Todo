@@ -15,10 +15,10 @@ public class ProgressTextDrawable extends TextDrawable {
 	private final Paint _progressPaint;
 	private final double _progress;
 
-	public ProgressTextDrawable(String letter, @ColorInt int backgroundColor, @ColorInt int progressColor, double progress) {
-		super(letter, backgroundColor, Color.WHITE);
+	public ProgressTextDrawable(String letter, @ColorInt int color, double progress) {
+		super(letter, ColorGenerator.darkerColor(color), Color.WHITE);
 		_progressPaint = new Paint();
-		_progressPaint.setColor(progressColor);
+		_progressPaint.setColor(color);
 		_progress = progress;
 	}
 

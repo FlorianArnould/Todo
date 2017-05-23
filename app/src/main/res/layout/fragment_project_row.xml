@@ -37,6 +37,14 @@
         android:layout_marginStart="@dimen/text_margin"
         android:layout_toEndOf="@id/icon"/>
 
+    <TextView
+        android:id="@+id/deadline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:textColor="@android:color/tertiary_text_light"/>
+
     <CheckBox
         android:id="@+id/is_favorite"
         android:layout_width="wrap_content"

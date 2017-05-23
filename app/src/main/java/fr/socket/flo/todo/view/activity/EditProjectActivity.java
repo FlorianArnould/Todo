@@ -29,6 +29,7 @@ import fr.socket.flo.todo.view.dialog.DialogManager;
 import fr.socket.flo.todo.view.dialog.OnDialogFinishedListener;
 import fr.socket.flo.todo.view.graphics.PriorityDrawable;
 import fr.socket.flo.todo.view.graphics.ProgressTextDrawable;
+import fr.socket.flo.todo.view.graphics.TextDrawable;
 
 /**
  * @author Florian Arnould
@@ -150,7 +151,7 @@ public class EditProjectActivity extends AppCompatActivity {
 		private Drawable getDrawable(int position) {
 			switch (position) {
 				case 0:
-					return new ProgressTextDrawable("", _project.getColor(), Color.WHITE, 0);
+					return new TextDrawable("", _project.getColor(), 0);
 				case 1:
 					return new PriorityDrawable(_project.getPriority());
 				default:

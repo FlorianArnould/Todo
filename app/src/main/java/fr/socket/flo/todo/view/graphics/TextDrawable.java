@@ -16,11 +16,11 @@ import android.support.annotation.ColorInt;
  * @author Florian Arnould
  * @version 1.0
  */
-abstract class TextDrawable extends ShapeDrawable {
+public class TextDrawable extends ShapeDrawable {
 	private final Paint _textPaint;
 	private final String _text;
 
-	TextDrawable(String letter, @ColorInt int backgroundColor, @ColorInt int textColor) {
+	public TextDrawable(String letter, @ColorInt int backgroundColor, @ColorInt int textColor) {
 		super(new OvalShape());
 		_text = letter.toUpperCase();
 		_textPaint = new Paint();
