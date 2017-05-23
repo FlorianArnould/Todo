@@ -8,9 +8,9 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay"
         android:focusable="true"
-        android:focusableInTouchMode="true">
+        android:focusableInTouchMode="true"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -24,10 +24,10 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_alignParentEnd="true"
-            android:hint="@string/project_name"
-            android:layout_marginStart="@dimen/text_margin"
+            android:layout_marginBottom="10dp"
             android:layout_marginEnd="@dimen/text_margin"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginStart="@dimen/text_margin"
+            android:hint="@string/project_name"/>
 
     </android.support.design.widget.AppBarLayout>
 

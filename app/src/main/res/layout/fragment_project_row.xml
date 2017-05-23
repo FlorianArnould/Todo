@@ -49,8 +49,8 @@
         android:id="@+id/is_favorite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:button="@drawable/star_selector"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"/>
+        android:button="@drawable/star_selector"/>
 
 </RelativeLayout>

@@ -52,7 +52,9 @@
 
     <array name="edit_project_summary">
         <item>The color of the project, used to fill the project icon</item>
-        <item>Represent the importance you attribute to this project. On value, greater means less important.</item>
+        <item>Represent the importance you attribute to this project. On value, greater means less
+            important.
+        </item>
         <item>The date on which the project must be finished.</item>
     </array>
 </resources>

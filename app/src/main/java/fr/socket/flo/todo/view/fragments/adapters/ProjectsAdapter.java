@@ -2,7 +2,6 @@ package fr.socket.flo.todo.view.fragments.adapters;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.ColorInt;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +25,6 @@ import fr.socket.flo.todo.model.Sorter;
 import fr.socket.flo.todo.model.Task;
 import fr.socket.flo.todo.view.fragments.filters.NameableFilter;
 import fr.socket.flo.todo.view.fragments.filters.OnNameableResultsPublishedListener;
-import fr.socket.flo.todo.view.graphics.ColorGenerator;
 import fr.socket.flo.todo.view.graphics.PriorityDrawable;
 import fr.socket.flo.todo.view.graphics.ProgressTextDrawable;
 

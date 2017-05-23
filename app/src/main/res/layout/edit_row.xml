@@ -9,30 +9,30 @@
         android:id="@+id/image"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="@dimen/text_margin"
-        android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"
-        android:contentDescription=""/>
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/text_margin"
+        android:contentDescription="@string/icon_description"/>
 
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toStartOf="@id/image"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium"
+            android:textColor="@android:color/secondary_text_light"/>
+
+        <TextView
+            android:id="@+id/summary"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toStartOf="@id/image"
-            android:orientation="vertical">
+            android:textColor="@android:color/tertiary_text_light"/>
 
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/secondary_text_light"
-                android:textAppearance="@android:style/TextAppearance.Material.Medium"/>
-
-            <TextView
-                android:id="@+id/summary"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textColor="@android:color/tertiary_text_light"/>
-
-        </LinearLayout>
+    </LinearLayout>
 
 </RelativeLayout>

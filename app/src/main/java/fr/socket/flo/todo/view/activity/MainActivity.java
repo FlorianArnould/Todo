@@ -31,7 +31,6 @@ import fr.socket.flo.todo.view.about.AboutActivity;
 import fr.socket.flo.todo.view.fragments.AllProjectsFragment;
 import fr.socket.flo.todo.view.fragments.MainActivityFragment;
 import fr.socket.flo.todo.view.fragments.ProjectFragment;
-import fr.socket.flo.todo.view.graphics.ColorGenerator;
 import fr.socket.flo.todo.view.graphics.ProgressTextDrawable;
 import fr.socket.flo.todo.view.settings.SettingsActivity;
 

@@ -51,9 +51,9 @@ public class Task extends Work {
 		return _projectId;
 	}
 
-	public void nextState(){
-		int ordinal = _state.ordinal()+1;
-		if(ordinal >= State.values().length){
+	public void nextState() {
+		int ordinal = _state.ordinal() + 1;
+		if (ordinal >= State.values().length) {
 			ordinal = 0;
 		}
 		_state = State.values()[ordinal];

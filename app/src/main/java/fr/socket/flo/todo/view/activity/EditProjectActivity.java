@@ -1,7 +1,6 @@
 package fr.socket.flo.todo.view.activity;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -28,7 +27,6 @@ import fr.socket.flo.todo.model.Project;
 import fr.socket.flo.todo.view.dialog.DialogManager;
 import fr.socket.flo.todo.view.dialog.OnDialogFinishedListener;
 import fr.socket.flo.todo.view.graphics.PriorityDrawable;
-import fr.socket.flo.todo.view.graphics.ProgressTextDrawable;
 import fr.socket.flo.todo.view.graphics.TextDrawable;
 
 /**

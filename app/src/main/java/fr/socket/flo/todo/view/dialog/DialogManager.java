@@ -94,22 +94,22 @@ public class DialogManager {
 		iconView.setImageDrawable(new PriorityDrawable(priority));
 		final SeekBar seekBar = (SeekBar)view.findViewById(R.id.seek_bar);
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(_activity);
-		seekBar.setMax(pref.getInt(_activity.getString(R.string.settings_priority_max_value_key), 1));
-		seekBar.setProgress(priority);
+		seekBar.setMax(pref.getInt(_activity.getString(R.string.settings_priority_max_value_key), 1)-1);
+		seekBar.setProgress(priority-1);
 		builder.setView(view)
 				.setCancelable(true)
 				.setTitle(_activity.getString(R.string.priority))
 				.setPositiveButton(_activity.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						listener.onDialogFinished(seekBar.getProgress());
+						listener.onDialogFinished(seekBar.getProgress()+1);
 					}
 				});
 		final AlertDialog dialog = builder.create();
 		seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-				iconView.setImageDrawable(new PriorityDrawable(progress));
+				iconView.setImageDrawable(new PriorityDrawable(progress+1));
 			}
 
 			@Override

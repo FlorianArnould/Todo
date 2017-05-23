@@ -131,16 +131,16 @@ public class ProjectFragment extends MainActivityFragment implements OnNewObject
 				.commit();
 	}
 
-	private void animateProjectProgress(Project project, int delay) {
+	private void animateProjectProgress(Project project, long delay) {
 		ProgressBar waiting = (ProgressBar)_view.findViewById(R.id.waiting_progress);
 		ProgressBar inProgress = (ProgressBar)_view.findViewById(R.id.in_progress);
 		ProgressBar complete = (ProgressBar)_view.findViewById(R.id.complete_progress);
 		complete.setMax(PROGRESS_MAX);
 		inProgress.setMax(PROGRESS_MAX);
 		waiting.setMax(PROGRESS_MAX);
-		ObjectAnimator waitingAnimator = initializeAnimation(waiting, 1, delay-200);
+		ObjectAnimator waitingAnimator = initializeAnimation(waiting, 1, delay - 200);
 		ObjectAnimator inProgressAnimator = initializeAnimation(inProgress, project.getInProgress(), delay);
-		ObjectAnimator completeAnimator = initializeAnimation(complete, project.getCompleteProgress(), delay+200);
+		ObjectAnimator completeAnimator = initializeAnimation(complete, project.getCompleteProgress(), delay + 200);
 		waitingAnimator.start();
 		inProgressAnimator.start();
 		completeAnimator.start();
@@ -176,7 +176,7 @@ public class ProjectFragment extends MainActivityFragment implements OnNewObject
 		snackbar.show();
 	}
 
-	public void update(){
+	public void update() {
 		DataManager.getInstance().getProjectById(_projectId, new OnObjectLoadedListener<Project>() {
 			@Override
 			public void onObjectLoaded(Project project) {

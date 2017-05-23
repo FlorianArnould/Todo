@@ -47,7 +47,7 @@ public class TextDrawable extends ShapeDrawable {
 	}
 
 	@CallSuper
-	protected void drawMore(Canvas canvas){
+	protected void drawMore(Canvas canvas) {
 		// draw text
 		Rect r = getBounds();
 		_textPaint.setTextSize(Math.min(r.width(), r.height()) / 2);
