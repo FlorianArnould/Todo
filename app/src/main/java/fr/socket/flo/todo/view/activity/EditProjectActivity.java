@@ -18,6 +18,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import fr.socket.flo.todo.R;
@@ -77,6 +79,24 @@ public class EditProjectActivity extends AppCompatActivity {
 								});
 								break;
 							case 2:
+								dialogManager.showDatePickerDialog(project.getDeadline(), new OnDialogFinishedListener<Date>() {
+									@Override
+									public void onDialogFinished(Date result) {
+										Calendar calendar = Calendar.getInstance();
+										if (project.hasDeadline()) {
+											calendar.setTime(project.getDeadline());
+											int hour = calendar.get(Calendar.HOUR);
+											int minute = calendar.get(Calendar.MINUTE);
+											calendar.setTime(result);
+											calendar.set(Calendar.HOUR, hour);
+											calendar.set(Calendar.MINUTE, minute);
+										} else {
+											calendar.setTime(result);
+										}
+										project.setDeadline(calendar.getTime());
+										project.save();
+									}
+								});
 								break;
 							default:
 								Log.w("ListView items", "An item selected was not handle by the EditProjectActivity");
@@ -139,7 +159,16 @@ public class EditProjectActivity extends AppCompatActivity {
 			titleView.setText(_titles.get(position));
 
 			TextView summaryView = (TextView)view.findViewById(R.id.summary);
-			summaryView.setText(_summaries.get(position));
+			switch (position) {
+				case 3:
+					summaryView.setText(_project.getDeadlineDateAsString());
+					break;
+				case 5:
+					summaryView.setText(_project.getDeadlineTimeAsString());
+					break;
+				default:
+					summaryView.setText(_summaries.get(position));
+			}
 
 			ImageView imageView = (ImageView)view.findViewById(R.id.image);
 			imageView.setImageDrawable(getDrawable(position));

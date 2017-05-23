@@ -47,7 +47,9 @@
     <array name="edit_project_titles">
         <item>Color</item>
         <item>Priority</item>
-        <item>Deadline</item>
+        <item>Deadline Date</item>
+        <item>Whole day</item>
+        <item>Deadline Time</item>
     </array>
 
     <array name="edit_project_summary">
@@ -55,6 +57,8 @@
         <item>Represent the importance you attribute to this project. On value, greater means less
             important.
         </item>
-        <item>The date on which the project must be finished.</item>
+        <item/>
+        <item>The end of the project is an entire day.</item>
+        <item/>
     </array>
 </resources>

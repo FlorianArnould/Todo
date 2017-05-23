@@ -2,6 +2,7 @@ package fr.socket.flo.todo.view.dialog;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -10,9 +11,13 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+
+import java.util.Calendar;
+import java.util.Date;
 
 import fr.socket.flo.todo.R;
 import fr.socket.flo.todo.database.OnNewObjectCreatedListener;
@@ -94,22 +99,22 @@ public class DialogManager {
 		iconView.setImageDrawable(new PriorityDrawable(priority));
 		final SeekBar seekBar = (SeekBar)view.findViewById(R.id.seek_bar);
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(_activity);
-		seekBar.setMax(pref.getInt(_activity.getString(R.string.settings_priority_max_value_key), 1)-1);
-		seekBar.setProgress(priority-1);
+		seekBar.setMax(pref.getInt(_activity.getString(R.string.settings_priority_max_value_key), 1) - 1);
+		seekBar.setProgress(priority - 1);
 		builder.setView(view)
 				.setCancelable(true)
 				.setTitle(_activity.getString(R.string.priority))
 				.setPositiveButton(_activity.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						listener.onDialogFinished(seekBar.getProgress()+1);
+						listener.onDialogFinished(seekBar.getProgress() + 1);
 					}
 				});
 		final AlertDialog dialog = builder.create();
 		seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-				iconView.setImageDrawable(new PriorityDrawable(progress+1));
+				iconView.setImageDrawable(new PriorityDrawable(progress + 1));
 			}
 
 			@Override
@@ -120,6 +125,24 @@ public class DialogManager {
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
 				// Don't need to update anything here
+			}
+		});
+		dialog.show();
+	}
+
+	public void showDatePickerDialog(@Nullable Date date, final OnDialogFinishedListener<Date> listener) {
+		final DatePickerDialog dialog = new DatePickerDialog(_activity);
+		if (date != null) {
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(date);
+			dialog.getDatePicker().init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), null);
+		}
+		dialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
+			@Override
+			public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+				Calendar calendar = Calendar.getInstance();
+				calendar.set(year, month, dayOfMonth);
+				listener.onDialogFinished(calendar.getTime());
 			}
 		});
 		dialog.show();

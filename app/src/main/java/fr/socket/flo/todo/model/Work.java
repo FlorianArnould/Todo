@@ -81,11 +81,32 @@ abstract class Work extends Savable implements Nameable, Sortable<Work> {
 		return _deadline;
 	}
 
+	public void setDeadline(Date dateTime) {
+		_deadline = dateTime;
+	}
+
 	public CharSequence getDeadlineAsString() {
 		if (_deadline == null) {
 			return "";
 		} else {
-			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-mm-yyyy HH:mm", Locale.FRENCH);
+			return getDeadlineDateAsString() + " " + getDeadlineTimeAsString();
+		}
+	}
+
+	public CharSequence getDeadlineDateAsString() {
+		if (_deadline == null) {
+			return "";
+		} else {
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-mm-yyyy", Locale.FRENCH);
+			return simpleDateFormat.format(_deadline);
+		}
+	}
+
+	public CharSequence getDeadlineTimeAsString() {
+		if (_deadline == null) {
+			return "";
+		} else {
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.FRENCH);
 			return simpleDateFormat.format(_deadline);
 		}
 	}
