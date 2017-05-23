@@ -39,9 +39,10 @@
 
     <CheckBox
         android:id="@+id/is_favorite"
-        style="?android:attr/starStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"/>
+        android:button="@drawable/star_selector"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>
