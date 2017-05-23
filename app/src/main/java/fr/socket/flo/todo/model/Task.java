@@ -36,7 +36,7 @@ public class Task extends Work {
 	}
 
 	public static void newTask(int projectId, String name, @Nullable OnNewObjectCreatedListener listener) {
-		Task task = new Task(NONE, projectId, name, ColorGenerator.randomColor(), null, 0, State.WAITING);
+		Task task = new Task(NONE, projectId, name, ColorGenerator.randomColor(), null, 1, State.WAITING);
 		DataManager.getInstance().save(task, listener);
 	}
 
@@ -49,6 +49,14 @@ public class Task extends Work {
 
 	public int getProjectId() {
 		return _projectId;
+	}
+
+	public void nextState(){
+		int ordinal = _state.ordinal()+1;
+		if(ordinal >= State.values().length){
+			ordinal = 0;
+		}
+		_state = State.values()[ordinal];
 	}
 
 	public State getState() {

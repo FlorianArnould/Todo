@@ -190,7 +190,7 @@ public class DataManager {
 
 	private void setProjectTasks(Project project) {
 		SQLiteDatabase db = _dbOpenHelper.getWritableDatabase();
-		Cursor cursor = db.query(Task.TABLE_NAME, new String[]{"state", "COUNT(state)"}, null, null, "state", null, null);
+		Cursor cursor = db.query(Task.TABLE_NAME, new String[]{"state", "COUNT(state)"}, "project_id=?", new String[]{String.valueOf(project.getId())}, "state", null, null);
 		while (cursor.moveToNext()) {
 			project.setNumberOfTasks(Task.State.valueOf(cursor.getString(0)), cursor.getInt(1));
 		}

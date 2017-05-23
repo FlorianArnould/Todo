@@ -64,6 +64,7 @@ public class DialogManager {
 		builder.setView(view)
 				.setCancelable(true)
 				.setTitle(title)
+				.setNegativeButton(android.R.string.cancel, null)
 				.setPositiveButton(_activity.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {

@@ -23,10 +23,10 @@ public class ProgressTextDrawable extends TextDrawable {
 	}
 
 	@Override
-	public void draw(Canvas canvas) {
+	public void drawMore(Canvas canvas) {
 		Rect r = getBounds();
 		RectF rectF = new RectF(r);
 		canvas.drawArc(rectF, -90, (int)(_progress * 360), true, _progressPaint);
-		super.draw(canvas);
+		super.drawMore(canvas);
 	}
 }

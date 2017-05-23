@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -19,6 +20,7 @@ import fr.socket.flo.todo.database.OnMultipleObjectsLoadedListener;
 import fr.socket.flo.todo.model.Nameable;
 import fr.socket.flo.todo.model.Sorter;
 import fr.socket.flo.todo.model.Task;
+import fr.socket.flo.todo.view.fragments.ProjectFragment;
 import fr.socket.flo.todo.view.fragments.filters.NameableFilter;
 import fr.socket.flo.todo.view.fragments.filters.OnNameableResultsPublishedListener;
 import fr.socket.flo.todo.view.graphics.PriorityDrawable;
@@ -28,15 +30,15 @@ import fr.socket.flo.todo.view.graphics.PriorityDrawable;
  * @version 1.0
  */
 public class TasksAdapter extends SortableAdapter implements Filterable, UpdatableAdapter {
-	private final Context _context;
+	private final ProjectFragment _fragment;
 	private final int _projectId;
 	private List<Task> _tasks;
 	private List<Task> _filteredTasks;
 	private Filter _filter;
 
-	public TasksAdapter(Context context, int projectId, Sorter.Sort sort) {
+	public TasksAdapter(ProjectFragment fragment, int projectId, Sorter.Sort sort) {
 		super(sort);
-		_context = context;
+		_fragment = fragment;
 		_projectId = projectId;
 		_tasks = new ArrayList<>();
 		_filteredTasks = _tasks;
@@ -73,19 +75,28 @@ public class TasksAdapter extends SortableAdapter implements Filterable, Updatab
 	@Override
 	public View getView(int position, View view, ViewGroup parent) {
 		if (view == null) {
-			LayoutInflater inflater = (LayoutInflater)_context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			LayoutInflater inflater = (LayoutInflater)_fragment.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = inflater.inflate(R.layout.fragment_task_row, parent, false);
 		}
-		Task task = _filteredTasks.get(position);
+		final Task task = _filteredTasks.get(position);
 		TextView nameView = (TextView)view.findViewById(R.id.name);
 		nameView.setText(task.getName());
-		TextView stateView = (TextView)view.findViewById(R.id.state);
+		final Button stateView = (Button)view.findViewById(R.id.state);
+		stateView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				task.nextState();
+				task.save();
+				_fragment.update();
+				stateView.setText(task.getStringResIdState());
+			}
+		});
 		stateView.setText(task.getStringResIdState());
 		TextView deadlineView = (TextView)view.findViewById(R.id.deadline);
 		if (task.hasDeadline()) {
 			deadlineView.setText(task.getDeadlineAsString());
 		} else {
-			deadlineView.setText(_context.getString(R.string.unlimited));
+			deadlineView.setText(_fragment.getString(R.string.unlimited));
 		}
 		ImageView priorityLabelView = (ImageView)view.findViewById(R.id.priority_label);
 		priorityLabelView.setImageDrawable(new PriorityDrawable(task.getPriority()));

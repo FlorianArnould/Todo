@@ -9,6 +9,7 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
+import android.support.annotation.CallSuper;
 import android.support.annotation.ColorInt;
 
 /**
@@ -34,17 +35,23 @@ abstract class TextDrawable extends ShapeDrawable {
 	}
 
 	@Override
-	public void draw(Canvas canvas) {
+	public final void draw(Canvas canvas) {
 		super.draw(canvas);
 		Rect r = getBounds();
 		int count = canvas.save();
 		canvas.translate(r.left, r.top);
 
-		// draw text
-		_textPaint.setTextSize(Math.min(r.width(), r.height()) / 2);
-		canvas.drawText(_text, r.width() / 2, r.height() / 2 - ((_textPaint.descent() + _textPaint.ascent()) / 2), _textPaint);
+		drawMore(canvas);
 
 		canvas.restoreToCount(count);
+	}
+
+	@CallSuper
+	protected void drawMore(Canvas canvas){
+		// draw text
+		Rect r = getBounds();
+		_textPaint.setTextSize(Math.min(r.width(), r.height()) / 2);
+		canvas.drawText(_text, r.width() / 2, r.height() / 2 - ((_textPaint.descent() + _textPaint.ascent()) / 2), _textPaint);
 	}
 
 	@Override

@@ -52,8 +52,8 @@ public class ProjectsAdapter extends SortableAdapter implements Filterable, Upda
 	public void update() {
 		DataManager.getInstance().getAllProjects(new OnMultipleObjectsLoadedListener<Project>() {
 			@Override
-			public void onObjectsLoaded(List<Project> objects) {
-				_projects = objects;
+			public void onObjectsLoaded(List<Project> projects) {
+				_projects = projects;
 				_filteredProjects = _projects;
 				notifyDataSetChanged();
 			}

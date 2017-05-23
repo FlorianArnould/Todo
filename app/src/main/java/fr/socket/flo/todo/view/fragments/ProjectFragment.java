@@ -70,14 +70,14 @@ public class ProjectFragment extends MainActivityFragment implements OnNewObject
 		final SharedPreferences pref = activity.getSharedPreferences(getString(R.string.preferences_name_key), Context.MODE_PRIVATE);
 		String sort = pref.getString(SORT_PREFERENCES_KEY, Sorter.Sort.BY_NAME.name());
 		Sorter.Sort sortingWay = Sorter.Sort.valueOf(sort);
-		setListAdapter(new TasksAdapter(getContext(), _projectId, sortingWay));
+		setListAdapter(new TasksAdapter(this, _projectId, sortingWay));
 
 		DataManager.getInstance().getProjectById(_projectId, new OnObjectLoadedListener<Project>() {
 			@Override
 			public void onObjectLoaded(Project project) {
 				String projectName = project.getName();
 				activity.setTitle(projectName);
-				animateProjectProgress(project);
+				animateProjectProgress(project, 600);
 			}
 		});
 	}
@@ -131,16 +131,16 @@ public class ProjectFragment extends MainActivityFragment implements OnNewObject
 				.commit();
 	}
 
-	private void animateProjectProgress(Project project) {
+	private void animateProjectProgress(Project project, int delay) {
 		ProgressBar waiting = (ProgressBar)_view.findViewById(R.id.waiting_progress);
 		ProgressBar inProgress = (ProgressBar)_view.findViewById(R.id.in_progress);
 		ProgressBar complete = (ProgressBar)_view.findViewById(R.id.complete_progress);
 		complete.setMax(PROGRESS_MAX);
 		inProgress.setMax(PROGRESS_MAX);
 		waiting.setMax(PROGRESS_MAX);
-		ObjectAnimator waitingAnimator = initializeAnimation(waiting, 1, 400);
-		ObjectAnimator inProgressAnimator = initializeAnimation(inProgress, project.getInProgress(), 600);
-		ObjectAnimator completeAnimator = initializeAnimation(complete, project.getCompleteProgress(), 800);
+		ObjectAnimator waitingAnimator = initializeAnimation(waiting, 1, delay-200);
+		ObjectAnimator inProgressAnimator = initializeAnimation(inProgress, project.getInProgress(), delay);
+		ObjectAnimator completeAnimator = initializeAnimation(complete, project.getCompleteProgress(), delay+200);
 		waitingAnimator.start();
 		inProgressAnimator.start();
 		completeAnimator.start();
@@ -163,6 +163,7 @@ public class ProjectFragment extends MainActivityFragment implements OnNewObject
 			TasksAdapter adapter = (TasksAdapter)getListAdapter();
 			adapter.update();
 			adapter.notifyDataSetChanged();
+			update();
 			snackbar = Snackbar.make(getMainActivity().getRootView(), R.string.new_task_created, Snackbar.LENGTH_LONG);
 			snackbar.setAction(R.string.configure, new View.OnClickListener() {
 				@Override
@@ -173,5 +174,14 @@ public class ProjectFragment extends MainActivityFragment implements OnNewObject
 			});
 		}
 		snackbar.show();
+	}
+
+	public void update(){
+		DataManager.getInstance().getProjectById(_projectId, new OnObjectLoadedListener<Project>() {
+			@Override
+			public void onObjectLoaded(Project project) {
+				animateProjectProgress(project, 0);
+			}
+		});
 	}
 }
