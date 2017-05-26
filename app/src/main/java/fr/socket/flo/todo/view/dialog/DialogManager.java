@@ -3,6 +3,7 @@ package fr.socket.flo.todo.view.dialog;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -15,6 +16,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.TimePicker;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -145,6 +147,24 @@ public class DialogManager {
 				listener.onDialogFinished(calendar.getTime());
 			}
 		});
+		dialog.show();
+	}
+
+	public void showTimePickerDialog(@Nullable Date date, final OnDialogFinishedListener<Date> listener) {
+		TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
+			@Override
+			public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+				Calendar calendar = Calendar.getInstance();
+				calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+				calendar.set(Calendar.MINUTE, minute);
+				listener.onDialogFinished(calendar.getTime());
+			}
+		};
+		Calendar calendar = Calendar.getInstance();
+		if (date != null) {
+			calendar.setTime(date);
+		}
+		final TimePickerDialog dialog = new TimePickerDialog(_activity, timeSetListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
 		dialog.show();
 	}
 }

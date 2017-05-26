@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:enterFadeDuration="@android:integer/config_longAnimTime"
+    android:exitFadeDuration="@android:integer/config_longAnimTime">
+    <item
+        android:id="@+id/visible"
+        android:animation="@android:anim/fade_in"
+        android:drawable="@drawable/ic_edit"
+        android:state_enabled="true"/>
+    <item
+        android:id="@+id/not_visible"
+        android:animation="@android:anim/fade_in"
+        android:drawable="@android:color/transparent"
+        android:state_enabled="false"/>
+</selector>

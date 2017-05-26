@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -50,6 +53,13 @@ public class AllProjectsFragment extends MainActivityFragment implements OnNewOb
 		Sorter.Sort sortingWay = Sorter.Sort.valueOf(sort);
 		setListAdapter(new ProjectsAdapter(getContext(), sortingWay));
 
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		super.onCreateOptionsMenu(menu, inflater);
+		MenuItem editItem = menu.findItem(R.id.action_edit);
+		editItem.setEnabled(false);
 	}
 
 	@Override

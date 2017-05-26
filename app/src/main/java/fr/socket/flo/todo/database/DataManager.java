@@ -172,12 +172,15 @@ public class DataManager {
 		};
 	}
 
-	// TODO: 13/05/17 get the current task with another criteria
 	private int getCurrentTask(int projectId) {
-		String query = "SELECT id FROM tasks " +
-				"WHERE state = '" + Task.State.IN_PROGRESS.name() + "' AND project_id='" + projectId + "'";
 		SQLiteDatabase db = _dbOpenHelper.getWritableDatabase();
-		Cursor cursor = db.rawQuery(query, null, null);
+		Cursor cursor = db.query(
+				Task.TABLE_NAME,
+				new String[]{"id"}, "state=? AND project_id=?",
+				new String[]{Task.State.IN_PROGRESS.name(), String.valueOf(projectId)},
+				null,
+				null,
+				"priority, deadline IS NULL");
 		int taskId;
 		if (cursor.moveToNext()) {
 			taskId = cursor.getInt(0);

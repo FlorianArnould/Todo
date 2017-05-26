@@ -6,6 +6,7 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
@@ -19,7 +20,7 @@ import fr.socket.flo.todo.database.DataManager;
  */
 abstract class Work extends Savable implements Nameable, Sortable<Work> {
 	public static final int NONE = -1;
-	private final SimpleDateFormat _dateFormat;
+	private SimpleDateFormat _dateFormat;
 	private int _id;
 	private String _name;
 	private int _color;
@@ -28,7 +29,6 @@ abstract class Work extends Savable implements Nameable, Sortable<Work> {
 
 	Work(Cursor cursor) {
 		super(cursor);
-		_dateFormat = new SimpleDateFormat("dd-mm-yyyy HH:mm:ss", Locale.FRENCH);
 	}
 
 	Work(int id, String name, @ColorInt int color, @Nullable Date deadline, int priority) {
@@ -37,7 +37,7 @@ abstract class Work extends Savable implements Nameable, Sortable<Work> {
 		_color = color;
 		_deadline = deadline;
 		_priority = priority;
-		_dateFormat = new SimpleDateFormat("dd-mm-yyyy HH:mm:ss", Locale.FRENCH);
+		_dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.FRENCH);
 	}
 
 	protected static Collection<String> getColumns() {
@@ -97,7 +97,7 @@ abstract class Work extends Savable implements Nameable, Sortable<Work> {
 		if (_deadline == null) {
 			return "";
 		} else {
-			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-mm-yyyy", Locale.FRENCH);
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.FRENCH);
 			return simpleDateFormat.format(_deadline);
 		}
 	}
@@ -142,6 +142,7 @@ abstract class Work extends Savable implements Nameable, Sortable<Work> {
 	@Override
 	protected int fromCursor(Cursor cursor) {
 		int index = super.fromCursor(cursor);
+		_dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.FRENCH);
 		_id = cursor.getInt(index++);
 		_name = cursor.getString(index++);
 		_color = cursor.getInt(index++);
@@ -168,7 +169,7 @@ abstract class Work extends Savable implements Nameable, Sortable<Work> {
 		if (string != null && !string.isEmpty()) {
 			try {
 				return _dateFormat.parse(string);
-			} catch (Exception e) {
+			} catch (ParseException e) {
 				Log.w("Parse sql string", "Date wasn't parse", e);
 			}
 		}

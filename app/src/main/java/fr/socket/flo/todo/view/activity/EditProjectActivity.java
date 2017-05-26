@@ -12,8 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -85,16 +87,38 @@ public class EditProjectActivity extends AppCompatActivity {
 										Calendar calendar = Calendar.getInstance();
 										if (project.hasDeadline()) {
 											calendar.setTime(project.getDeadline());
-											int hour = calendar.get(Calendar.HOUR);
+											int hour = calendar.get(Calendar.HOUR_OF_DAY);
 											int minute = calendar.get(Calendar.MINUTE);
 											calendar.setTime(result);
-											calendar.set(Calendar.HOUR, hour);
+											calendar.set(Calendar.HOUR_OF_DAY, hour);
 											calendar.set(Calendar.MINUTE, minute);
+											project.setDeadline(calendar.getTime());
 										} else {
-											calendar.setTime(result);
+											project.setDeadline(result);
 										}
-										project.setDeadline(calendar.getTime());
 										project.save();
+										adapter.notifyDataSetChanged();
+									}
+								});
+								break;
+							case 4:
+								dialogManager.showTimePickerDialog(project.getDeadline(), new OnDialogFinishedListener<Date>() {
+									@Override
+									public void onDialogFinished(Date result) {
+										Calendar calendar = Calendar.getInstance();
+										if (project.hasDeadline()) {
+											calendar.setTime(project.getDeadline());
+											int year = calendar.get(Calendar.YEAR);
+											int month = calendar.get(Calendar.MONTH);
+											int day = calendar.get(Calendar.DAY_OF_MONTH);
+											calendar.setTime(result);
+											calendar.set(year, month, day);
+											project.setDeadline(calendar.getTime());
+										} else {
+											project.setDeadline(result);
+										}
+										project.save();
+										adapter.notifyDataSetChanged();
 									}
 								});
 								break;
@@ -160,18 +184,30 @@ public class EditProjectActivity extends AppCompatActivity {
 
 			TextView summaryView = (TextView)view.findViewById(R.id.summary);
 			switch (position) {
-				case 3:
+				case 2:
 					summaryView.setText(_project.getDeadlineDateAsString());
 					break;
-				case 5:
+				case 4:
 					summaryView.setText(_project.getDeadlineTimeAsString());
 					break;
 				default:
 					summaryView.setText(_summaries.get(position));
 			}
 
-			ImageView imageView = (ImageView)view.findViewById(R.id.image);
-			imageView.setImageDrawable(getDrawable(position));
+			LinearLayout infoLayout = (LinearLayout)view.findViewById(R.id.info);
+			infoLayout.removeAllViews();
+			switch (position) {
+				case 3:
+					CheckBox checkBox = new CheckBox(EditProjectActivity.this);
+					infoLayout.addView(checkBox);
+					break;
+				default:
+					ImageView imageView = new ImageView(EditProjectActivity.this);
+					imageView.setAdjustViewBounds(true);
+					imageView.setImageDrawable(getDrawable(position));
+					infoLayout.addView(imageView);
+			}
+
 			return view;
 		}
 
