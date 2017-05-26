@@ -29,4 +29,5 @@
     <string name="new_task_was_not_created">La tâche n\'a pas été crée</string>
     <string name="all_projects">Tous les projets</string>
     <string name="edit_title">Edition</string>
+    <string name="current_tasks">Tâches en cours</string>
 </resources>

@@ -36,7 +36,6 @@ import fr.socket.flo.todo.view.fragments.adapters.TasksAdapter;
 public class ProjectFragment extends MainActivityFragment implements OnNewObjectCreatedListener {
 	private static final String PROJECT_ID_KEY = "PROJECT_ID";
 	private static final String SORT_PREFERENCES_KEY = "project_fragment_sort";
-	private static final int EDIT_ITEM_ID = 0;
 	private static final int PROGRESS_MAX = 1000;
 	private int _projectId;
 	private View _view;
@@ -93,7 +92,7 @@ public class ProjectFragment extends MainActivityFragment implements OnNewObject
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId() == EDIT_ITEM_ID) {
+		if (item.getItemId() == R.id.action_edit) {
 			Intent intent = new Intent(getActivity(), EditProjectActivity.class);
 			intent.putExtra(EditProjectActivity.PROJECT_ID, _projectId);
 			getActivity().startActivity(intent);

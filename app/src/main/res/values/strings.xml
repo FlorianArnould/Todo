@@ -10,9 +10,11 @@
     <string name="all_projects">All projects</string>
     <string name="todo_comment" translatable="false">TODO so many things</string>
     <string name="favorites">Favorites</string>
+    <string name="current_tasks">Current tasks</string>
     <string name="project_icon_description" translatable="false">The icon of the project</string>
     <string name="priority_label_description" translatable="false">The label of the priority</string>
     <string name="icon_description" translatable="false">Icon to display much more information</string>
+    <string name="color_description" translatable="false">Image to display the color</string>
     <string name="project_name">Project name</string>
     <string name="new_project">New project</string>
     <string name="new_project_created">New project created</string>
@@ -44,21 +46,16 @@
     <string name="developer">Developer</string>
     <string name="developer_name" translatable="false">Florian Arnould</string>
 
-    <array name="edit_project_titles">
-        <item>Color</item>
-        <item>Priority</item>
-        <item>Deadline Date</item>
-        <item>Whole day</item>
-        <item>Deadline Time</item>
-    </array>
+    <string name="property_color_title">Color</string>
+    <string name="property_color_summary">The color of the project, used to fill the project icon</string>
 
-    <array name="edit_project_summary">
-        <item>The color of the project, used to fill the project icon</item>
-        <item>Represent the importance you attribute to this project. On value, greater means less
-            important.
-        </item>
-        <item/>
-        <item>The end of the project is an entire day.</item>
-        <item/>
-    </array>
+    <string name="property_priority_title">Priority</string>
+    <string name="property_priority_summary">Represent the importance you attribute to this project. On value, greater means less important.</string>
+
+    <string name="property_deadline_date_title">Deadline Date</string>
+
+    <string name="property_deadline_whole_day_title">Whole day</string>
+    <string name="property_deadline_whole_day_summary">The end of the project is an entire day.</string>
+
+    <string name="property_deadline_time_title">Deadline Time</string>
 </resources>

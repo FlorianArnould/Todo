@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.util.Collection;
@@ -39,11 +40,9 @@ public class DataManager {
 	}
 
 	public void getFavorites(OnMultipleObjectsLoadedListener<Project> listener) {
-		Collection<String> collection = Project.getColumns();
-		String[] columns = collection.toArray(new String[collection.size()]);
 		ObjectLoaderParameter<Project> parameter = new ObjectLoaderParameter<Project>(
 				Project.TABLE_NAME,
-				columns,
+				toArray(Project.getColumns()),
 				"is_favorite=1",
 				null) {
 			@Override
@@ -58,11 +57,9 @@ public class DataManager {
 	}
 
 	public void getAllProjects(OnMultipleObjectsLoadedListener<Project> listener) {
-		Collection<String> collection = Project.getColumns();
-		String[] columns = collection.toArray(new String[collection.size()]);
 		ObjectLoaderParameter<Project> parameter = new ObjectLoaderParameter<Project>(
 				Project.TABLE_NAME,
-				columns,
+				toArray(Project.getColumns()),
 				null,
 				null) {
 			@Override
@@ -77,11 +74,9 @@ public class DataManager {
 	}
 
 	public void getProjectById(int projectId, OnObjectLoadedListener<Project> listener) {
-		Collection<String> collection = Project.getColumns();
-		String[] columns = collection.toArray(new String[collection.size()]);
 		ObjectLoaderParameter<Project> parameter = new ObjectLoaderParameter<Project>(
 				Project.TABLE_NAME,
-				columns,
+				toArray(Project.getColumns()),
 				"id=?",
 				new String[]{String.valueOf(projectId)}) {
 			@Override
@@ -96,11 +91,9 @@ public class DataManager {
 	}
 
 	public void getTasksByProjectId(int projectId, OnMultipleObjectsLoadedListener<Task> listener) {
-		Collection<String> collection = Task.getColumns();
-		String[] columns = collection.toArray(new String[collection.size()]);
 		ObjectLoaderParameter<Task> parameter = new ObjectLoaderParameter<Task>(
 				Task.TABLE_NAME,
-				columns,
+				toArray(Task.getColumns()),
 				"project_id=?",
 				new String[]{String.valueOf(projectId)}) {
 			@Override
@@ -112,11 +105,9 @@ public class DataManager {
 	}
 
 	public void getTaskById(int taskId, OnObjectLoadedListener<Task> listener) {
-		Collection<String> collection = Task.getColumns();
-		String[] columns = collection.toArray(new String[collection.size()]);
 		ObjectLoaderParameter<Task> parameter = new ObjectLoaderParameter<Task>(
 				Task.TABLE_NAME,
-				columns,
+				toArray(Task.getColumns()),
 				"id=?",
 				new String[]{String.valueOf(taskId)}) {
 			@Override
@@ -125,6 +116,20 @@ public class DataManager {
 			}
 		};
 		new ObjectLoader<>(_dbOpenHelper.getWritableDatabase(), parameter, listener).execute();
+	}
+
+	public void getInProgressTasks(OnMultipleObjectsLoadedListener<Task> listener) {
+		ObjectLoaderParameter<Task> parameter = new ObjectLoaderParameter<Task>(
+				Task.TABLE_NAME,
+				toArray(Task.getColumns()),
+				"state=?",
+				new String[]{Task.State.IN_PROGRESS.name()}) {
+			@Override
+			Task createInstance(Cursor cursor) {
+				return new Task(cursor);
+			}
+		};
+		new MultipleObjectsLoader<>(_dbOpenHelper.getWritableDatabase(), parameter, listener).execute();
 	}
 
 	public void save(Savable savable, @Nullable final OnNewObjectCreatedListener listener) {
@@ -198,5 +203,10 @@ public class DataManager {
 			project.setNumberOfTasks(Task.State.valueOf(cursor.getString(0)), cursor.getInt(1));
 		}
 		cursor.close();
+	}
+
+	@NonNull
+	private String[] toArray(@NonNull Collection<String> collection) {
+		return collection.toArray(new String[collection.size()]);
 	}
 }

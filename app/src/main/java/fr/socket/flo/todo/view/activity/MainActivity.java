@@ -3,7 +3,6 @@ package fr.socket.flo.todo.view.activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.ColorInt;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -27,6 +26,7 @@ import fr.socket.flo.todo.database.OnDataChangedListener;
 import fr.socket.flo.todo.database.OnMultipleObjectsLoadedListener;
 import fr.socket.flo.todo.model.Project;
 import fr.socket.flo.todo.model.Sorter;
+import fr.socket.flo.todo.model.Task;
 import fr.socket.flo.todo.view.about.AboutActivity;
 import fr.socket.flo.todo.view.fragments.AllProjectsFragment;
 import fr.socket.flo.todo.view.fragments.MainActivityFragment;
@@ -99,14 +99,22 @@ public class MainActivity extends SearchActivity
 		final NavigationView navView = (NavigationView)findViewById(R.id.nav_view);
 		navView.getMenu().clear();
 		navView.inflateMenu(R.menu.drawer_menu);
-		final Menu menu = navView.getMenu().getItem(1).getSubMenu();
+		final Menu favoriteMenu = navView.getMenu().getItem(1).getSubMenu();
 		DataManager.getInstance().getFavorites(new OnMultipleObjectsLoadedListener<Project>() {
 			@Override
-			public void onObjectsLoaded(List<Project> objects) {
-				for (Project project : objects) {
-					@ColorInt int color = project.getColor();
-					final Drawable icon = new ProgressTextDrawable(project.getName().substring(0, 1), color, project.getCompleteProgress());
-					menu.add(R.id.favorites_group, project.getId(), Menu.NONE, project.getName()).setIcon(icon);
+			public void onObjectsLoaded(List<Project> projects) {
+				for (Project project : projects) {
+					final Drawable icon = new ProgressTextDrawable(project.getName().substring(0, 1), project.getColor(), project.getCompleteProgress());
+					favoriteMenu.add(R.id.favorites_group, project.getId(), Menu.NONE, project.getName()).setIcon(icon);
+				}
+			}
+		});
+		final Menu inProgressMenu = navView.getMenu().getItem(2).getSubMenu();
+		DataManager.getInstance().getInProgressTasks(new OnMultipleObjectsLoadedListener<Task>() {
+			@Override
+			public void onObjectsLoaded(List<Task> tasks) {
+				for (Task task : tasks) {
+					inProgressMenu.add(R.id.current_task_group, task.getId(), Menu.NONE, task.getName());
 				}
 			}
 		});

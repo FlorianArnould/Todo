@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/property_color"/>
+
+    <include layout="@layout/property_priority"/>
+
+    <include layout="@layout/property_deadline_date"/>
+
+    <include layout="@layout/property_deadline_whole_day"/>
+
+    <include layout="@layout/property_deadline_time"/>
+
+</LinearLayout>

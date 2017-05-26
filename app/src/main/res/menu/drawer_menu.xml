@@ -25,7 +25,7 @@
             android:id="@+id/current_task"
             android:enabled="true"
             android:orderInCategory="1"
-            android:title="@string/favorites">
+            android:title="@string/current_tasks">
             <menu>
                 <group
                     android:id="@+id/current_task_group">

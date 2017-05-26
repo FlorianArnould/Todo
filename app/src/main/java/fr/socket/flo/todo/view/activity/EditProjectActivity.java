@@ -1,28 +1,19 @@
 package fr.socket.flo.todo.view.activity;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import fr.socket.flo.todo.R;
 import fr.socket.flo.todo.database.DataManager;
@@ -37,7 +28,7 @@ import fr.socket.flo.todo.view.graphics.TextDrawable;
  * @author Florian Arnould
  * @version 1.0
  */
-public class EditProjectActivity extends AppCompatActivity {
+public class EditProjectActivity extends AppCompatActivity implements OnObjectLoadedListener<Project> {
 	public static final String PROJECT_ID = "project_id";
 	private Project _project;
 
@@ -55,80 +46,7 @@ public class EditProjectActivity extends AppCompatActivity {
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		}
 
-		DataManager.getInstance().getProjectById(projectId, new OnObjectLoadedListener<Project>() {
-			@Override
-			public void onObjectLoaded(final Project project) {
-				_project = project;
-				EditText editName = (EditText)findViewById(R.id.name);
-				editName.setText(project.getName());
-				ListView listView = (ListView)findViewById(R.id.list);
-				final BaseAdapter adapter = new EditProjectAdapter(project);
-				listView.setAdapter(adapter);
-				listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-					@Override
-					public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-						DialogManager dialogManager = new DialogManager(EditProjectActivity.this);
-						switch (position) {
-							case 0:
-								break;
-							case 1:
-								dialogManager.showPriorityPickerDialog(project.getPriority(), new OnDialogFinishedListener<Integer>() {
-									@Override
-									public void onDialogFinished(Integer result) {
-										project.setPriority(result);
-										adapter.notifyDataSetChanged();
-									}
-								});
-								break;
-							case 2:
-								dialogManager.showDatePickerDialog(project.getDeadline(), new OnDialogFinishedListener<Date>() {
-									@Override
-									public void onDialogFinished(Date result) {
-										Calendar calendar = Calendar.getInstance();
-										if (project.hasDeadline()) {
-											calendar.setTime(project.getDeadline());
-											int hour = calendar.get(Calendar.HOUR_OF_DAY);
-											int minute = calendar.get(Calendar.MINUTE);
-											calendar.setTime(result);
-											calendar.set(Calendar.HOUR_OF_DAY, hour);
-											calendar.set(Calendar.MINUTE, minute);
-											project.setDeadline(calendar.getTime());
-										} else {
-											project.setDeadline(result);
-										}
-										project.save();
-										adapter.notifyDataSetChanged();
-									}
-								});
-								break;
-							case 4:
-								dialogManager.showTimePickerDialog(project.getDeadline(), new OnDialogFinishedListener<Date>() {
-									@Override
-									public void onDialogFinished(Date result) {
-										Calendar calendar = Calendar.getInstance();
-										if (project.hasDeadline()) {
-											calendar.setTime(project.getDeadline());
-											int year = calendar.get(Calendar.YEAR);
-											int month = calendar.get(Calendar.MONTH);
-											int day = calendar.get(Calendar.DAY_OF_MONTH);
-											calendar.setTime(result);
-											calendar.set(year, month, day);
-											project.setDeadline(calendar.getTime());
-										} else {
-											project.setDeadline(result);
-										}
-										project.save();
-										adapter.notifyDataSetChanged();
-									}
-								});
-								break;
-							default:
-								Log.w("ListView items", "An item selected was not handle by the EditProjectActivity");
-						}
-					}
-				});
-			}
-		});
+		DataManager.getInstance().getProjectById(projectId, this);
 	}
 
 	@Override
@@ -147,79 +65,119 @@ public class EditProjectActivity extends AppCompatActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	private class EditProjectAdapter extends BaseAdapter {
-		private List<String> _titles;
-		private List<String> _summaries;
+	@Override
+	public void onObjectLoaded(Project project) {
+		_project = project;
+		EditText editName = (EditText)findViewById(R.id.name);
+		editName.setText(project.getName());
+		updateColorProperty();
+		updatePriorityProperty();
+		updateDeadlineDateProperty();
+		updateDeadlineWholeDayProperty();
+		updateDeadlineTimeProperty();
+	}
 
-		EditProjectAdapter(Project project) {
-			_project = project;
-			_titles = Arrays.asList(getResources().getStringArray(R.array.edit_project_titles));
-			_summaries = Arrays.asList(getResources().getStringArray(R.array.edit_project_summary));
-		}
+	private void updateColorProperty() {
+		ImageView colorView = (ImageView)findViewById(R.id.color);
+		colorView.setImageDrawable(new TextDrawable("", _project.getColor(), 0));
+	}
 
-		@Override
-		public int getCount() {
-			return _titles.size();
-		}
-
-		@Override
-		public Object getItem(int position) {
-			return null;
-		}
-
-		@Override
-		public long getItemId(int position) {
-			return 0;
-		}
-
-		@Override
-		public View getView(int position, View view, ViewGroup parent) {
-			if (view == null) {
-				LayoutInflater inflater = (LayoutInflater)EditProjectActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				view = inflater.inflate(R.layout.edit_row, parent, false);
+	private void updatePriorityProperty() {
+		setOnPropertyClickListener(R.id.priority_property, new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				new DialogManager(EditProjectActivity.this).showPriorityPickerDialog(_project.getPriority(), new OnDialogFinishedListener<Integer>() {
+					@Override
+					public void onDialogFinished(Integer result) {
+						_project.setPriority(result);
+						updatePriorityProperty();
+					}
+				});
 			}
+		});
+		ImageView priorityView = (ImageView)findViewById(R.id.priority_label);
+		priorityView.setImageDrawable(new PriorityDrawable(_project.getPriority()));
+	}
 
-			TextView titleView = (TextView)view.findViewById(R.id.title);
-			titleView.setText(_titles.get(position));
-
-			TextView summaryView = (TextView)view.findViewById(R.id.summary);
-			switch (position) {
-				case 2:
-					summaryView.setText(_project.getDeadlineDateAsString());
-					break;
-				case 4:
-					summaryView.setText(_project.getDeadlineTimeAsString());
-					break;
-				default:
-					summaryView.setText(_summaries.get(position));
+	private void updateDeadlineDateProperty() {
+		setOnPropertyClickListener(R.id.deadline_date_property, new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				new DialogManager(EditProjectActivity.this).showDatePickerDialog(_project.getDeadline(), new OnDialogFinishedListener<Date>() {
+					@Override
+					public void onDialogFinished(Date result) {
+						Calendar calendar = Calendar.getInstance();
+						if (_project.hasDeadline()) {
+							calendar.setTime(_project.getDeadline());
+							int hour = calendar.get(Calendar.HOUR_OF_DAY);
+							int minute = calendar.get(Calendar.MINUTE);
+							calendar.setTime(result);
+							calendar.set(Calendar.HOUR_OF_DAY, hour);
+							calendar.set(Calendar.MINUTE, minute);
+							_project.setDeadline(calendar.getTime());
+						} else {
+							_project.setDeadline(result);
+						}
+						updateDeadlineDateProperty();
+					}
+				});
 			}
+		});
+		fillSummary(R.id.summary_deadline_date, _project.getDeadlineDateAsString());
+	}
 
-			LinearLayout infoLayout = (LinearLayout)view.findViewById(R.id.info);
-			infoLayout.removeAllViews();
-			switch (position) {
-				case 3:
-					CheckBox checkBox = new CheckBox(EditProjectActivity.this);
-					infoLayout.addView(checkBox);
-					break;
-				default:
-					ImageView imageView = new ImageView(EditProjectActivity.this);
-					imageView.setAdjustViewBounds(true);
-					imageView.setImageDrawable(getDrawable(position));
-					infoLayout.addView(imageView);
+	private void updateDeadlineWholeDayProperty() {
+		final CheckBox checkBox = (CheckBox)findViewById(R.id.deadline_whole_day_checkbox);
+		// TODO: 26/05/17 Replace with project value
+		checkBox.setChecked(false);
+		checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				// TODO: 26/05/17 update project value
 			}
-
-			return view;
-		}
-
-		private Drawable getDrawable(int position) {
-			switch (position) {
-				case 0:
-					return new TextDrawable("", _project.getColor(), 0);
-				case 1:
-					return new PriorityDrawable(_project.getPriority());
-				default:
-					return null;
+		});
+		setOnPropertyClickListener(R.id.deadline_whole_day_property, new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				checkBox.setChecked(!checkBox.isChecked());
 			}
-		}
+		});
+	}
+
+	private void updateDeadlineTimeProperty() {
+		setOnPropertyClickListener(R.id.deadline_time_property, new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				new DialogManager(EditProjectActivity.this).showTimePickerDialog(_project.getDeadline(), new OnDialogFinishedListener<Date>() {
+					@Override
+					public void onDialogFinished(Date result) {
+						Calendar calendar = Calendar.getInstance();
+						if (_project.hasDeadline()) {
+							calendar.setTime(_project.getDeadline());
+							int year = calendar.get(Calendar.YEAR);
+							int month = calendar.get(Calendar.MONTH);
+							int day = calendar.get(Calendar.DAY_OF_MONTH);
+							calendar.setTime(result);
+							calendar.set(year, month, day);
+							_project.setDeadline(calendar.getTime());
+						} else {
+							_project.setDeadline(result);
+						}
+						updateDeadlineTimeProperty();
+					}
+				});
+			}
+		});
+		fillSummary(R.id.summary_deadline_time, _project.getDeadlineTimeAsString());
+	}
+
+	private void fillSummary(@IdRes int summaryRes, CharSequence summaryString) {
+		TextView summaryView = (TextView)findViewById(summaryRes);
+		summaryView.setText(summaryString);
+	}
+
+	private void setOnPropertyClickListener(@IdRes int res, View.OnClickListener listener) {
+		View view = findViewById(res);
+		view.setOnClickListener(listener);
 	}
 }
