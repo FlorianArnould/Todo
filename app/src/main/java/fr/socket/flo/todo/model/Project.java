@@ -18,11 +18,11 @@ import fr.socket.flo.todo.view.graphics.ColorGenerator;
  */
 public class Project extends Work {
 	public static final String TABLE_NAME = "projects";
+	private final int[] _numberOfTasks;
 	@ColorInt
 	private int _color;
 	private int _currentTaskId;
 	private boolean _isFavorite;
-	private final int[] _numberOfTasks;
 	private int _totalOfTasks;
 
 	public Project(Cursor cursor) {
