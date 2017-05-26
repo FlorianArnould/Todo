@@ -133,13 +133,10 @@ public class DataManager {
 	}
 
 	public void save(Savable savable, @Nullable final OnNewObjectCreatedListener listener) {
-		Saver saver = new Saver(_dbOpenHelper.getWritableDatabase(), savable.getTable(), savable.toContentValues(), new OnNewObjectCreatedListener() {
-			@Override
-			public void onNewObjectCreated(int objectId) {
-				getOnDataChangedListener().onDataChanged();
-				if (listener != null) {
-					listener.onNewObjectCreated(objectId);
-				}
+		Saver saver = new Saver(_dbOpenHelper.getWritableDatabase(), savable.getTable(), savable.toContentValues(), objectId -> {
+			getOnDataChangedListener().onDataChanged();
+			if (listener != null) {
+				listener.onNewObjectCreated(objectId);
 			}
 		});
 		saver.execute();
@@ -163,18 +160,11 @@ public class DataManager {
 	}
 
 	private void notifyListeners() {
-		for (OnDataChangedListener listener : _listeners) {
-			listener.onDataChanged();
-		}
+		_listeners.forEach(OnDataChangedListener::onDataChanged);
 	}
 
 	private OnDataChangedListener getOnDataChangedListener() {
-		return new OnDataChangedListener() {
-			@Override
-			public void onDataChanged() {
-				notifyListeners();
-			}
-		};
+		return this::notifyListeners;
 	}
 
 	private int getCurrentTask(int projectId) {

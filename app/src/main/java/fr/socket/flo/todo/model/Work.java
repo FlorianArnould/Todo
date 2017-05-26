@@ -2,7 +2,6 @@ package fr.socket.flo.todo.model;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -23,7 +22,6 @@ abstract class Work extends Savable implements Nameable, Sortable<Work> {
 	private SimpleDateFormat _dateFormat;
 	private int _id;
 	private String _name;
-	private int _color;
 	private Date _deadline;
 	private int _priority;
 
@@ -31,10 +29,9 @@ abstract class Work extends Savable implements Nameable, Sortable<Work> {
 		super(cursor);
 	}
 
-	Work(int id, String name, @ColorInt int color, @Nullable Date deadline, int priority) {
+	Work(int id, String name, @Nullable Date deadline, int priority) {
 		_id = id;
 		_name = name;
-		_color = color;
 		_deadline = deadline;
 		_priority = priority;
 		_dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.FRENCH);
@@ -44,7 +41,6 @@ abstract class Work extends Savable implements Nameable, Sortable<Work> {
 		Collection<String> columns = Savable.getColumns();
 		columns.add("id");
 		columns.add("name");
-		columns.add("color");
 		columns.add("deadline");
 		columns.add("priority");
 		return columns;
@@ -58,11 +54,6 @@ abstract class Work extends Savable implements Nameable, Sortable<Work> {
 	@Override
 	public String getName() {
 		return _name;
-	}
-
-	@ColorInt
-	public int getColor() {
-		return _color;
 	}
 
 	public int getPriority() {
@@ -145,7 +136,6 @@ abstract class Work extends Savable implements Nameable, Sortable<Work> {
 		_dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.FRENCH);
 		_id = cursor.getInt(index++);
 		_name = cursor.getString(index++);
-		_color = cursor.getInt(index++);
 		_deadline = stringToDate(cursor.getString(index++));
 		_priority = cursor.getInt(index++);
 		return index;
@@ -155,7 +145,6 @@ abstract class Work extends Savable implements Nameable, Sortable<Work> {
 	public ContentValues toContentValues() {
 		ContentValues values = super.toContentValues();
 		values.put("name", _name);
-		values.put("color", _color);
 		if (_deadline != null) {
 			values.put("deadline", _dateFormat.format(_deadline));
 		} else {

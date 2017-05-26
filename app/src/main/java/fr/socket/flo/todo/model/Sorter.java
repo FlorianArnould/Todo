@@ -29,29 +29,14 @@ public class Sorter {
 	}
 
 	private static void sortByName(List<? extends Sortable> list) {
-		Collections.sort(list, new Comparator<Sortable>() {
-			@Override
-			public int compare(Sortable o1, Sortable o2) {
-				return o1.compareByName(o2);
-			}
-		});
+		Collections.sort(list, (Comparator<Sortable>)Sortable::compareByName);
 	}
 
 	private static void sortByDeadline(List<? extends Sortable> list) {
-		Collections.sort(list, new Comparator<Sortable>() {
-			@Override
-			public int compare(Sortable o1, Sortable o2) {
-				return o1.compareByDeadline(o2);
-			}
-		});
+		Collections.sort(list, (Comparator<Sortable>)Sortable::compareByDeadline);
 	}
 
 	private static void sortByPriority(List<? extends Sortable> list) {
-		Collections.sort(list, new Comparator<Sortable>() {
-			@Override
-			public int compare(Sortable o1, Sortable o2) {
-				return o1.compareByPriority(o2);
-			}
-		});
+		Collections.sort(list, (Comparator<Sortable>)Sortable::compareByPriority);
 	}
 }

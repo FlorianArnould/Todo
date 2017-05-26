@@ -2,7 +2,6 @@ package fr.socket.flo.todo.model;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 
@@ -12,7 +11,6 @@ import java.util.Date;
 import fr.socket.flo.todo.R;
 import fr.socket.flo.todo.database.DataManager;
 import fr.socket.flo.todo.database.OnNewObjectCreatedListener;
-import fr.socket.flo.todo.view.graphics.ColorGenerator;
 
 /**
  * @author Florian Arnould
@@ -29,14 +27,14 @@ public class Task extends Work {
 		super(cursor);
 	}
 
-	private Task(int id, int projectId, String name, @ColorInt int color, @Nullable Date deadline, int priority, State state) {
-		super(id, name, color, deadline, priority);
+	private Task(int id, int projectId, String name, @Nullable Date deadline, int priority, State state) {
+		super(id, name, deadline, priority);
 		_projectId = projectId;
 		_state = state;
 	}
 
 	public static void newTask(int projectId, String name, @Nullable OnNewObjectCreatedListener listener) {
-		Task task = new Task(NONE, projectId, name, ColorGenerator.randomColor(), null, 1, State.WAITING);
+		Task task = new Task(NONE, projectId, name, null, 1, State.WAITING);
 		DataManager.getInstance().save(task, listener);
 	}
 
@@ -47,20 +45,12 @@ public class Task extends Work {
 		return columns;
 	}
 
-	public int getProjectId() {
-		return _projectId;
-	}
-
 	public void nextState() {
 		int ordinal = _state.ordinal() + 1;
 		if (ordinal >= State.values().length) {
 			ordinal = 0;
 		}
 		_state = State.values()[ordinal];
-	}
-
-	public State getState() {
-		return _state;
 	}
 
 	@StringRes

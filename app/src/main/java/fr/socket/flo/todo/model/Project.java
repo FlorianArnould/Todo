@@ -18,9 +18,11 @@ import fr.socket.flo.todo.view.graphics.ColorGenerator;
  */
 public class Project extends Work {
 	public static final String TABLE_NAME = "projects";
+	@ColorInt
+	private int _color;
 	private int _currentTaskId;
 	private boolean _isFavorite;
-	private int[] _numberOfTasks;
+	private final int[] _numberOfTasks;
 	private int _totalOfTasks;
 
 	public Project(Cursor cursor) {
@@ -29,7 +31,8 @@ public class Project extends Work {
 	}
 
 	private Project(int id, String name, @ColorInt int color, @Nullable Date deadline, int priority, int currentTaskId, boolean isFavorite) {
-		super(id, name, color, deadline, priority);
+		super(id, name, deadline, priority);
+		_color = color;
 		_currentTaskId = currentTaskId;
 		_isFavorite = isFavorite;
 		_numberOfTasks = new int[3];
@@ -42,8 +45,14 @@ public class Project extends Work {
 
 	public static Collection<String> getColumns() {
 		Collection<String> columns = Work.getColumns();
+		columns.add("color");
 		columns.add("is_favorite");
 		return columns;
+	}
+
+	@ColorInt
+	public int getColor() {
+		return _color;
 	}
 
 	public double getCompleteProgress() {
@@ -77,14 +86,16 @@ public class Project extends Work {
 	@Override
 	protected int fromCursor(Cursor cursor) {
 		int index = super.fromCursor(cursor);
+		_color = cursor.getInt(index++);
 		_currentTaskId = NONE;
-		_isFavorite = cursor.getInt(index) == 1;
+		_isFavorite = cursor.getInt(index++) == 1;
 		return index;
 	}
 
 	@Override
 	public ContentValues toContentValues() {
 		ContentValues values = super.toContentValues();
+		values.put("color", _color);
 		values.put("is_favorite", isFavorite());
 		return values;
 	}

@@ -7,6 +7,7 @@ import android.widget.Filter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import fr.socket.flo.todo.model.Nameable;
 
@@ -27,12 +28,7 @@ public class NameableFilter extends Filter {
 	protected FilterResults performFiltering(CharSequence constraint) {
 		FilterResults results = new FilterResults();
 		if (constraint != null && constraint.length() > 0) {
-			Collection<Nameable> tempList = new ArrayList<>();
-			for (Nameable nameable : _objects) {
-				if (nameable.getName().toLowerCase().contains(constraint.toString().toLowerCase())) {
-					tempList.add(nameable);
-				}
-			}
+			Collection<Nameable> tempList = _objects.stream().filter(nameable -> nameable.getName().toLowerCase().contains(constraint.toString().toLowerCase())).collect(Collectors.toCollection(ArrayList::new));
 			results.count = tempList.size();
 			results.values = tempList;
 		} else {

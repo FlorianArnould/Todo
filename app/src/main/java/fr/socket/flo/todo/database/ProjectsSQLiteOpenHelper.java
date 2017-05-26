@@ -11,7 +11,7 @@ import android.util.Log;
  * @version 1.0
  */
 class ProjectsSQLiteOpenHelper extends SQLiteOpenHelper {
-	private static final int VERSION = 7;
+	private static final int VERSION = 8;
 	private static final String DATABASE_NAME = "ProjectsDatabase.db";
 
 	ProjectsSQLiteOpenHelper(Context context) {
@@ -31,7 +31,6 @@ class ProjectsSQLiteOpenHelper extends SQLiteOpenHelper {
 				"id INTEGER PRIMARY KEY AUTOINCREMENT," +
 				"project_id INTEGER NOT NULL REFERENCES projects(id)," +
 				"name VARCHAR(20) NOT NULL," +
-				"color INTEGER NOT NULL," +
 				"state INTEGER NOT NULL," +
 				"priority INTEGER NOT NULL," +
 				"deadline DATETIME);");

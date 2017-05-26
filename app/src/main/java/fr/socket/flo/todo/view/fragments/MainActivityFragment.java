@@ -14,7 +14,6 @@ import android.widget.Filterable;
 import fr.socket.flo.todo.R;
 import fr.socket.flo.todo.model.Sorter;
 import fr.socket.flo.todo.view.activity.MainActivity;
-import fr.socket.flo.todo.view.activity.OnSortChangedListener;
 import fr.socket.flo.todo.view.fragments.adapters.SortableAdapter;
 import fr.socket.flo.todo.view.fragments.adapters.UpdatableAdapter;
 
@@ -49,13 +48,10 @@ public abstract class MainActivityFragment extends ListFragment {
 		String sort = pref.getString(_sortPreferenceKey, Sorter.Sort.BY_NAME.name());
 		Sorter.Sort sortingWay = Sorter.Sort.valueOf(sort);
 		activity.setSortWay(sortingWay);
-		activity.setOnSortChangedListener(new OnSortChangedListener() {
-			@Override
-			public void onSortChangedListener(Sorter.Sort sort) {
-				pref.edit().putString(_sortPreferenceKey, sort.name()).apply();
-				SortableAdapter adapter = (SortableAdapter)getListAdapter();
-				adapter.changeSortingWay(sort);
-			}
+		activity.setOnSortChangedListener(sort1 -> {
+			pref.edit().putString(_sortPreferenceKey, sort1.name()).apply();
+			SortableAdapter adapter = (SortableAdapter)getListAdapter();
+			adapter.changeSortingWay(sort1);
 		});
 	}
 
@@ -63,12 +59,7 @@ public abstract class MainActivityFragment extends ListFragment {
 	public void onStart() {
 		super.onStart();
 		MainActivity activity = getMainActivity();
-		activity.getFloatingActionButton().setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				onFloatingActionButtonClicked();
-			}
-		});
+		activity.getFloatingActionButton().setOnClickListener(v -> onFloatingActionButtonClicked());
 		MainActivity mainActivity = getMainActivity();
 		final Filterable filterable = (Filterable)getListAdapter();
 		mainActivity.getSearchView().setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -87,7 +78,7 @@ public abstract class MainActivityFragment extends ListFragment {
 		updatableAdapter.update();
 	}
 
-	public void setHasFloatingAction(boolean hasFab) {
+	protected void setHasFloatingAction(boolean hasFab) {
 		if (hasFab) {
 			getMainActivity().getFloatingActionButton().setVisibility(View.VISIBLE);
 		} else {
@@ -95,6 +86,6 @@ public abstract class MainActivityFragment extends ListFragment {
 		}
 	}
 
-	public void onFloatingActionButtonClicked() {
+	protected void onFloatingActionButtonClicked() {
 	}
 }

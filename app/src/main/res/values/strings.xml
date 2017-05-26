@@ -13,7 +13,6 @@
     <string name="current_tasks">Current tasks</string>
     <string name="project_icon_description" translatable="false">The icon of the project</string>
     <string name="priority_label_description" translatable="false">The label of the priority</string>
-    <string name="icon_description" translatable="false">Icon to display much more information</string>
     <string name="color_description" translatable="false">Image to display the color</string>
     <string name="project_name">Project name</string>
     <string name="new_project">New project</string>
@@ -37,7 +36,7 @@
     <string name="unlimited">Unlimited</string>
 
     <string name="settings_priority_max_value_title">Maximum priority value</string>
-    <string name="settings_priority_max_value_summary">Set the maximum possible value for the priorityof tasks and projects</string>
+    <string name="settings_priority_max_value_summary">Set the maximum possible value for the priority of tasks and projects</string>
     <string name="settings_priority_max_value_key" translatable="false">max_priority</string>
 
     <string name="action_about">About</string>

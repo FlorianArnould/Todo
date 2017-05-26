@@ -98,13 +98,10 @@ public class AllProjectsFragment extends MainActivityFragment implements OnNewOb
 			snackbar = Snackbar.make(getMainActivity().getRootView(), R.string.new_project_was_not_created, Snackbar.LENGTH_SHORT);
 		} else {
 			snackbar = Snackbar.make(getMainActivity().getRootView(), R.string.new_project_created, Snackbar.LENGTH_LONG);
-			snackbar.setAction(R.string.configure, new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					Intent intent = new Intent(getContext(), EditProjectActivity.class);
-					intent.putExtra(EditProjectActivity.PROJECT_ID, objectId);
-					getContext().startActivity(intent);
-				}
+			snackbar.setAction(R.string.configure, v -> {
+				Intent intent = new Intent(getContext(), EditProjectActivity.class);
+				intent.putExtra(EditProjectActivity.PROJECT_ID, objectId);
+				getContext().startActivity(intent);
 			});
 		}
 		snackbar.show();

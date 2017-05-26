@@ -1,7 +1,6 @@
 package fr.socket.flo.todo.view.fragments.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +15,10 @@ import java.util.List;
 
 import fr.socket.flo.todo.R;
 import fr.socket.flo.todo.database.DataManager;
-import fr.socket.flo.todo.database.OnMultipleObjectsLoadedListener;
-import fr.socket.flo.todo.model.Nameable;
 import fr.socket.flo.todo.model.Sorter;
 import fr.socket.flo.todo.model.Task;
 import fr.socket.flo.todo.view.fragments.ProjectFragment;
 import fr.socket.flo.todo.view.fragments.filters.NameableFilter;
-import fr.socket.flo.todo.view.fragments.filters.OnNameableResultsPublishedListener;
 import fr.socket.flo.todo.view.graphics.PriorityDrawable;
 
 /**
@@ -47,13 +43,10 @@ public class TasksAdapter extends SortableAdapter implements Filterable, Updatab
 
 	@Override
 	public void update() {
-		DataManager.getInstance().getTasksByProjectId(_projectId, new OnMultipleObjectsLoadedListener<Task>() {
-			@Override
-			public void onObjectsLoaded(List<Task> tasks) {
-				_tasks = tasks;
-				_filteredTasks = _tasks;
-				notifyDataSetChanged();
-			}
+		DataManager.getInstance().getTasksByProjectId(_projectId, tasks -> {
+			_tasks = tasks;
+			_filteredTasks = _tasks;
+			notifyDataSetChanged();
 		});
 	}
 
@@ -82,14 +75,11 @@ public class TasksAdapter extends SortableAdapter implements Filterable, Updatab
 		TextView nameView = (TextView)view.findViewById(R.id.name);
 		nameView.setText(task.getName());
 		final Button stateView = (Button)view.findViewById(R.id.state);
-		stateView.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				task.nextState();
-				task.save();
-				_fragment.update();
-				stateView.setText(task.getStringResIdState());
-			}
+		stateView.setOnClickListener(v -> {
+			task.nextState();
+			task.save();
+			_fragment.update();
+			stateView.setText(task.getStringResIdState());
 		});
 		stateView.setText(task.getStringResIdState());
 		TextView deadlineView = (TextView)view.findViewById(R.id.deadline);
@@ -107,13 +97,9 @@ public class TasksAdapter extends SortableAdapter implements Filterable, Updatab
 	@Override
 	public Filter getFilter() {
 		if (_filter == null) {
-			_filter = new NameableFilter(_tasks, new OnNameableResultsPublishedListener() {
-				@Override
-				public void onNameableResultsPublished(List<? extends Nameable> objects) {
-					_filteredTasks = (List<Task>)objects;
-					Log.d("taskAdpater", "callback");
-					notifyDataSetChanged();
-				}
+			_filter = new NameableFilter(_tasks, objects -> {
+				_filteredTasks = (List<Task>)objects;
+				notifyDataSetChanged();
 			});
 		}
 		return _filter;

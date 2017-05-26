@@ -23,7 +23,7 @@ public abstract class SortableAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
-	protected void sort(List<? extends Sortable> sortables) {
-		Sorter.sortByWay(_sort, sortables);
+	protected void sort(List<? extends Sortable> sortableList) {
+		Sorter.sortByWay(_sort, sortableList);
 	}
 }
