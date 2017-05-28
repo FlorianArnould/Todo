@@ -24,6 +24,6 @@ public abstract class SortableAdapter extends BaseAdapter {
 	}
 
 	protected void sort(List<? extends Sortable> sortableList) {
-		Sorter.sortByWay(_sort, sortableList);
+		Sorter.sort(_sort, sortableList);
 	}
 }

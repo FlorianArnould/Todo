@@ -22,6 +22,7 @@ import android.widget.ProgressBar;
 import fr.socket.flo.todo.R;
 import fr.socket.flo.todo.database.DataManager;
 import fr.socket.flo.todo.database.OnNewObjectCreatedListener;
+import fr.socket.flo.todo.database.OnObjectLoadedListener;
 import fr.socket.flo.todo.model.Project;
 import fr.socket.flo.todo.model.Sorter;
 import fr.socket.flo.todo.view.activity.EditProjectActivity;
@@ -70,10 +71,13 @@ public class ProjectFragment extends MainActivityFragment implements OnNewObject
 		Sorter.Sort sortingWay = Sorter.Sort.valueOf(sort);
 		setListAdapter(new TasksAdapter(this, _projectId, sortingWay));
 
-		DataManager.getInstance().getProjectById(_projectId, project -> {
-			String projectName = project.getName();
-			activity.setTitle(projectName);
-			animateProjectProgress(project, 600);
+		DataManager.getInstance().getProjectById(_projectId, new OnObjectLoadedListener<Project>() {
+			@Override
+			public void onObjectLoaded(Project project) {
+				String projectName = project.getName();
+				activity.setTitle(projectName);
+				animateProjectProgress(project, 600);
+			}
 		});
 	}
 
@@ -154,15 +158,23 @@ public class ProjectFragment extends MainActivityFragment implements OnNewObject
 			adapter.notifyDataSetChanged();
 			update();
 			snackbar = Snackbar.make(getMainActivity().getRootView(), R.string.new_task_created, Snackbar.LENGTH_LONG);
-			snackbar.setAction(R.string.configure, v -> {
-				// TODO: 13/05/17 Open the edit task fragment
-				Log.d("SnackBar", "action clicked");
+			snackbar.setAction(R.string.configure, new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					// TODO: 13/05/17 Open the edit task fragment
+					Log.d("SnackBar", "action clicked");
+				}
 			});
 		}
 		snackbar.show();
 	}
 
 	public void update() {
-		DataManager.getInstance().getProjectById(_projectId, project -> animateProjectProgress(project, 0));
+		DataManager.getInstance().getProjectById(_projectId, new OnObjectLoadedListener<Project>() {
+			@Override
+			public void onObjectLoaded(Project project) {
+				animateProjectProgress(project, 0);
+			}
+		});
 	}
 }

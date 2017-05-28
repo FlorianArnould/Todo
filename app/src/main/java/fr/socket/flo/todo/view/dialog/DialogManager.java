@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -11,9 +12,11 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.TimePicker;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -39,14 +42,24 @@ public class DialogManager {
 		showNewObjectDialog(
 				_activity.getString(R.string.new_project),
 				_activity.getString(R.string.project_name),
-				text -> Project.newProject(text, listener));
+				new OnEditTextDialogClickListener() {
+					@Override
+					public void onEditTextDialogClickListener(String text) {
+						Project.newProject(text, listener);
+					}
+				});
 	}
 
 	public void showNewTaskDialog(final int projectId, @Nullable final OnNewObjectCreatedListener listener) {
 		showNewObjectDialog(
 				_activity.getString(R.string.new_task),
 				_activity.getString(R.string.task_name),
-				text -> Task.newTask(projectId, text, listener));
+				new OnEditTextDialogClickListener() {
+					@Override
+					public void onEditTextDialogClickListener(String text) {
+						Task.newTask(projectId, text, listener);
+					}
+				});
 	}
 
 	private void showNewObjectDialog(CharSequence title, CharSequence nameHint, final OnEditTextDialogClickListener onPositiveButtonWithTextClickListener) {
@@ -59,16 +72,22 @@ public class DialogManager {
 				.setCancelable(true)
 				.setTitle(title)
 				.setNegativeButton(android.R.string.cancel, null)
-				.setPositiveButton(_activity.getString(android.R.string.ok), (dialog, which) -> {
-					String name = editText.getText().toString();
-					if (!name.isEmpty()) {
-						onPositiveButtonWithTextClickListener.onEditTextDialogClickListener(name);
+				.setPositiveButton(_activity.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						String name = editText.getText().toString();
+						if (!name.isEmpty()) {
+							onPositiveButtonWithTextClickListener.onEditTextDialogClickListener(name);
+						}
 					}
 				});
 		final AlertDialog dialog = builder.create();
-		editText.setOnFocusChangeListener((v, hasFocus) -> {
-			if (hasFocus && dialog.getWindow() != null) {
-				dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+		editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus && dialog.getWindow() != null) {
+					dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+				}
 			}
 		});
 		dialog.show();
@@ -87,7 +106,12 @@ public class DialogManager {
 		builder.setView(view)
 				.setCancelable(true)
 				.setTitle(_activity.getString(R.string.priority))
-				.setPositiveButton(_activity.getString(android.R.string.ok), (dialog, which) -> listener.onDialogFinished(seekBar.getProgress() + 1));
+				.setPositiveButton(_activity.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						listener.onDialogFinished(seekBar.getProgress() + 1);
+					}
+				});
 		final AlertDialog dialog = builder.create();
 		seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 			@Override
@@ -115,20 +139,26 @@ public class DialogManager {
 			calendar.setTime(date);
 			dialog.getDatePicker().init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), null);
 		}
-		dialog.setOnDateSetListener((view, year, month, dayOfMonth) -> {
-			Calendar calendar = Calendar.getInstance();
-			calendar.set(year, month, dayOfMonth);
-			listener.onDialogFinished(calendar.getTime());
+		dialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
+			@Override
+			public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+				Calendar calendar = Calendar.getInstance();
+				calendar.set(year, month, dayOfMonth);
+				listener.onDialogFinished(calendar.getTime());
+			}
 		});
 		dialog.show();
 	}
 
 	public void showTimePickerDialog(@Nullable Date date, final OnDialogFinishedListener<Date> listener) {
-		TimePickerDialog.OnTimeSetListener timeSetListener = (view, hourOfDay, minute) -> {
-			Calendar calendar = Calendar.getInstance();
-			calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-			calendar.set(Calendar.MINUTE, minute);
-			listener.onDialogFinished(calendar.getTime());
+		TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
+			@Override
+			public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+				Calendar calendar = Calendar.getInstance();
+				calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+				calendar.set(Calendar.MINUTE, minute);
+				listener.onDialogFinished(calendar.getTime());
+			}
 		};
 		Calendar calendar = Calendar.getInstance();
 		if (date != null) {

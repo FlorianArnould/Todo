@@ -39,7 +39,12 @@ abstract class SearchActivity extends AppCompatActivity {
 		if (searchToolbar != null) {
 			searchToolbar.inflateMenu(R.menu.search_menu);
 			_searchMenu = searchToolbar.getMenu();
-			searchToolbar.setNavigationOnClickListener(v -> circleReveal(R.id.search_toolbar, 2, false));
+			searchToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					circleReveal(R.id.search_toolbar, 2, false);
+				}
+			});
 			_itemSearch = _searchMenu.findItem(R.id.action_filter_search);
 			MenuItemCompat.setOnActionExpandListener(_itemSearch, new MenuItemCompat.OnActionExpandListener() {
 				@Override

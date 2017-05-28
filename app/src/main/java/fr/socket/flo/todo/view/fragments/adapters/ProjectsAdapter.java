@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -16,9 +17,14 @@ import java.util.List;
 
 import fr.socket.flo.todo.R;
 import fr.socket.flo.todo.database.DataManager;
+import fr.socket.flo.todo.database.OnMultipleObjectsLoadedListener;
+import fr.socket.flo.todo.database.OnObjectLoadedListener;
+import fr.socket.flo.todo.model.Nameable;
 import fr.socket.flo.todo.model.Project;
 import fr.socket.flo.todo.model.Sorter;
+import fr.socket.flo.todo.model.Task;
 import fr.socket.flo.todo.view.fragments.filters.NameableFilter;
+import fr.socket.flo.todo.view.fragments.filters.OnNameableResultsPublishedListener;
 import fr.socket.flo.todo.view.graphics.PriorityDrawable;
 import fr.socket.flo.todo.view.graphics.ProgressTextDrawable;
 
@@ -42,10 +48,13 @@ public class ProjectsAdapter extends SortableAdapter implements Filterable, Upda
 
 	@Override
 	public void update() {
-		DataManager.getInstance().getAllProjects(projects -> {
-			_projects = projects;
-			_filteredProjects = _projects;
-			notifyDataSetChanged();
+		DataManager.getInstance().getAllProjects(new OnMultipleObjectsLoadedListener<Project>() {
+			@Override
+			public void onObjectsLoaded(List<Project> projects) {
+				_projects = projects;
+				_filteredProjects = _projects;
+				notifyDataSetChanged();
+			}
 		});
 	}
 
@@ -86,7 +95,12 @@ public class ProjectsAdapter extends SortableAdapter implements Filterable, Upda
 
 		final TextView currentTaskView = (TextView)view.findViewById(R.id.current_task);
 		if (project.hasCurrentTask()) {
-			DataManager.getInstance().getTaskById(project.getCurrentTaskId(), task -> currentTaskView.setText(task.getName()));
+			DataManager.getInstance().getTaskById(project.getCurrentTaskId(), new OnObjectLoadedListener<Task>() {
+				@Override
+				public void onObjectLoaded(Task task) {
+					currentTaskView.setText(task.getName());
+				}
+			});
 		} else {
 			currentTaskView.setText(_context.getString(R.string.no_current_task));
 		}
@@ -100,10 +114,13 @@ public class ProjectsAdapter extends SortableAdapter implements Filterable, Upda
 
 		CheckBox favoriteBox = (CheckBox)view.findViewById(R.id.is_favorite);
 		favoriteBox.setChecked(project.isFavorite());
-		favoriteBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-			if (isChecked != project.isFavorite()) {
-				project.setFavorite(isChecked);
-				project.save();
+		favoriteBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if (isChecked != project.isFavorite()) {
+					project.setFavorite(isChecked);
+					project.save();
+				}
 			}
 		});
 		return view;
@@ -113,9 +130,12 @@ public class ProjectsAdapter extends SortableAdapter implements Filterable, Upda
 	@Override
 	public Filter getFilter() {
 		if (_filter == null) {
-			_filter = new NameableFilter(_projects, objects -> {
-				_filteredProjects = (List<Project>)objects;
-				notifyDataSetChanged();
+			_filter = new NameableFilter(_projects, new OnNameableResultsPublishedListener() {
+				@Override
+				public void onNameableResultsPublished(List<? extends Nameable> objects) {
+					_filteredProjects = (List<Project>)objects;
+					notifyDataSetChanged();
+				}
 			});
 		}
 		return _filter;

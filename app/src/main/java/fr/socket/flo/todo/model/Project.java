@@ -55,6 +55,10 @@ public class Project extends Work {
 		return _color;
 	}
 
+	public void setColor(@ColorInt int color) {
+		_color = color;
+	}
+
 	public double getCompleteProgress() {
 		return ((double)_numberOfTasks[Task.State.COMPLETED.ordinal()]) / _totalOfTasks;
 	}

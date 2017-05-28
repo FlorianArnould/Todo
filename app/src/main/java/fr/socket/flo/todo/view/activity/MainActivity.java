@@ -18,9 +18,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.List;
+
 import fr.socket.flo.todo.R;
 import fr.socket.flo.todo.database.DataManager;
 import fr.socket.flo.todo.database.OnDataChangedListener;
+import fr.socket.flo.todo.database.OnMultipleObjectsLoadedListener;
 import fr.socket.flo.todo.model.Project;
 import fr.socket.flo.todo.model.Sorter;
 import fr.socket.flo.todo.model.Task;
@@ -98,16 +101,22 @@ public class MainActivity extends SearchActivity
 		navView.getMenu().clear();
 		navView.inflateMenu(R.menu.drawer_menu);
 		final Menu favoriteMenu = navView.getMenu().getItem(1).getSubMenu();
-		DataManager.getInstance().getFavorites(projects -> {
-			for (Project project : projects) {
-				final Drawable icon = new ProgressTextDrawable(project.getName().substring(0, 1), project.getColor(), project.getCompleteProgress());
-				favoriteMenu.add(R.id.favorites_group, project.getId(), Menu.NONE, project.getName()).setIcon(icon);
+		DataManager.getInstance().getFavorites(new OnMultipleObjectsLoadedListener<Project>() {
+			@Override
+			public void onObjectsLoaded(List<Project> projects) {
+				for (Project project : projects) {
+					final Drawable icon = new ProgressTextDrawable(project.getName().substring(0, 1), project.getColor(), project.getCompleteProgress());
+					favoriteMenu.add(R.id.favorites_group, project.getId(), Menu.NONE, project.getName()).setIcon(icon);
+				}
 			}
 		});
 		final Menu inProgressMenu = navView.getMenu().getItem(2).getSubMenu();
-		DataManager.getInstance().getInProgressTasks(tasks -> {
-			for (Task task : tasks) {
-				inProgressMenu.add(R.id.current_task_group, task.getId(), Menu.NONE, task.getName()).setIcon(new PriorityDrawable(task.getPriority()));
+		DataManager.getInstance().getInProgressTasks(new OnMultipleObjectsLoadedListener<Task>() {
+			@Override
+			public void onObjectsLoaded(List<Task> tasks) {
+				for (Task task : tasks) {
+					inProgressMenu.add(R.id.current_task_group, task.getId(), Menu.NONE, task.getName()).setIcon(new PriorityDrawable(task.getPriority()));
+				}
 			}
 		});
 	}

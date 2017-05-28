@@ -50,8 +50,8 @@ public class TextDrawable extends ShapeDrawable {
 	protected void drawMore(Canvas canvas) {
 		// draw text
 		Rect r = getBounds();
-		_textPaint.setTextSize(Math.min(r.width(), r.height()) / 2);
-		canvas.drawText(_text, r.width() / 2, r.height() / 2 - ((_textPaint.descent() + _textPaint.ascent()) / 2), _textPaint);
+		_textPaint.setTextSize(Math.min((float)r.width(), r.height()) / 2);
+		canvas.drawText(_text, (float)r.width() / 2, (float)r.height() / 2 - ((_textPaint.descent() + _textPaint.ascent()) / 2), _textPaint);
 	}
 
 	@Override
