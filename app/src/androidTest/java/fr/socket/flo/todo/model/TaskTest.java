@@ -2,7 +2,6 @@ package fr.socket.flo.todo.model;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.support.test.runner.AndroidJUnit4;
 
 import junit.framework.Assert;
@@ -16,9 +15,8 @@ import org.mockito.Mockito;
  * @author Florian Arnould
  */
 @RunWith(AndroidJUnit4.class)
-public class ProjectTest {
-
-	private static Project _project;
+public class TaskTest {
+	private static Task _task;
 
 	@BeforeClass
 	public static void createInstanceFromCursorTest() {
@@ -27,17 +25,15 @@ public class ProjectTest {
 		Mockito.when(cursor.getString(1)).thenReturn("name");
 		Mockito.when(cursor.getString(2)).thenReturn("02-04-2017 12:03:00");
 		Mockito.when(cursor.getInt(3)).thenReturn(3);
-		Mockito.when(cursor.getInt(4)).thenReturn(Color.BLACK);
-		Mockito.when(cursor.getInt(5)).thenReturn(1);
-		_project = new Project(cursor);
+		Mockito.when(cursor.getInt(4)).thenReturn(1);
+		Mockito.when(cursor.getString(5)).thenReturn(Task.State.IN_PROGRESS.name());
+		_task = new Task(cursor);
 	}
 
 	@Test
 	public void contentValuesTest(){
-		_project.setFavorite(true);
-		_project.setColor(Color.WHITE);
-		ContentValues values = _project.toContentValues();
-		Assert.assertTrue(values.getAsBoolean("is_favorite"));
-		Assert.assertEquals(Color.WHITE, values.get("color"));
+		ContentValues values = _task.toContentValues();
+		Assert.assertEquals(1, (int)values.getAsInteger("project_id"));
+		Assert.assertEquals(Task.State.IN_PROGRESS.name(), values.getAsString("state"));
 	}
 }

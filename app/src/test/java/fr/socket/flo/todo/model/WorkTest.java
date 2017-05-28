@@ -16,7 +16,7 @@ import java.util.Date;
  * @author Florian Arnould
  */
 public class WorkTest {
-	private static Work work;
+	private static Work _work;
 
 	@BeforeClass
 	public static void createInstanceFromCursorTest() {
@@ -27,52 +27,52 @@ public class WorkTest {
 		Mockito.when(cursor.getInt(3)).thenReturn(3);
 		Mockito.when(cursor.getInt(4)).thenReturn(Color.BLACK);
 		Mockito.when(cursor.getInt(5)).thenReturn(1);
-		work = new Project(cursor);
+		_work = new Project(cursor);
 	}
 
 	@Test
 	public void idTest() {
-		Assert.assertEquals(1, work.getId());
+		Assert.assertEquals(1, _work.getId());
 	}
 
 	@Test
 	public void nameTest() {
-		Assert.assertEquals("name", work.getName());
-		work.setName("other name");
-		Assert.assertEquals("other name", work.getName());
+		Assert.assertEquals("name", _work.getName());
+		_work.setName("other name");
+		Assert.assertEquals("other name", _work.getName());
 	}
 
 	@Test
 	public void deadlineTest() {
-		Assert.assertTrue(work.hasDeadline());
-		Assert.assertEquals("02-04-2017 12:03", work.getDeadlineAsString());
-		work.setDeadline(null);
-		Assert.assertFalse(work.hasDeadline());
-		Assert.assertNull(work.getDeadline());
-		Assert.assertTrue(work.getDeadlineAsString().toString().isEmpty());
-		Assert.assertTrue(work.getDeadlineDateAsString().toString().isEmpty());
-		Assert.assertTrue(work.getDeadlineTimeAsString().toString().isEmpty());
+		Assert.assertTrue(_work.hasDeadline());
+		Assert.assertEquals("02-04-2017 12:03", _work.getDeadlineAsString());
+		_work.setDeadline(null);
+		Assert.assertFalse(_work.hasDeadline());
+		Assert.assertNull(_work.getDeadline());
+		Assert.assertTrue(_work.getDeadlineAsString().toString().isEmpty());
+		Assert.assertTrue(_work.getDeadlineDateAsString().toString().isEmpty());
+		Assert.assertTrue(_work.getDeadlineTimeAsString().toString().isEmpty());
 		Date date = Calendar.getInstance().getTime();
-		work.setDeadline(date);
-		Assert.assertEquals(0, date.compareTo(work.getDeadline()));
+		_work.setDeadline(date);
+		Assert.assertEquals(0, date.compareTo(_work.getDeadline()));
 	}
 
 	@Test
 	public void priorityTest() {
-		Assert.assertEquals(3, work.getPriority());
-		work.setPriority(5);
-		Assert.assertEquals(5, work.getPriority());
+		Assert.assertEquals(3, _work.getPriority());
+		_work.setPriority(5);
+		Assert.assertEquals(5, _work.getPriority());
 	}
 
 	@Test
 	public void compareTest(){
-		Work other = work;
+		Work other = _work;
 		other.setName("water");
 		createInstanceFromCursorTest();
-		Assert.assertTrue(work.compareByName(other) < 0);
+		Assert.assertTrue(_work.compareByName(other) < 0);
 		other.setPriority(5);
-		Assert.assertTrue(work.compareByPriority(other) < 0);
+		Assert.assertTrue(_work.compareByPriority(other) < 0);
 		other.setDeadline(Calendar.getInstance().getTime());
-		Assert.assertTrue(work.compareByDeadline(other) < 0);
+		Assert.assertTrue(_work.compareByDeadline(other) < 0);
 	}
 }

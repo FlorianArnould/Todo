@@ -101,7 +101,7 @@ public class DialogManager {
 		iconView.setImageDrawable(new PriorityDrawable(priority));
 		final SeekBar seekBar = (SeekBar)view.findViewById(R.id.seek_bar);
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(_activity);
-		seekBar.setMax(pref.getInt(_activity.getString(R.string.settings_priority_max_value_key), 1) - 1);
+		seekBar.setMax(pref.getInt(_activity.getString(R.string.settings_priority_max_value_key), 5) - 1);
 		seekBar.setProgress(priority - 1);
 		builder.setView(view)
 				.setCancelable(true)

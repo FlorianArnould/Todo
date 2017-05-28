@@ -19,7 +19,7 @@ import fr.socket.flo.todo.model.Task;
  * @author Florian Arnould
  * @version 1.0
  */
-public class DataManager {
+public final class DataManager {
 	private static DataManager _dataManager;
 	private final Set<OnDataChangedListener> _listeners;
 	private SQLiteOpenHelper _dbOpenHelper;

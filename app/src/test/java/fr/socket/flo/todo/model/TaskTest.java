@@ -6,19 +6,28 @@ import junit.framework.Assert;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import fr.socket.flo.todo.R;
+import fr.socket.flo.todo.database.DataManager;
+import fr.socket.flo.todo.database.OnNewObjectCreatedListener;
 
 /**
  * @author Florian Arnould
  */
+@RunWith(PowerMockRunner.class)
 public class TaskTest {
-	private static Task task;
+	private static Task _task;
 
 	@BeforeClass
 	public static void createInstanceFromCursorTest() {
@@ -29,23 +38,44 @@ public class TaskTest {
 		Mockito.when(cursor.getInt(3)).thenReturn(3);
 		Mockito.when(cursor.getInt(4)).thenReturn(1);
 		Mockito.when(cursor.getString(5)).thenReturn(Task.State.IN_PROGRESS.name());
-		task = new Task(cursor);
+		_task = new Task(cursor);
+	}
+
+	@Test
+	@PrepareForTest(DataManager.class)
+	public void newProjectTest() {
+		DataManager dataManager = Mockito.mock(DataManager.class);
+		Mockito.doAnswer(new Answer() {
+			@Override
+			public Object answer(InvocationOnMock invocation) throws Throwable {
+				Savable savable = invocation.getArgumentAt(0, Savable.class);
+				OnNewObjectCreatedListener listener = invocation.getArgumentAt(1, OnNewObjectCreatedListener.class);
+				Assert.assertNull(listener);
+				Assert.assertTrue(savable instanceof Task);
+				Nameable task = (Nameable)savable;
+				Assert.assertEquals("name", task.getName());
+				return null;
+			}
+		}).when(dataManager).save(Mockito.any(Savable.class), Mockito.any(OnNewObjectCreatedListener.class));
+		PowerMockito.mockStatic(DataManager.class);
+		PowerMockito.when(DataManager.getInstance()).thenReturn(dataManager);
+		Task.newTask(2, "name", null);
 	}
 
 	@Test
 	public void stateTest(){
-		Assert.assertEquals(R.string.in_progress, task.getStringResIdState());
-		task.nextState();
-		Assert.assertEquals(R.string.completed, task.getStringResIdState());
-		task.nextState();
-		Assert.assertEquals(R.string.waiting, task.getStringResIdState());
-		task.nextState();
-		Assert.assertEquals(R.string.in_progress, task.getStringResIdState());
+		Assert.assertEquals(R.string.in_progress, _task.getStringResIdState());
+		_task.nextState();
+		Assert.assertEquals(R.string.completed, _task.getStringResIdState());
+		_task.nextState();
+		Assert.assertEquals(R.string.waiting, _task.getStringResIdState());
+		_task.nextState();
+		Assert.assertEquals(R.string.in_progress, _task.getStringResIdState());
 	}
 
 	@Test
 	public void getTableTest() {
-		Assert.assertEquals(Task.TABLE_NAME, task.getTable());
+		Assert.assertEquals(Task.TABLE_NAME, _task.getTable());
 	}
 
 	@Test
