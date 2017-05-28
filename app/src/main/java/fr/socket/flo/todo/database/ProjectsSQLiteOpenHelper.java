@@ -11,7 +11,7 @@ import android.util.Log;
  * @version 1.0
  */
 class ProjectsSQLiteOpenHelper extends SQLiteOpenHelper {
-	private static final int VERSION = 8;
+	private static final int VERSION = 9;
 	private static final String DATABASE_NAME = "ProjectsDatabase.db";
 
 	ProjectsSQLiteOpenHelper(Context context) {
@@ -26,14 +26,20 @@ class ProjectsSQLiteOpenHelper extends SQLiteOpenHelper {
 				"color INTEGER NOT NULL," +
 				"is_favorite BOOLEAN NOT NULL," +
 				"priority INTEGER NOT NULL," +
-				"deadline DATETIME);");
+				"start_date DATE, " +
+				"start_time TIME, " +
+				"deadline_date DATE, " +
+				"deadline_time TIME);");
 		db.execSQL("CREATE TABLE tasks(" +
 				"id INTEGER PRIMARY KEY AUTOINCREMENT," +
 				"project_id INTEGER NOT NULL REFERENCES projects(id)," +
 				"name VARCHAR(20) NOT NULL," +
 				"state INTEGER NOT NULL," +
 				"priority INTEGER NOT NULL," +
-				"deadline DATETIME);");
+				"start_date DATE, " +
+				"start_time TIME, " +
+				"deadline_date DATE, " +
+				"deadline_time TIME);");
 	}
 
 	@Override

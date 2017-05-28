@@ -3,6 +3,7 @@ package fr.socket.flo.todo.model;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.support.annotation.ColorInt;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.util.Collection;
@@ -30,8 +31,8 @@ public class Project extends Work {
 		_numberOfTasks = new int[3];
 	}
 
-	private Project(int id, String name, @ColorInt int color, @Nullable Date deadline, int priority, int currentTaskId, boolean isFavorite) {
-		super(id, name, deadline, priority);
+	private Project(int id, String name, @ColorInt int color, @NonNull DateTime startDate, @NonNull DateTime deadline, int priority, int currentTaskId, boolean isFavorite) {
+		super(id, name, startDate, deadline, priority);
 		_color = color;
 		_currentTaskId = currentTaskId;
 		_isFavorite = isFavorite;
@@ -39,7 +40,7 @@ public class Project extends Work {
 	}
 
 	public static void newProject(String name, @Nullable OnNewObjectCreatedListener listener) {
-		Project project = new Project(NONE, name, ColorGenerator.randomColor(), null, 1, NONE, false);
+		Project project = new Project(NONE, name, ColorGenerator.randomColor(), new DateTime(), new DateTime(), 1, NONE, false);
 		DataManager.getInstance().save(project, listener);
 	}
 

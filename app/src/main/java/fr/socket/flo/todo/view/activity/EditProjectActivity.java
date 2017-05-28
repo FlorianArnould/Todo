@@ -18,6 +18,7 @@ import java.util.Date;
 import fr.socket.flo.todo.R;
 import fr.socket.flo.todo.database.DataManager;
 import fr.socket.flo.todo.database.OnObjectLoadedListener;
+import fr.socket.flo.todo.model.DateTime;
 import fr.socket.flo.todo.model.Project;
 import fr.socket.flo.todo.view.dialog.DialogManager;
 import fr.socket.flo.todo.view.dialog.OnDialogFinishedListener;
@@ -103,37 +104,30 @@ public class EditProjectActivity extends AppCompatActivity implements OnObjectLo
 		setOnPropertyClickListener(R.id.deadline_date_property, new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				new DialogManager(EditProjectActivity.this).showDatePickerDialog(_project.getDeadline(), new OnDialogFinishedListener<Date>() {
+				new DialogManager(EditProjectActivity.this).showDatePickerDialog(_project.getDeadline().getDate(), new OnDialogFinishedListener<Date>() {
 					@Override
-					public void onDialogFinished(Date result) {
-						Calendar calendar = Calendar.getInstance();
-						if (_project.hasDeadline()) {
-							calendar.setTime(_project.getDeadline());
-							int hour = calendar.get(Calendar.HOUR_OF_DAY);
-							int minute = calendar.get(Calendar.MINUTE);
-							calendar.setTime(result);
-							calendar.set(Calendar.HOUR_OF_DAY, hour);
-							calendar.set(Calendar.MINUTE, minute);
-							_project.setDeadline(calendar.getTime());
-						} else {
-							_project.setDeadline(result);
-						}
+					public void onDialogFinished(Date date) {
+						_project.getDeadline().setDate(date);
 						updateDeadlineDateProperty();
 					}
 				});
 			}
 		});
-		fillSummary(R.id.summary_deadline_date, _project.getDeadlineDateAsString());
+		fillSummary(R.id.summary_deadline_date, _project.getDeadline().toDateString());
 	}
 
 	private void updateDeadlineWholeDayProperty() {
+		final DateTime deadline = _project.getDeadline();
 		final CheckBox checkBox = (CheckBox)findViewById(R.id.deadline_whole_day_checkbox);
-		// TODO: 26/05/17 Replace with project value
-		checkBox.setChecked(false);
+		checkBox.setChecked(deadline.isWholeDay());
 		checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				// TODO: 26/05/17 update project value
+				if(isChecked){
+					deadline.setWholeDay();
+				}else{
+					deadline.setTime(Calendar.getInstance().getTime());
+				}
 			}
 		});
 		setOnPropertyClickListener(R.id.deadline_whole_day_property, new View.OnClickListener() {
@@ -148,27 +142,16 @@ public class EditProjectActivity extends AppCompatActivity implements OnObjectLo
 		setOnPropertyClickListener(R.id.deadline_time_property, new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				new DialogManager(EditProjectActivity.this).showTimePickerDialog(_project.getDeadline(), new OnDialogFinishedListener<Date>() {
+				new DialogManager(EditProjectActivity.this).showTimePickerDialog(_project.getDeadline().getTime(), new OnDialogFinishedListener<Date>() {
 					@Override
-					public void onDialogFinished(Date result) {
-						Calendar calendar = Calendar.getInstance();
-						if (_project.hasDeadline()) {
-							calendar.setTime(_project.getDeadline());
-							int year = calendar.get(Calendar.YEAR);
-							int month = calendar.get(Calendar.MONTH);
-							int day = calendar.get(Calendar.DAY_OF_MONTH);
-							calendar.setTime(result);
-							calendar.set(year, month, day);
-							_project.setDeadline(calendar.getTime());
-						} else {
-							_project.setDeadline(result);
-						}
+					public void onDialogFinished(Date time) {
+						_project.getDeadline().setTime(time);
 						updateDeadlineTimeProperty();
 					}
 				});
 			}
 		});
-		fillSummary(R.id.summary_deadline_time, _project.getDeadlineTimeAsString());
+		fillSummary(R.id.summary_deadline_time, _project.getDeadline().toTimeString());
 	}
 
 	private void fillSummary(@IdRes int summaryRes, CharSequence summaryString) {

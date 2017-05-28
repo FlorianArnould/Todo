@@ -43,21 +43,6 @@ public class WorkTest {
 	}
 
 	@Test
-	public void deadlineTest() {
-		Assert.assertTrue(_work.hasDeadline());
-		Assert.assertEquals("02-04-2017 12:03", _work.getDeadlineAsString());
-		_work.setDeadline(null);
-		Assert.assertFalse(_work.hasDeadline());
-		Assert.assertNull(_work.getDeadline());
-		Assert.assertTrue(_work.getDeadlineAsString().toString().isEmpty());
-		Assert.assertTrue(_work.getDeadlineDateAsString().toString().isEmpty());
-		Assert.assertTrue(_work.getDeadlineTimeAsString().toString().isEmpty());
-		Date date = Calendar.getInstance().getTime();
-		_work.setDeadline(date);
-		Assert.assertEquals(0, date.compareTo(_work.getDeadline()));
-	}
-
-	@Test
 	public void priorityTest() {
 		Assert.assertEquals(3, _work.getPriority());
 		_work.setPriority(5);
@@ -72,7 +57,7 @@ public class WorkTest {
 		Assert.assertTrue(_work.compareByName(other) < 0);
 		other.setPriority(5);
 		Assert.assertTrue(_work.compareByPriority(other) < 0);
-		other.setDeadline(Calendar.getInstance().getTime());
-		Assert.assertTrue(_work.compareByDeadline(other) < 0);
+		/*other.setDeadline(Calendar.getInstance().getTime());
+		Assert.assertTrue(_work.compareByDeadline(other) < 0);*/
 	}
 }

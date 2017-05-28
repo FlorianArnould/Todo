@@ -93,7 +93,7 @@ public class TasksAdapter extends SortableAdapter implements Filterable, Updatab
 		stateView.setText(task.getStringResIdState());
 		TextView deadlineView = (TextView)view.findViewById(R.id.deadline);
 		if (task.hasDeadline()) {
-			deadlineView.setText(task.getDeadlineAsString());
+			deadlineView.setText(task.getDeadline().toString());
 		} else {
 			deadlineView.setText(_fragment.getString(R.string.unlimited));
 		}

@@ -107,7 +107,7 @@ public class ProjectsAdapter extends SortableAdapter implements Filterable, Upda
 
 		TextView deadlineView = (TextView)view.findViewById(R.id.deadline);
 		if (project.hasDeadline()) {
-			deadlineView.setText(project.getDeadlineAsString());
+			deadlineView.setText(project.getDeadline().toString());
 		} else {
 			deadlineView.setText(_context.getString(R.string.unlimited));
 		}

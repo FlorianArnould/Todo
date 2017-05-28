@@ -2,6 +2,7 @@ package fr.socket.flo.todo.model;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -19,29 +20,32 @@ import fr.socket.flo.todo.database.DataManager;
  */
 abstract class Work extends Savable implements Nameable, Sortable<Work> {
 	public static final int NONE = -1;
-	private SimpleDateFormat _dateFormat;
 	private int _id;
 	private String _name;
-	private Date _deadline;
+	private DateTime _startDate;
+	private DateTime _deadline;
 	private int _priority;
 
 	Work(Cursor cursor) {
 		super(cursor);
 	}
 
-	Work(int id, String name, @Nullable Date deadline, int priority) {
+	Work(int id, String name, @NonNull DateTime startDate, @NonNull DateTime deadline, int priority) {
 		_id = id;
 		_name = name;
+		_startDate = startDate;
 		_deadline = deadline;
 		_priority = priority;
-		_dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.FRENCH);
 	}
 
 	protected static Collection<String> getColumns() {
 		Collection<String> columns = Savable.getColumns();
 		columns.add("id");
 		columns.add("name");
-		columns.add("deadline");
+		columns.add("start_date");
+		columns.add("start_time");
+		columns.add("deadline_date");
+		columns.add("deadline_time");
 		columns.add("priority");
 		return columns;
 	}
@@ -72,38 +76,8 @@ abstract class Work extends Savable implements Nameable, Sortable<Work> {
 		return _deadline != null;
 	}
 
-	public Date getDeadline() {
+	public DateTime getDeadline() {
 		return _deadline;
-	}
-
-	public void setDeadline(Date dateTime) {
-		_deadline = dateTime;
-	}
-
-	public CharSequence getDeadlineAsString() {
-		if (_deadline == null) {
-			return "";
-		} else {
-			return getDeadlineDateAsString() + " " + getDeadlineTimeAsString();
-		}
-	}
-
-	public CharSequence getDeadlineDateAsString() {
-		if (_deadline == null) {
-			return "";
-		} else {
-			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.FRENCH);
-			return simpleDateFormat.format(_deadline);
-		}
-	}
-
-	public CharSequence getDeadlineTimeAsString() {
-		if (_deadline == null) {
-			return "";
-		} else {
-			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.FRENCH);
-			return simpleDateFormat.format(_deadline);
-		}
 	}
 
 	@Override
@@ -137,10 +111,10 @@ abstract class Work extends Savable implements Nameable, Sortable<Work> {
 	@Override
 	protected int fromCursor(Cursor cursor) {
 		int index = super.fromCursor(cursor);
-		_dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.FRENCH);
 		_id = cursor.getInt(index++);
 		_name = cursor.getString(index++);
-		_deadline = stringToDate(cursor.getString(index++));
+		_startDate = new DateTime(cursor.getString(index++), cursor.getString(index++));
+		_deadline = new DateTime(cursor.getString(index++), cursor.getString(index++));
 		_priority = cursor.getInt(index++);
 		return index;
 	}
@@ -149,23 +123,9 @@ abstract class Work extends Savable implements Nameable, Sortable<Work> {
 	public ContentValues toContentValues() {
 		ContentValues values = super.toContentValues();
 		values.put("name", _name);
-		if (_deadline != null) {
-			values.put("deadline", _dateFormat.format(_deadline));
-		} else {
-			values.putNull("deadline");
-		}
+		_startDate.addToContentValues(values, "start_date", "start_time");
+		_deadline.addToContentValues(values, "deadline_date", "deadline_time");
 		values.put("priority", _priority);
 		return values;
-	}
-
-	private Date stringToDate(@Nullable String string) {
-		if (string != null && !string.isEmpty()) {
-			try {
-				return _dateFormat.parse(string);
-			} catch (ParseException e) {
-				Log.w("Parse sql string", "Date wasn't parse", e);
-			}
-		}
-		return null;
 	}
 }

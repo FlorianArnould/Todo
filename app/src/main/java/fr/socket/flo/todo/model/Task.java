@@ -2,6 +2,7 @@ package fr.socket.flo.todo.model;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 
@@ -27,14 +28,14 @@ public class Task extends Work {
 		super(cursor);
 	}
 
-	private Task(int id, int projectId, String name, @Nullable Date deadline, int priority, State state) {
-		super(id, name, deadline, priority);
+	private Task(int id, int projectId, String name, @NonNull DateTime startDate, @NonNull DateTime deadline, int priority, State state) {
+		super(id, name, startDate, deadline, priority);
 		_projectId = projectId;
 		_state = state;
 	}
 
 	public static void newTask(int projectId, String name, @Nullable OnNewObjectCreatedListener listener) {
-		Task task = new Task(NONE, projectId, name, null, 1, State.WAITING);
+		Task task = new Task(NONE, projectId, name, new DateTime(), new DateTime(), 1, State.WAITING);
 		DataManager.getInstance().save(task, listener);
 	}
 
