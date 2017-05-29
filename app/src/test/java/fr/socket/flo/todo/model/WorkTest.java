@@ -65,11 +65,11 @@ public class WorkTest {
 	@Test
 	public void compareTest() {
 		Cursor cursor = MockUtils.createProjectCursorMock(1, "name", null, null, "24-05-2017", null, 3, Color.BLACK, 1);
-		Sortable sortable = new Project(cursor);
+		Work work = new Project(cursor);
 		Cursor cursor2 = MockUtils.createProjectCursorMock(1, "water", null, null, "25-05-2017", null, 5, Color.BLACK, 1);
-		Sortable other = new Project(cursor2);
-		Assert.assertTrue(sortable.compareByName(other) < 0);
-		Assert.assertTrue(sortable.compareByPriority(other) < 0);
-		Assert.assertTrue(sortable.compareByDeadline(other) < 0);
+		Work other = new Project(cursor2);
+		Assert.assertTrue(work.compareByName(other) < 0);
+		Assert.assertTrue(work.compareByPriority(other) < 0);
+		Assert.assertTrue(work.compareByDeadline(other) < 0);
 	}
 }

@@ -14,10 +14,10 @@ import java.util.Locale;
  * @author Florian Arnould
  */
 public class DateTime {
-	private Date _date;
-	private Date _time;
 	private final SimpleDateFormat _dateFormat;
 	private final SimpleDateFormat _timeFormat;
+	private Date _date;
+	private Date _time;
 
 	DateTime() {
 		_dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.FRENCH);

@@ -8,13 +8,13 @@ import java.util.List;
  * @author Florian Arnould
  * @version 1.0
  */
-public class Sorter {
+public class Sorter<E extends Sortable<? super E>> {
 	public enum Sort {BY_NAME, BY_DEADLINE, BY_PRIORITY}
 
-	private Sorter() {
+	public Sorter() {
 	}
 
-	public static void sort(Sort sort, List<? extends Sortable> list) {
+	public void sort(Sort sort, List<E> list) {
 		switch (sort) {
 			case BY_NAME:
 				sortByName(list);
@@ -28,28 +28,28 @@ public class Sorter {
 		}
 	}
 
-	private static void sortByName(List<? extends Sortable> list) {
-		Collections.sort(list, new Comparator<Sortable>() {
+	private void sortByName(List<E> list) {
+		Collections.sort(list, new Comparator<E>() {
 			@Override
-			public int compare(Sortable o1, Sortable o2) {
+			public int compare(E o1, E o2) {
 				return o1.compareByName(o2);
 			}
 		});
 	}
 
-	private static void sortByDeadline(List<? extends Sortable> list) {
-		Collections.sort(list, new Comparator<Sortable>() {
+	private void sortByDeadline(List<E> list) {
+		Collections.sort(list, new Comparator<E>() {
 			@Override
-			public int compare(Sortable o1, Sortable o2) {
+			public int compare(E o1, E o2) {
 				return o1.compareByDeadline(o2);
 			}
 		});
 	}
 
-	private static void sortByPriority(List<? extends Sortable> list) {
-		Collections.sort(list, new Comparator<Sortable>() {
+	private void sortByPriority(List<E> list) {
+		Collections.sort(list, new Comparator<E>() {
 			@Override
-			public int compare(Sortable o1, Sortable o2) {
+			public int compare(E o1, E o2) {
 				return o1.compareByPriority(o2);
 			}
 		});

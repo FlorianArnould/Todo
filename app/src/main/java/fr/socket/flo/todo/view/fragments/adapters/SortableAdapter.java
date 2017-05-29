@@ -11,7 +11,7 @@ import fr.socket.flo.todo.model.Sorter;
  * @author Florian Arnould
  * @version 1.0
  */
-public abstract class SortableAdapter extends BaseAdapter {
+public abstract class SortableAdapter<E extends Sortable<? super E>> extends BaseAdapter {
 	private Sorter.Sort _sort;
 
 	SortableAdapter(Sorter.Sort sort) {
@@ -23,7 +23,7 @@ public abstract class SortableAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
-	protected void sort(List<? extends Sortable> sortableList) {
-		Sorter.sort(_sort, sortableList);
+	protected void sort(List<E> sortableList) {
+		new Sorter<E>().sort(_sort, sortableList);
 	}
 }

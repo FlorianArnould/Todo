@@ -33,7 +33,7 @@ import fr.socket.flo.todo.view.graphics.ProgressTextDrawable;
  * @author Florian Arnould
  * @version 1.0
  */
-public class ProjectsAdapter extends SortableAdapter implements Filterable, UpdatableAdapter {
+public class ProjectsAdapter extends SortableAdapter<Project> implements Filterable, UpdatableAdapter {
 	private final Context _context;
 	private List<Project> _projects;
 	private List<Project> _filteredProjects;

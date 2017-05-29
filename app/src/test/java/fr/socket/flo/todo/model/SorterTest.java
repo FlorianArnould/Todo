@@ -34,7 +34,7 @@ public class SorterTest {
 
 	@Test
 	public void orderByPriorityTest() {
-		Sorter.sort(Sorter.Sort.BY_PRIORITY, _projects);
+		new Sorter<Project>().sort(Sorter.Sort.BY_PRIORITY, _projects);
 		Assert.assertEquals(4, _projects.get(0).getId());
 		Assert.assertEquals(2, _projects.get(1).getId());
 		Assert.assertEquals(1, _projects.get(2).getId());
@@ -43,7 +43,7 @@ public class SorterTest {
 
 	@Test
 	public void orderByNameTest() {
-		Sorter.sort(Sorter.Sort.BY_NAME, _projects);
+		new Sorter<Project>().sort(Sorter.Sort.BY_NAME, _projects);
 		Assert.assertEquals(3, _projects.get(0).getId());
 		Assert.assertEquals(4, _projects.get(1).getId());
 		Assert.assertEquals(1, _projects.get(2).getId());
@@ -52,7 +52,7 @@ public class SorterTest {
 
 	@Test
 	public void orderByDeadline() {
-		Sorter.sort(Sorter.Sort.BY_DEADLINE, _projects);
+		new Sorter<Project>().sort(Sorter.Sort.BY_DEADLINE, _projects);
 		Assert.assertEquals(2, _projects.get(0).getId());
 		Assert.assertEquals(3, _projects.get(1).getId());
 		Assert.assertEquals(4, _projects.get(2).getId());

@@ -29,7 +29,7 @@ import fr.socket.flo.todo.view.graphics.PriorityDrawable;
  * @author Florian Arnould
  * @version 1.0
  */
-public class TasksAdapter extends SortableAdapter implements Filterable, UpdatableAdapter {
+public class TasksAdapter extends SortableAdapter<Task> implements Filterable, UpdatableAdapter {
 	private final ProjectFragment _fragment;
 	private final int _projectId;
 	private List<Task> _tasks;
