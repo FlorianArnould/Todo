@@ -4,7 +4,6 @@ import android.database.Cursor;
 
 import junit.framework.Assert;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -28,7 +27,6 @@ import fr.socket.flo.todo.utils.MockUtils;
  */
 @RunWith(PowerMockRunner.class)
 public class TaskTest {
-
 	@Test
 	@PrepareForTest(DataManager.class)
 	public void newProjectTest() {
@@ -51,7 +49,7 @@ public class TaskTest {
 	}
 
 	@Test
-	public void stateTest(){
+	public void stateTest() {
 		Cursor cursor = MockUtils.createTaskCursorMock(1, "name", null, null, null, null, 3, 1, Task.State.IN_PROGRESS.name());
 		Task task = new Task(cursor);
 		Assert.assertEquals(R.string.in_progress, task.getStringResIdState());

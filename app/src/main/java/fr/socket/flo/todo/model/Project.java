@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.util.Collection;
-import java.util.Date;
 
 import fr.socket.flo.todo.database.DataManager;
 import fr.socket.flo.todo.database.OnNewObjectCreatedListener;

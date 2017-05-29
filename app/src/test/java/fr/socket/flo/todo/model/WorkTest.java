@@ -5,13 +5,9 @@ import android.graphics.Color;
 
 import junit.framework.Assert;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import fr.socket.flo.todo.utils.MockUtils;
@@ -20,7 +16,6 @@ import fr.socket.flo.todo.utils.MockUtils;
  * @author Florian Arnould
  */
 public class WorkTest {
-
 	@Test
 	public void idTest() {
 		Cursor cursor = MockUtils.createProjectCursorMock(1, "name", null, null, null, null, 3, Color.BLACK, 1);
@@ -47,7 +42,7 @@ public class WorkTest {
 	}
 
 	@Test
-	public void getDeadlineTest(){
+	public void getDeadlineTest() {
 		Cursor cursor = MockUtils.createProjectCursorMock(1, "name", null, null, "02-04-2017", null, 3, Color.BLACK, 1);
 		Work work = new Project(cursor);
 		DateTime deadline = work.getDeadline();
@@ -55,7 +50,7 @@ public class WorkTest {
 	}
 
 	@Test
-	public void columnsTest(){
+	public void columnsTest() {
 		List<String> list = new ArrayList<>(Project.getColumns());
 		int index = 0;
 		Assert.assertEquals("id", list.get(index++));
@@ -68,7 +63,7 @@ public class WorkTest {
 	}
 
 	@Test
-	public void compareTest(){
+	public void compareTest() {
 		Cursor cursor = MockUtils.createProjectCursorMock(1, "name", null, null, "24-05-2017", null, 3, Color.BLACK, 1);
 		Sortable sortable = new Project(cursor);
 		Cursor cursor2 = MockUtils.createProjectCursorMock(1, "water", null, null, "25-05-2017", null, 5, Color.BLACK, 1);

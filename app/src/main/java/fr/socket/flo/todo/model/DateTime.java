@@ -16,8 +16,8 @@ import java.util.Locale;
 public class DateTime {
 	private Date _date;
 	private Date _time;
-	private SimpleDateFormat _dateFormat;
-	private SimpleDateFormat _timeFormat;
+	private final SimpleDateFormat _dateFormat;
+	private final SimpleDateFormat _timeFormat;
 
 	DateTime() {
 		_dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.FRENCH);
@@ -131,15 +131,15 @@ public class DateTime {
 		return 0;
 	}
 
-	public boolean isWholeDay(){
+	public boolean isWholeDay() {
 		return _time == null;
 	}
 
-	public boolean isNull(){
+	public boolean isNull() {
 		return _date == null;
 	}
 
-	public void setWholeDay(){
+	public void setWholeDay() {
 		_time = null;
 	}
 }

@@ -7,7 +7,6 @@ import junit.framework.Assert;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +33,7 @@ public class SorterTest {
 	}
 
 	@Test
-	public void orderByPriorityTest(){
+	public void orderByPriorityTest() {
 		Sorter.sort(Sorter.Sort.BY_PRIORITY, _projects);
 		Assert.assertEquals(4, _projects.get(0).getId());
 		Assert.assertEquals(2, _projects.get(1).getId());
@@ -43,7 +42,7 @@ public class SorterTest {
 	}
 
 	@Test
-	public void orderByNameTest(){
+	public void orderByNameTest() {
 		Sorter.sort(Sorter.Sort.BY_NAME, _projects);
 		Assert.assertEquals(3, _projects.get(0).getId());
 		Assert.assertEquals(4, _projects.get(1).getId());
@@ -52,7 +51,7 @@ public class SorterTest {
 	}
 
 	@Test
-	public void orderByDeadline(){
+	public void orderByDeadline() {
 		Sorter.sort(Sorter.Sort.BY_DEADLINE, _projects);
 		Assert.assertEquals(2, _projects.get(0).getId());
 		Assert.assertEquals(3, _projects.get(1).getId());

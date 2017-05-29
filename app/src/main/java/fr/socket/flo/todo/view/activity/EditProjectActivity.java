@@ -123,9 +123,9 @@ public class EditProjectActivity extends AppCompatActivity implements OnObjectLo
 		checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if(isChecked){
+				if (isChecked) {
 					deadline.setWholeDay();
-				}else{
+				} else {
 					deadline.setTime(Calendar.getInstance().getTime());
 				}
 			}

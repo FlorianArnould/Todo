@@ -7,11 +7,8 @@ import android.support.test.runner.AndroidJUnit4;
 
 import junit.framework.Assert;
 
-import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 
 import fr.socket.flo.todo.utils.MockUtils;
 
@@ -20,9 +17,8 @@ import fr.socket.flo.todo.utils.MockUtils;
  */
 @RunWith(AndroidJUnit4.class)
 public class WorkTest {
-
 	@Test
-	public void contentValuesTest(){
+	public void contentValuesTest() {
 		Cursor cursor = MockUtils.createProjectCursorMock(1, "name", "01-04-2017", null, "02-04-2017", "12:03", 3, Color.BLACK, 1);
 		Work work = new Project(cursor);
 		ContentValues values = work.toContentValues();

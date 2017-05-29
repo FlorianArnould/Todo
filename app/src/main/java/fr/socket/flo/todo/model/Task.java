@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 
 import java.util.Collection;
-import java.util.Date;
 
 import fr.socket.flo.todo.R;
 import fr.socket.flo.todo.database.DataManager;

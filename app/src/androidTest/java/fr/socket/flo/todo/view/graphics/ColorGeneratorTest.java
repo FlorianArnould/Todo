@@ -15,22 +15,22 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class ColorGeneratorTest {
 	@Test
-	public void darkerColorTest(){
+	public void darkerColorTest() {
 		@ColorInt int darker = ColorGenerator.darkerColor(Color.BLUE);
 		float[] colorHsv = new float[3];
 		float[] darkerHsv = new float[3];
 		Color.colorToHSV(Color.BLUE, colorHsv);
 		Color.colorToHSV(darker, darkerHsv);
-		Assert.assertEquals((float)(colorHsv[2]-0.2), darkerHsv[2]);
+		Assert.assertEquals((float)(colorHsv[2] - 0.2), darkerHsv[2]);
 	}
 
 	@Test
-	public void priorityColorTest(){
+	public void priorityColorTest() {
 		Assert.assertEquals(-2035152, ColorGenerator.priorityColor(6));
 	}
 
 	@Test
-	public void textColorOfLatestPriorityColorTest(){
+	public void textColorOfLatestPriorityColorTest() {
 		ColorGenerator.priorityColor(2);
 		Assert.assertEquals(Color.WHITE, ColorGenerator.textColorOfLatestPriorityColor());
 		ColorGenerator.priorityColor(7);
