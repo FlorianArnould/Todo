@@ -9,55 +9,72 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+
+import fr.socket.flo.todo.utils.MockUtils;
 
 /**
  * @author Florian Arnould
  */
 public class WorkTest {
-	private static Work _work;
-
-	@BeforeClass
-	public static void createInstanceFromCursorTest() {
-		Cursor cursor = Mockito.mock(Cursor.class);
-		Mockito.when(cursor.getInt(0)).thenReturn(1);
-		Mockito.when(cursor.getString(1)).thenReturn("name");
-		Mockito.when(cursor.getString(2)).thenReturn("02-04-2017 12:03:00");
-		Mockito.when(cursor.getInt(3)).thenReturn(3);
-		Mockito.when(cursor.getInt(4)).thenReturn(Color.BLACK);
-		Mockito.when(cursor.getInt(5)).thenReturn(1);
-		_work = new Project(cursor);
-	}
 
 	@Test
 	public void idTest() {
-		Assert.assertEquals(1, _work.getId());
+		Cursor cursor = MockUtils.createProjectCursorMock(1, "name", null, null, null, null, 3, Color.BLACK, 1);
+		Work work = new Project(cursor);
+		Assert.assertEquals(1, work.getId());
 	}
 
 	@Test
 	public void nameTest() {
-		Assert.assertEquals("name", _work.getName());
-		_work.setName("other name");
-		Assert.assertEquals("other name", _work.getName());
+		Cursor cursor = MockUtils.createProjectCursorMock(1, "name", null, null, null, null, 3, Color.BLACK, 1);
+		Work work = new Project(cursor);
+		Assert.assertEquals("name", work.getName());
+		work.setName("other name");
+		Assert.assertEquals("other name", work.getName());
 	}
 
 	@Test
 	public void priorityTest() {
-		Assert.assertEquals(3, _work.getPriority());
-		_work.setPriority(5);
-		Assert.assertEquals(5, _work.getPriority());
+		Cursor cursor = MockUtils.createProjectCursorMock(1, "name", null, null, null, null, 3, Color.BLACK, 1);
+		Work work = new Project(cursor);
+		Assert.assertEquals(3, work.getPriority());
+		work.setPriority(5);
+		Assert.assertEquals(5, work.getPriority());
+	}
+
+	@Test
+	public void getDeadlineTest(){
+		Cursor cursor = MockUtils.createProjectCursorMock(1, "name", null, null, "02-04-2017", null, 3, Color.BLACK, 1);
+		Work work = new Project(cursor);
+		DateTime deadline = work.getDeadline();
+		Assert.assertEquals("02-04-2017", deadline.toString());
+	}
+
+	@Test
+	public void columnsTest(){
+		List<String> list = new ArrayList<>(Project.getColumns());
+		int index = 0;
+		Assert.assertEquals("id", list.get(index++));
+		Assert.assertEquals("name", list.get(index++));
+		Assert.assertEquals("start_date", list.get(index++));
+		Assert.assertEquals("start_time", list.get(index++));
+		Assert.assertEquals("deadline_date", list.get(index++));
+		Assert.assertEquals("deadline_time", list.get(index++));
+		Assert.assertEquals("priority", list.get(index));
 	}
 
 	@Test
 	public void compareTest(){
-		Work other = _work;
-		other.setName("water");
-		createInstanceFromCursorTest();
-		Assert.assertTrue(_work.compareByName(other) < 0);
-		other.setPriority(5);
-		Assert.assertTrue(_work.compareByPriority(other) < 0);
-		/*other.setDeadline(Calendar.getInstance().getTime());
-		Assert.assertTrue(_work.compareByDeadline(other) < 0);*/
+		Cursor cursor = MockUtils.createProjectCursorMock(1, "name", null, null, "24-05-2017", null, 3, Color.BLACK, 1);
+		Sortable sortable = new Project(cursor);
+		Cursor cursor2 = MockUtils.createProjectCursorMock(1, "water", null, null, "25-05-2017", null, 5, Color.BLACK, 1);
+		Sortable other = new Project(cursor2);
+		Assert.assertTrue(sortable.compareByName(other) < 0);
+		Assert.assertTrue(sortable.compareByPriority(other) < 0);
+		Assert.assertTrue(sortable.compareByDeadline(other) < 0);
 	}
 }

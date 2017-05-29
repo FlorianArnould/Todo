@@ -19,6 +19,7 @@ import fr.socket.flo.todo.R;
 import fr.socket.flo.todo.database.DataManager;
 import fr.socket.flo.todo.database.OnMultipleObjectsLoadedListener;
 import fr.socket.flo.todo.database.OnObjectLoadedListener;
+import fr.socket.flo.todo.model.DateTime;
 import fr.socket.flo.todo.model.Nameable;
 import fr.socket.flo.todo.model.Project;
 import fr.socket.flo.todo.model.Sorter;
@@ -106,10 +107,11 @@ public class ProjectsAdapter extends SortableAdapter implements Filterable, Upda
 		}
 
 		TextView deadlineView = (TextView)view.findViewById(R.id.deadline);
-		if (project.hasDeadline()) {
-			deadlineView.setText(project.getDeadline().toString());
-		} else {
+		DateTime deadline = project.getDeadline();
+		if (deadline.isNull()) {
 			deadlineView.setText(_context.getString(R.string.unlimited));
+		} else {
+			deadlineView.setText(deadline.toString());
 		}
 
 		CheckBox favoriteBox = (CheckBox)view.findViewById(R.id.is_favorite);

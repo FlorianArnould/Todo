@@ -135,6 +135,10 @@ public class DateTime {
 		return _time == null;
 	}
 
+	public boolean isNull(){
+		return _date == null;
+	}
+
 	public void setWholeDay(){
 		_time = null;
 	}

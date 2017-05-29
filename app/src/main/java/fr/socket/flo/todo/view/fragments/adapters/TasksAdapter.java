@@ -16,6 +16,7 @@ import java.util.List;
 import fr.socket.flo.todo.R;
 import fr.socket.flo.todo.database.DataManager;
 import fr.socket.flo.todo.database.OnMultipleObjectsLoadedListener;
+import fr.socket.flo.todo.model.DateTime;
 import fr.socket.flo.todo.model.Nameable;
 import fr.socket.flo.todo.model.Sorter;
 import fr.socket.flo.todo.model.Task;
@@ -92,10 +93,11 @@ public class TasksAdapter extends SortableAdapter implements Filterable, Updatab
 		});
 		stateView.setText(task.getStringResIdState());
 		TextView deadlineView = (TextView)view.findViewById(R.id.deadline);
-		if (task.hasDeadline()) {
-			deadlineView.setText(task.getDeadline().toString());
-		} else {
+		DateTime deadline = task.getDeadline();
+		if (deadline.isNull()) {
 			deadlineView.setText(_fragment.getString(R.string.unlimited));
+		} else {
+			deadlineView.setText(deadline.toString());
 		}
 		ImageView priorityLabelView = (ImageView)view.findViewById(R.id.priority_label);
 		priorityLabelView.setImageDrawable(new PriorityDrawable(task.getPriority()));

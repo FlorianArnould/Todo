@@ -12,6 +12,8 @@ import org.mockito.Mockito;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.socket.flo.todo.utils.MockUtils;
+
 /**
  * @author Florian Arnould
  */
@@ -21,37 +23,13 @@ public class SorterTest {
 	@BeforeClass
 	public static void prepareList() {
 		_projects = new ArrayList<>();
-		Cursor cursor = Mockito.mock(Cursor.class);
-		Mockito.when(cursor.getInt(0)).thenReturn(1);
-		Mockito.when(cursor.getString(1)).thenReturn("Chloe");
-		Mockito.when(cursor.getString(2)).thenReturn("03-04-2017 12:03:00");
-		Mockito.when(cursor.getInt(3)).thenReturn(3);
-		Mockito.when(cursor.getInt(4)).thenReturn(Color.BLACK);
-		Mockito.when(cursor.getInt(5)).thenReturn(1);
+		Cursor cursor = MockUtils.createProjectCursorMock(1, "Chloe", null, null, "03-04-2017", "12:03", 3, Color.BLACK, 1);
 		_projects.add(new Project(cursor));
-		Cursor cursor2 = Mockito.mock(Cursor.class);
-		Mockito.when(cursor2.getInt(0)).thenReturn(2);
-		Mockito.when(cursor2.getString(1)).thenReturn("Paul");
-		Mockito.when(cursor2.getString(2)).thenReturn("01-04-2017 12:03:00");
-		Mockito.when(cursor2.getInt(3)).thenReturn(2);
-		Mockito.when(cursor2.getInt(4)).thenReturn(Color.BLACK);
-		Mockito.when(cursor2.getInt(5)).thenReturn(1);
+		Cursor cursor2 = MockUtils.createProjectCursorMock(2, "Paul", null, null, "01-04-2017", "12:03", 2, Color.BLACK, 1);
 		_projects.add(new Project(cursor2));
-		Cursor cursor3 = Mockito.mock(Cursor.class);
-		Mockito.when(cursor3.getInt(0)).thenReturn(3);
-		Mockito.when(cursor3.getString(1)).thenReturn("Amandine");
-		Mockito.when(cursor3.getString(2)).thenReturn("02-04-2017 12:03:00");
-		Mockito.when(cursor3.getInt(3)).thenReturn(5);
-		Mockito.when(cursor3.getInt(4)).thenReturn(Color.BLACK);
-		Mockito.when(cursor3.getInt(5)).thenReturn(1);
+		Cursor cursor3 = MockUtils.createProjectCursorMock(3, "Amandine", null, null, "02-04-2017", "12:03", 5, Color.BLACK, 1);
 		_projects.add(new Project(cursor3));
-		Cursor cursor4 = Mockito.mock(Cursor.class);
-		Mockito.when(cursor4.getInt(0)).thenReturn(4);
-		Mockito.when(cursor4.getString(1)).thenReturn("Camille");
-		Mockito.when(cursor4.getString(2)).thenReturn("02-04-2017 13:03:00");
-		Mockito.when(cursor4.getInt(3)).thenReturn(1);
-		Mockito.when(cursor4.getInt(4)).thenReturn(Color.BLACK);
-		Mockito.when(cursor4.getInt(5)).thenReturn(1);
+		Cursor cursor4 = MockUtils.createProjectCursorMock(4, "Camille", null, null, "02-04-2017", "13:03", 1, Color.BLACK, 1);
 		_projects.add(new Project(cursor4));
 	}
 

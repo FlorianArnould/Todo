@@ -72,10 +72,6 @@ abstract class Work extends Savable implements Nameable, Sortable<Work> {
 		_priority = priority;
 	}
 
-	public boolean hasDeadline() {
-		return _deadline != null;
-	}
-
 	public DateTime getDeadline() {
 		return _deadline;
 	}
@@ -87,15 +83,6 @@ abstract class Work extends Savable implements Nameable, Sortable<Work> {
 
 	@Override
 	public int compareByDeadline(Work other) {
-		if (other._deadline == null && _deadline == null) {
-			return 0;
-		}
-		if (other._deadline == null) {
-			return -1;
-		}
-		if (_deadline == null) {
-			return 1;
-		}
 		return _deadline.compareTo(other._deadline);
 	}
 
