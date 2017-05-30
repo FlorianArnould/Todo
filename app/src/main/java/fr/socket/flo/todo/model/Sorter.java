@@ -11,9 +11,6 @@ import java.util.List;
 public class Sorter<E extends Sortable<? super E>> {
 	public enum Sort {BY_NAME, BY_DEADLINE, BY_PRIORITY}
 
-	public Sorter() {
-	}
-
 	public void sort(Sort sort, List<E> list) {
 		switch (sort) {
 			case BY_NAME:
