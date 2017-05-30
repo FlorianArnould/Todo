@@ -174,7 +174,6 @@ public final class DataManager {
 	}
 
 	private int getCurrentTask(int projectId) {
-		// TODO: 29/05/17 Change this query to use the deadline
 		SQLiteDatabase db = _dbOpenHelper.getWritableDatabase();
 		Cursor cursor = db.query(
 				Task.TABLE_NAME,
@@ -182,7 +181,7 @@ public final class DataManager {
 				new String[]{Task.State.IN_PROGRESS.name(), String.valueOf(projectId)},
 				null,
 				null,
-				"priority");
+				"priority, deadline_date IS NULL, deadline_time IS NULL");
 		int taskId;
 		if (cursor.moveToNext()) {
 			taskId = cursor.getInt(0);
