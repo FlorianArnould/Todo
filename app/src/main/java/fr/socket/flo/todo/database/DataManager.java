@@ -150,6 +150,19 @@ public final class DataManager {
 		updater.execute();
 	}
 
+	public void remove(Savable savable, final OnDataChangedListener listener) {
+		Remover remover = new Remover(_dbOpenHelper.getWritableDatabase(), savable.getTable(), savable.getId(), new OnDataChangedListener() {
+			@Override
+			public void onDataChanged() {
+				if (listener != null) {
+					listener.onDataChanged();
+				}
+				getOnDataChangedListener().onDataChanged();
+			}
+		});
+		remover.execute();
+	}
+
 	public void closeDatabase() {
 		_dbOpenHelper.close();
 	}

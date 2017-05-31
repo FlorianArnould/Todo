@@ -66,7 +66,7 @@ public class DialogManager {
 		final AlertDialog.Builder builder = new AlertDialog.Builder(_activity);
 		LayoutInflater inflater = _activity.getLayoutInflater();
 		@SuppressLint("InflateParams") final View view = inflater.inflate(R.layout.new_object_dialog, null);
-		final EditText editText = (EditText)view.findViewById(R.id.projectName);
+		final EditText editText = (EditText)view.findViewById(R.id.name);
 		editText.setHint(nameHint);
 		builder.setView(view)
 				.setCancelable(true)

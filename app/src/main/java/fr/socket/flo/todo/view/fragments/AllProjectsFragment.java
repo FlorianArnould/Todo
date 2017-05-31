@@ -16,18 +16,21 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import fr.socket.flo.todo.R;
+import fr.socket.flo.todo.database.DataManager;
+import fr.socket.flo.todo.database.OnDataChangedListener;
 import fr.socket.flo.todo.database.OnNewObjectCreatedListener;
 import fr.socket.flo.todo.model.Project;
 import fr.socket.flo.todo.model.Sorter;
 import fr.socket.flo.todo.view.activity.EditProjectActivity;
 import fr.socket.flo.todo.view.dialog.DialogManager;
 import fr.socket.flo.todo.view.fragments.adapters.ProjectsAdapter;
+import fr.socket.flo.todo.view.fragments.adapters.UpdatableAdapter;
 
 /**
  * @author Florian Arnould
  * @version 1.0
  */
-public class AllProjectsFragment extends MainActivityFragment implements OnNewObjectCreatedListener {
+public class AllProjectsFragment extends MainActivityFragment implements OnNewObjectCreatedListener, OnDataChangedListener {
 	private static final String SORT_PREFERENCES_KEY = "all_projects_fragment_sort";
 
 	public AllProjectsFragment() {
@@ -78,6 +81,13 @@ public class AllProjectsFragment extends MainActivityFragment implements OnNewOb
 	public void onStart() {
 		super.onStart();
 		setHasFloatingAction(true);
+		DataManager.getInstance().addOnDataChangedListener(this);
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		DataManager.getInstance().removeOnDataChangedListener(this);
 	}
 
 	@Override
@@ -108,5 +118,11 @@ public class AllProjectsFragment extends MainActivityFragment implements OnNewOb
 			});
 		}
 		snackbar.show();
+	}
+
+	@Override
+	public void onDataChanged() {
+		UpdatableAdapter adapter = (UpdatableAdapter)getListAdapter();
+		adapter.update();
 	}
 }
