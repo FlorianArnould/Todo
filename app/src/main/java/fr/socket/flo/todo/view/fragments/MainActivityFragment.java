@@ -48,7 +48,7 @@ public abstract class MainActivityFragment extends ListFragment {
 		final SharedPreferences pref = activity.getSharedPreferences(getString(R.string.preferences_name_key), Context.MODE_PRIVATE);
 		String sort = pref.getString(_sortPreferenceKey, Sorter.Sort.BY_NAME.name());
 		Sorter.Sort sortingWay = Sorter.Sort.valueOf(sort);
-		activity.setSortWay(sortingWay);
+		activity.setSort(sortingWay);
 		activity.setOnSortChangedListener(new OnSortChangedListener() {
 			@Override
 			public void onSortChangedListener(Sorter.Sort sort) {

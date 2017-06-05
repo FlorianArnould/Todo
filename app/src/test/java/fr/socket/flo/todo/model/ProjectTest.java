@@ -20,7 +20,6 @@ import java.util.List;
 
 import fr.socket.flo.todo.database.DataManager;
 import fr.socket.flo.todo.database.OnNewObjectCreatedListener;
-import fr.socket.flo.todo.utils.MockUtils;
 
 /**
  * @author Florian Arnould
@@ -50,7 +49,7 @@ public class ProjectTest {
 
 	@Test
 	public void colorTest() {
-		Cursor cursor = MockUtils.createProjectCursorMock(1, "name", null, null, null, null, 3, Color.BLACK, 1);
+		Cursor cursor = CursorMock.createProjectCursorMock(1, "name", null, null, null, null, 3, Color.BLACK, 1);
 		Project project = new Project(cursor);
 		Assert.assertEquals(Color.BLACK, project.getColor());
 		project.setColor(Color.WHITE);
@@ -59,7 +58,7 @@ public class ProjectTest {
 
 	@Test
 	public void favoriteTest() {
-		Cursor cursor = MockUtils.createProjectCursorMock(1, "name", null, null, null, null, 3, Color.BLACK, 1);
+		Cursor cursor = CursorMock.createProjectCursorMock(1, "name", null, null, null, null, 3, Color.BLACK, 1);
 		Project project = new Project(cursor);
 		Assert.assertTrue(project.isFavorite());
 		project.setFavorite(false);
@@ -68,7 +67,7 @@ public class ProjectTest {
 
 	@Test
 	public void currentTaskTest() {
-		Cursor cursor = MockUtils.createProjectCursorMock(1, "name", null, null, null, null, 3, Color.BLACK, 1);
+		Cursor cursor = CursorMock.createProjectCursorMock(1, "name", null, null, null, null, 3, Color.BLACK, 1);
 		Project project = new Project(cursor);
 		Assert.assertFalse(project.hasCurrentTask());
 		project.setCurrentTaskId(3);
@@ -95,7 +94,7 @@ public class ProjectTest {
 
 	@Test
 	public void progressTest() {
-		Cursor cursor = MockUtils.createProjectCursorMock(1, "name", null, null, null, null, 3, Color.BLACK, 1);
+		Cursor cursor = CursorMock.createProjectCursorMock(1, "name", null, null, null, null, 3, Color.BLACK, 1);
 		Project project = new Project(cursor);
 		project.setNumberOfTasks(Task.State.WAITING, 2);
 		project.setNumberOfTasks(Task.State.IN_PROGRESS, 3);
@@ -106,7 +105,7 @@ public class ProjectTest {
 
 	@Test
 	public void getTableTest() {
-		Cursor cursor = MockUtils.createProjectCursorMock(1, "name", null, null, null, null, 3, Color.BLACK, 1);
+		Cursor cursor = CursorMock.createProjectCursorMock(1, "name", null, null, null, null, 3, Color.BLACK, 1);
 		Project project = new Project(cursor);
 		Assert.assertEquals(Project.TABLE_NAME, project.getTable());
 	}

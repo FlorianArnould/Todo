@@ -36,7 +36,7 @@ public final class DataManager {
 	}
 
 	public void initialize(Context context) {
-		_dbOpenHelper = new ProjectsSQLiteOpenHelper(context);
+		_dbOpenHelper = new DatabaseHelper(context);
 	}
 
 	public void getFavorites(OnMultipleObjectsLoadedListener<Project> listener) {

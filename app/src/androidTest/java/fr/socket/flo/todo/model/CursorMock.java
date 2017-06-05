@@ -1,4 +1,4 @@
-package fr.socket.flo.todo.utils;
+package fr.socket.flo.todo.model;
 
 import android.database.Cursor;
 import android.support.annotation.ColorInt;
@@ -8,7 +8,7 @@ import org.mockito.Mockito;
 /**
  * @author Florian Arnould
  */
-public class MockUtils {
+public class CursorMock {
 	public static Cursor createProjectCursorMock(int id, String name, String start_date, String start_time, String deadline_date, String deadline_time, int priority, @ColorInt int color, int isFavorite) {
 		Cursor cursor = createWorkCursorMock(id, name, start_date, start_time, deadline_date, deadline_time, priority);
 		Mockito.when(cursor.getInt(7)).thenReturn(color);

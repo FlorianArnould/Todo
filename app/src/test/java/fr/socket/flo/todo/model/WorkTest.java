@@ -10,22 +10,20 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.socket.flo.todo.utils.MockUtils;
-
 /**
  * @author Florian Arnould
  */
 public class WorkTest {
 	@Test
 	public void idTest() {
-		Cursor cursor = MockUtils.createProjectCursorMock(1, "name", null, null, null, null, 3, Color.BLACK, 1);
+		Cursor cursor = CursorMock.createProjectCursorMock(1, "name", null, null, null, null, 3, Color.BLACK, 1);
 		Work work = new Project(cursor);
 		Assert.assertEquals(1, work.getId());
 	}
 
 	@Test
 	public void nameTest() {
-		Cursor cursor = MockUtils.createProjectCursorMock(1, "name", null, null, null, null, 3, Color.BLACK, 1);
+		Cursor cursor = CursorMock.createProjectCursorMock(1, "name", null, null, null, null, 3, Color.BLACK, 1);
 		Work work = new Project(cursor);
 		Assert.assertEquals("name", work.getName());
 		work.setName("other name");
@@ -34,7 +32,7 @@ public class WorkTest {
 
 	@Test
 	public void priorityTest() {
-		Cursor cursor = MockUtils.createProjectCursorMock(1, "name", null, null, null, null, 3, Color.BLACK, 1);
+		Cursor cursor = CursorMock.createProjectCursorMock(1, "name", null, null, null, null, 3, Color.BLACK, 1);
 		Work work = new Project(cursor);
 		Assert.assertEquals(3, work.getPriority());
 		work.setPriority(5);
@@ -43,7 +41,7 @@ public class WorkTest {
 
 	@Test
 	public void getDeadlineTest() {
-		Cursor cursor = MockUtils.createProjectCursorMock(1, "name", null, null, "02-04-2017", null, 3, Color.BLACK, 1);
+		Cursor cursor = CursorMock.createProjectCursorMock(1, "name", null, null, "02-04-2017", null, 3, Color.BLACK, 1);
 		Work work = new Project(cursor);
 		DateTime deadline = work.getDeadline();
 		Assert.assertEquals("02-04-2017", deadline.toString());
@@ -64,9 +62,9 @@ public class WorkTest {
 
 	@Test
 	public void compareTest() {
-		Cursor cursor = MockUtils.createProjectCursorMock(1, "name", null, null, "24-05-2017", null, 3, Color.BLACK, 1);
+		Cursor cursor = CursorMock.createProjectCursorMock(1, "name", null, null, "24-05-2017", null, 3, Color.BLACK, 1);
 		Work work = new Project(cursor);
-		Cursor cursor2 = MockUtils.createProjectCursorMock(1, "water", null, null, "25-05-2017", null, 5, Color.BLACK, 1);
+		Cursor cursor2 = CursorMock.createProjectCursorMock(1, "water", null, null, "25-05-2017", null, 5, Color.BLACK, 1);
 		Work other = new Project(cursor2);
 		Assert.assertTrue(work.compareByName(other) < 0);
 		Assert.assertTrue(work.compareByPriority(other) < 0);

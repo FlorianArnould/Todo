@@ -234,7 +234,7 @@ public class MainActivity extends SearchActivity
 		_sortListener = listener;
 	}
 
-	public void setSortWay(Sorter.Sort sort) {
+	public void setSort(Sorter.Sort sort) {
 		@IdRes int itemId;
 		switch (sort) {
 			case BY_DEADLINE:

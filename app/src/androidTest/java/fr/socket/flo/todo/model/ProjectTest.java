@@ -10,8 +10,6 @@ import junit.framework.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import fr.socket.flo.todo.utils.MockUtils;
-
 /**
  * @author Florian Arnould
  */
@@ -19,7 +17,7 @@ import fr.socket.flo.todo.utils.MockUtils;
 public class ProjectTest {
 	@Test
 	public void contentValuesTest() {
-		Cursor cursor = MockUtils.createProjectCursorMock(1, "name", null, null, null, null, 3, Color.BLACK, 1);
+		Cursor cursor = CursorMock.createProjectCursorMock(1, "name", null, null, null, null, 3, Color.BLACK, 1);
 		Project project = new Project(cursor);
 		project.setFavorite(true);
 		project.setColor(Color.WHITE);

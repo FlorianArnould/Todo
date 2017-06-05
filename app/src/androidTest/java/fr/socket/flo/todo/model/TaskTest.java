@@ -9,8 +9,6 @@ import junit.framework.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import fr.socket.flo.todo.utils.MockUtils;
-
 /**
  * @author Florian Arnould
  */
@@ -18,7 +16,7 @@ import fr.socket.flo.todo.utils.MockUtils;
 public class TaskTest {
 	@Test
 	public void contentValuesTest() {
-		Cursor cursor = MockUtils.createTaskCursorMock(1, "name", null, null, null, null, 3, 1, Task.State.IN_PROGRESS.name());
+		Cursor cursor = CursorMock.createTaskCursorMock(1, "name", null, null, null, null, 3, 1, Task.State.IN_PROGRESS.name());
 		Task task = new Task(cursor);
 		ContentValues values = task.toContentValues();
 		Assert.assertEquals(1, (int)values.getAsInteger("project_id"));

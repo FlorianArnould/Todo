@@ -21,14 +21,14 @@ public class DateTime {
 
 	DateTime() {
 		_dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.FRENCH);
-		_timeFormat = new SimpleDateFormat("hh:mm", Locale.FRENCH);
+		_timeFormat = new SimpleDateFormat("HH:mm", Locale.FRENCH);
 		_date = null;
 		_time = null;
 	}
 
 	DateTime(String date, String time) {
 		_dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.FRENCH);
-		_timeFormat = new SimpleDateFormat("hh:mm", Locale.FRENCH);
+		_timeFormat = new SimpleDateFormat("HH:mm", Locale.FRENCH);
 		try {
 			if (date != null) {
 				_date = _dateFormat.parse(date);
@@ -102,6 +102,15 @@ public class DateTime {
 	}
 
 	int compareTo(DateTime other) {
+		if (other.isNull() && isNull()) {
+			return 0;
+		}
+		if (other.isNull() && !isNull()) {
+			return -1;
+		}
+		if (!other.isNull() && isNull()) {
+			return 1;
+		}
 		Calendar thisCalendar = Calendar.getInstance();
 		thisCalendar.setTime(_date);
 		Calendar otherCalendar = Calendar.getInstance();
@@ -117,6 +126,15 @@ public class DateTime {
 	}
 
 	private int compareOnTime(DateTime other) {
+		if (other.isWholeDay() && isWholeDay()) {
+			return 0;
+		}
+		if (other.isWholeDay() && !isWholeDay()) {
+			return -1;
+		}
+		if (!other.isWholeDay() && isWholeDay()) {
+			return 1;
+		}
 		Calendar thisCalendar = Calendar.getInstance();
 		thisCalendar.setTime(_time);
 		Calendar otherCalendar = Calendar.getInstance();

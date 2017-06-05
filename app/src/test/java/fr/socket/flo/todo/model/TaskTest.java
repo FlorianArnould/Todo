@@ -20,7 +20,6 @@ import java.util.List;
 import fr.socket.flo.todo.R;
 import fr.socket.flo.todo.database.DataManager;
 import fr.socket.flo.todo.database.OnNewObjectCreatedListener;
-import fr.socket.flo.todo.utils.MockUtils;
 
 /**
  * @author Florian Arnould
@@ -50,7 +49,7 @@ public class TaskTest {
 
 	@Test
 	public void stateTest() {
-		Cursor cursor = MockUtils.createTaskCursorMock(1, "name", null, null, null, null, 3, 1, Task.State.IN_PROGRESS.name());
+		Cursor cursor = CursorMock.createTaskCursorMock(1, "name", null, null, null, null, 3, 1, Task.State.IN_PROGRESS.name());
 		Task task = new Task(cursor);
 		Assert.assertEquals(R.string.in_progress, task.getStringResIdState());
 		task.nextState();
@@ -63,7 +62,7 @@ public class TaskTest {
 
 	@Test
 	public void getTableTest() {
-		Cursor cursor = MockUtils.createTaskCursorMock(1, "name", null, null, null, null, 3, 1, Task.State.IN_PROGRESS.name());
+		Cursor cursor = CursorMock.createTaskCursorMock(1, "name", null, null, null, null, 3, 1, Task.State.IN_PROGRESS.name());
 		Task task = new Task(cursor);
 		Assert.assertEquals(Task.TABLE_NAME, task.getTable());
 	}

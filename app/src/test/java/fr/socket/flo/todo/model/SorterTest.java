@@ -11,8 +11,6 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.socket.flo.todo.utils.MockUtils;
-
 /**
  * @author Florian Arnould
  */
@@ -22,13 +20,13 @@ public class SorterTest {
 	@BeforeClass
 	public static void prepareList() {
 		_projects = new ArrayList<>();
-		Cursor cursor = MockUtils.createProjectCursorMock(1, "Chloe", null, null, "03-04-2017", "12:03", 3, Color.BLACK, 1);
+		Cursor cursor = CursorMock.createProjectCursorMock(1, "Chloe", null, null, "03-04-2017", "12:03", 3, Color.BLACK, 1);
 		_projects.add(new Project(cursor));
-		Cursor cursor2 = MockUtils.createProjectCursorMock(2, "Paul", null, null, "01-04-2017", "12:03", 2, Color.BLACK, 1);
+		Cursor cursor2 = CursorMock.createProjectCursorMock(2, "Paul", null, null, "01-04-2017", "12:03", 2, Color.BLACK, 1);
 		_projects.add(new Project(cursor2));
-		Cursor cursor3 = MockUtils.createProjectCursorMock(3, "Amandine", null, null, "02-04-2017", "12:03", 5, Color.BLACK, 1);
+		Cursor cursor3 = CursorMock.createProjectCursorMock(3, "Amandine", null, null, "02-04-2017", "12:03", 5, Color.BLACK, 1);
 		_projects.add(new Project(cursor3));
-		Cursor cursor4 = MockUtils.createProjectCursorMock(4, "Camille", null, null, "02-04-2017", "13:03", 1, Color.BLACK, 1);
+		Cursor cursor4 = CursorMock.createProjectCursorMock(4, "Camille", null, null, "02-04-2017", "13:03", 1, Color.BLACK, 1);
 		_projects.add(new Project(cursor4));
 	}
 

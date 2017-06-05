@@ -10,11 +10,11 @@ import android.util.Log;
  * @author Florian Arnould
  * @version 1.0
  */
-class ProjectsSQLiteOpenHelper extends SQLiteOpenHelper {
+class DatabaseHelper extends SQLiteOpenHelper {
 	private static final int VERSION = 9;
 	private static final String DATABASE_NAME = "ProjectsDatabase.db";
 
-	ProjectsSQLiteOpenHelper(Context context) {
+	DatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, VERSION);
 	}
 

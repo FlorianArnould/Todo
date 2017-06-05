@@ -10,8 +10,6 @@ import junit.framework.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import fr.socket.flo.todo.utils.MockUtils;
-
 /**
  * @author Florian Arnould
  */
@@ -19,7 +17,7 @@ import fr.socket.flo.todo.utils.MockUtils;
 public class WorkTest {
 	@Test
 	public void contentValuesTest() {
-		Cursor cursor = MockUtils.createProjectCursorMock(1, "name", "01-04-2017", null, "02-04-2017", "12:03", 3, Color.BLACK, 1);
+		Cursor cursor = CursorMock.createProjectCursorMock(1, "name", "01-04-2017", null, "02-04-2017", "12:03", 3, Color.BLACK, 1);
 		Work work = new Project(cursor);
 		ContentValues values = work.toContentValues();
 		Assert.assertEquals("name", values.getAsString("name"));

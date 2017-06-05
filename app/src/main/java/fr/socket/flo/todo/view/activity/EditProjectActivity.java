@@ -46,7 +46,6 @@ public class EditProjectActivity extends AppCompatActivity implements OnObjectLo
 		if (getSupportActionBar() != null) {
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		}
-
 		DataManager.getInstance().getProjectById(projectId, this);
 	}
 
@@ -54,6 +53,8 @@ public class EditProjectActivity extends AppCompatActivity implements OnObjectLo
 	public void onStop() {
 		super.onStop();
 		if (_project != null) {
+			EditText editName = (EditText)findViewById(R.id.name);
+			_project.setName(editName.getText().toString());
 			_project.save();
 		}
 	}
