@@ -1,4 +1,4 @@
-package fr.socket.flo.todo.view.About;
+package fr.socket.flo.todo.view.about;
 
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.action.ViewActions;
@@ -14,7 +14,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import fr.socket.flo.todo.R;
-import fr.socket.flo.todo.view.about.AboutActivity;
 
 /**
  * @author Florian Arnould
